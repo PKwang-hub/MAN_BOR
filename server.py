@@ -146,10 +146,10 @@ def compute_cycle_metadata(taf_text: str):
         "next_cycle_countdown": f"{hours_rem}h {mins_rem}m"
     }
 
-def fetch_live_taf(icao: str) -> dict:
+def fetch_live_taf(icao: str, force_refresh: bool = False) -> dict:
     now = datetime.now(timezone.utc)
     cache_entry = taf_cache.get(icao)
-    if cache_entry and (now - cache_entry["time"]).total_seconds() < 60:
+    if not force_refresh and cache_entry and (now - cache_entry["time"]).total_seconds() < 60:
         return cache_entry["data"]
 
     ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
@@ -212,11 +212,11 @@ def fetch_live_taf(icao: str) -> dict:
     taf_cache[icao] = {"time": now, "data": result}
     return result
 
-def fetch_live_metar_history(icao: str, hours: int = 24) -> dict:
+def fetch_live_metar_history(icao: str, hours: int = 24, force_refresh: bool = False) -> dict:
     """Fetches real historical METAR observation sequence from Aviation Weather Center."""
     now = datetime.now(timezone.utc)
     cache_entry = metar_cache.get(icao)
-    if cache_entry and (now - cache_entry["time"]).total_seconds() < 60:
+    if not force_refresh and cache_entry and (now - cache_entry["time"]).total_seconds() < 60:
         return cache_entry["data"]
 
     ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
@@ -416,8 +416,10 @@ class AeroCastHandler(http.server.SimpleHTTPRequestHandler):
         clean_path = parsed.path
 
         if clean_path.startswith("/api/taf/"):
-            icao = clean_path.split("/")[-1].upper()
-            data = fetch_live_taf(icao)
+            clean_part = clean_path.split("?")[0]
+            icao = clean_part.split("/")[-1].upper()
+            force = "force=1" in self.path or "force=true" in self.path
+            data = fetch_live_taf(icao, force_refresh=force)
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
@@ -427,12 +429,31 @@ class AeroCastHandler(http.server.SimpleHTTPRequestHandler):
             qs = urllib.parse.parse_qs(parsed.query)
             icao = qs.get("icao", ["VTBD"])[0].upper()
             hours = int(qs.get("hours", ["24"])[0])
-            data = fetch_live_metar_history(icao, hours)
+            force = qs.get("force", ["0"])[0] in ["1", "true"]
+            data = fetch_live_metar_history(icao, hours, force_refresh=force)
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(json.dumps(data, indent=2).encode("utf-8"))
+        elif clean_path == "/api/cadence":
+            now = datetime.now(timezone.utc)
+            m = now.minute
+            next_slot = 5 if m >= 35 else (35 if m >= 5 else 5)
+            mins_rem = (5 - m) if m < 5 else ((35 - m) if m < 35 else (65 - m))
+            info = {
+                "cadence": "30-min",
+                "slots_minute": [5, 35],
+                "next_slot": f":{next_slot:02d}",
+                "minutes_remaining": mins_rem,
+                "seconds_remaining": mins_rem * 60 - now.second,
+                "description": "30-minute observation cycle triggered at :05 and :35 (allowing 5m GTS upload delay)"
+            }
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(json.dumps(info, indent=2).encode("utf-8"))
         elif clean_path == "/api/airports":
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
@@ -461,6 +482,7 @@ def wsgi_app(environ, start_response):
             query = raw_path.split("?", 1)[1]
         qs = urllib.parse.parse_qs(query)
         icao = qs.get("icao", [""])[0].upper()
+        force = qs.get("force", ["0"])[0] in ["1", "true"]
         if not icao:
             parts = [p for p in clean_path.split("/") if p]
             if len(parts) >= 3:
@@ -469,7 +491,7 @@ def wsgi_app(environ, start_response):
                 icao = parts[1].upper()
         if not icao or len(icao) != 4:
             icao = "VTBD"
-        data = json.dumps(fetch_live_taf(icao), indent=2).encode("utf-8")
+        data = json.dumps(fetch_live_taf(icao, force_refresh=force), indent=2).encode("utf-8")
         start_response("200 OK", [
             ("Content-Type", "application/json"),
             ("Access-Control-Allow-Origin", "*"),
@@ -484,7 +506,29 @@ def wsgi_app(environ, start_response):
         qs = urllib.parse.parse_qs(query)
         icao = qs.get("icao", ["VTBD"])[0].upper()
         hours = int(qs.get("hours", ["24"])[0])
-        data = json.dumps(fetch_live_metar_history(icao, hours), indent=2).encode("utf-8")
+        force = qs.get("force", ["0"])[0] in ["1", "true"]
+        data = json.dumps(fetch_live_metar_history(icao, hours, force_refresh=force), indent=2).encode("utf-8")
+        start_response("200 OK", [
+            ("Content-Type", "application/json"),
+            ("Access-Control-Allow-Origin", "*"),
+            ("Content-Length", str(len(data)))
+        ])
+        return [data]
+
+    if clean_path == "/api/cadence":
+        now = datetime.now(timezone.utc)
+        m = now.minute
+        next_slot = 5 if m >= 35 else (35 if m >= 5 else 5)
+        mins_rem = (5 - m) if m < 5 else ((35 - m) if m < 35 else (65 - m))
+        info = {
+            "cadence": "30-min",
+            "slots_minute": [5, 35],
+            "next_slot": f":{next_slot:02d}",
+            "minutes_remaining": mins_rem,
+            "seconds_remaining": mins_rem * 60 - now.second,
+            "description": "30-minute observation cycle triggered at :05 and :35 (allowing 5m GTS upload delay)"
+        }
+        data = json.dumps(info, indent=2).encode("utf-8")
         start_response("200 OK", [
             ("Content-Type", "application/json"),
             ("Access-Control-Allow-Origin", "*"),

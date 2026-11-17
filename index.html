@@ -270,6 +270,48 @@
       color: #94a3b8;
       line-height: 1.35;
     }
+    /* 30-Minute Cadence Card */
+    .cadence-card {
+      background: #0b1324;
+      border: 1px solid #1e2d44;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .cadence-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cadence-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    .cadence-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+    .cadence-countdown {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+    .cadence-last {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+    }
     /* Local Alert Card */
     .alert-banner {
       background: linear-gradient(135deg, rgba(255, 23, 68, 0.2) 0%, rgba(213, 0, 249, 0.1) 100%);
@@ -632,12 +674,12 @@
   <div class="container">
 
     <!-- Top Global Unforecast Rain Alert Bar -->
-    <div class="global-alert-ticker" id="globalAlertTicker">
+    <div class="global-alert-ticker" id="globalAlertTicker" style="display: none;">
       <div class="global-alert-header">
         <span class="global-alert-title">
           <span>&#9888; UNFORECAST CONVECTIVE RAIN ALERT</span>
         </span>
-        <span class="global-alert-count" id="discrepancyCount">3 AIRPORTS</span>
+        <span class="global-alert-count" id="discrepancyCount">0 AIRPORTS</span>
       </div>
       <div class="global-alert-list" id="discrepancyList">
         <!-- Rendered by JavaScript -->
@@ -701,6 +743,18 @@
       </div>
       <div class="op-status-text" id="opStatusText">
         Live mode active: Reflects real-time radar observations and official METAR truth. Clear sky displays 0 dBZ and no deficit.
+      </div>
+    </div>
+
+    <!-- 30-Minute Aviation Cadence Bar (:05 & :35 Schedule) -->
+    <div class="cadence-card">
+      <div class="cadence-left">
+        <span class="live-pulse-dot" id="cadencePulseDot"></span>
+        <span class="cadence-title">30-MIN METAR CADENCE (:05 &amp; :35)</span>
+      </div>
+      <div class="cadence-right">
+        <span class="cadence-countdown" id="cadenceStatusText">Next :35 in --m --s</span>
+        <span class="cadence-last" id="cadenceLastSync">Last: Initial load</span>
       </div>
     </div>
 
@@ -779,8 +833,9 @@
       <!-- Radar Links & Verified Feeds -->
       <div class="radar-links-row">
         <a id="windyDirectLink" class="live-radar-link windy-btn" href="https://www.windy.com/?radar,13.91,100.60,8" target="_blank">&#8599; Open Full Windy.com Radar</a>
-        <a id="tmdDirectLink" class="live-radar-link" href="https://weather.tmd.go.th/svp/svpHQloop.gif" target="_blank">&#8599; Open Live TMD Station Loop</a>
-        <a class="live-radar-link" href="https://weather.tmd.go.th/gis/" target="_blank">&#8599; TMD GIS Radar Map</a>
+        <a id="tmdDirectLink" class="live-radar-link" href="https://weather.tmd.go.th/svp240loop.php" target="_blank">&#8599; TMD Province Radar Loop (THA_loop)</a>
+        <a class="live-radar-link" href="https://weather.tmd.go.th/THA_loop.php" target="_blank">&#8599; TMD Thailand Radar Menu (THA_loop.php)</a>
+        <a class="live-radar-link" href="https://radargis.tmd.go.th/" target="_blank">&#8599; TMD RADARGIS Interactive Map</a>
       </div>
     </div>
 
@@ -868,6 +923,13 @@
   </div>
 
   <script>
+    // Global Application State Variables
+    let currentAirport = 'VTBD';
+    let currentRadarDisplayMode = 'tactical';
+    let operationalMode = 'live';
+    let simStartTimestamp = Date.now();
+    let scrubOffsetMinutes = 0;
+
     function formatTimePad(n) { return n < 10 ? '0' + n : n; }
 
     function getFormattedTimes(dateObj) {
@@ -908,35 +970,239 @@
       document.getElementById('scrubP15').innerText = '+' + formatTimePad(p15.getUTCHours()) + formatTimePad(p15.getUTCMinutes()) + 'Z';
       document.getElementById('scrubP30').innerText = '+' + formatTimePad(p30.getUTCHours()) + formatTimePad(p30.getUTCMinutes()) + 'Z';
       document.getElementById('scrubP60').innerText = '+' + formatTimePad(p60.getUTCHours()) + formatTimePad(p60.getUTCMinutes()) + 'Z';
+
+      // Real-time dynamic simulation countdown & alert updater
+      if (operationalMode === 'sim' && typeof getScenarioState === 'function') {
+        const scState = getScenarioState(currentAirport);
+        if (scState) {
+          const apt = airports[currentAirport];
+          apt.eta = scState.eta;
+          apt.intensity = scState.intensity;
+          apt.dbz = scState.dbz;
+          apt.pop = scState.pop;
+          apt.top = scState.top;
+          apt.cellStart = scState.cellStart;
+
+          const etaDisplay = scState.eta !== null ? (scState.eta === 0 ? '0m' : scState.eta + 'm') : '--';
+          document.getElementById('etaVal').innerText = etaDisplay;
+          document.getElementById('dbzVal').innerText = scState.dbz ? `${scState.dbz} dBZ` : '--';
+          document.getElementById('popVal').innerText = `${scState.pop}%`;
+          document.getElementById('popIntensity').innerText = scState.intensity;
+
+          const evalResult = evaluateTafDiscrepancy(apt, apt.actualTaf);
+          const alertTag = document.getElementById('alertTag');
+          const alertBanner = document.getElementById('alertBanner');
+
+          if (evalResult.isDiscrepancy) {
+            alertBanner.className = 'alert-banner';
+            alertTag.className = 'alert-tag';
+            alertTag.innerText = evalResult.tag;
+            const etaDate = new Date(now.getTime() + (scState.eta || 0) * 60000);
+            const etaZ = `${formatTimePad(etaDate.getUTCHours())}${formatTimePad(etaDate.getUTCMinutes())}Z`;
+            const bkkEta = `${formatTimePad((etaDate.getUTCHours() + 7) % 24)}:${formatTimePad(etaDate.getUTCMinutes())}`;
+            const etaLabel = (scState.eta === 0) ? `IMPACT ACTIVE NOW (${times.ltStr.split(' ')[0]} LT)` : `IMPACT IN ${scState.eta} MIN (${etaZ} (${bkkEta} BKK))`;
+            document.getElementById('alertEta').innerText = etaLabel;
+            document.getElementById('alertMsg').innerHTML = `
+              <strong>${scState.intensity}</strong> tracking toward RWY ${Math.round(apt.rwy/10)} approach.<br>
+              ${evalResult.msg}
+            `;
+          } else {
+            alertBanner.className = 'alert-banner normal';
+            alertTag.className = 'alert-tag normal';
+            alertTag.innerText = evalResult.tag;
+            document.getElementById('alertEta').innerText = 'NO CONVECTIVE THREAT';
+            document.getElementById('alertMsg').innerHTML = evalResult.msg;
+          }
+        }
+      }
+
+      // Refresh global alert bar on each minute turnover
+      if (now.getSeconds() === 0) {
+        renderGlobalAlertBar();
+      }
+
+      // 30-Minute Cadence Clock Tracker
+      checkAndRunCadenceSync(now);
     }
-    setInterval(updateClocks, 1000);
-    updateClocks();
+
+    // 30-Minute Aviation Cadence Engine (:05 and :35)
+    // Synchronized to official METAR observation publish windows (:00Z and :30Z + 5m GTS upload delay)
+    let lastSyncedSlotKey = '';
+    let lastSyncTimeStr = 'Initial Load';
+
+    function getNextCadenceSlot(now) {
+      const minutes = now.getMinutes();
+      const next = new Date(now.getTime());
+      next.setSeconds(0);
+      next.setMilliseconds(0);
+
+      if (minutes < 5) {
+        next.setMinutes(5);
+      } else if (minutes < 35) {
+        next.setMinutes(35);
+      } else {
+        next.setHours(next.getHours() + 1);
+        next.setMinutes(5);
+      }
+      return next;
+    }
+
+    function checkAndRunCadenceSync(now) {
+      const minutes = now.getMinutes();
+      const hours = now.getHours();
+      const slotHour = (minutes < 5) ? (hours - 1 + 24) % 24 : hours;
+      const slotMinute = (minutes >= 35) ? 35 : (minutes >= 5 ? 5 : 35);
+      const currentSlotKey = `${formatTimePad(slotHour)}:${formatTimePad(slotMinute)}`;
+
+      const nextSlotDate = getNextCadenceSlot(now);
+      const diffSec = Math.max(0, Math.floor((nextSlotDate.getTime() - now.getTime()) / 1000));
+      const remMin = Math.floor(diffSec / 60);
+      const remSec = diffSec % 60;
+
+      const cadenceStatusEl = document.getElementById('cadenceStatusText');
+      if (cadenceStatusEl) {
+        cadenceStatusEl.innerText = `Next :${formatTimePad(nextSlotDate.getMinutes())} in ${remMin}m ${formatTimePad(remSec)}s`;
+      }
+
+      // Automatically trigger sync when reaching minute 5 or minute 35
+      if ((minutes === 5 || minutes === 35) && lastSyncedSlotKey !== currentSlotKey) {
+        lastSyncedSlotKey = currentSlotKey;
+        triggerCadenceSync(minutes === 5 ? ':00Z METAR' : ':30Z METAR');
+      }
+    }
+
+    async function triggerCadenceSync(reason) {
+      const now = new Date();
+      const ltStr = `${formatTimePad(now.getHours())}:${formatTimePad(now.getMinutes())}`;
+      lastSyncTimeStr = `${ltStr} LT (${reason})`;
+
+      const pulseDot = document.getElementById('cadencePulseDot');
+      if (pulseDot) {
+        pulseDot.style.background = '#00e5ff';
+        pulseDot.style.boxShadow = '0 0 10px #00e5ff';
+      }
+
+      const cadenceLastEl = document.getElementById('cadenceLastSync');
+      if (cadenceLastEl) {
+        cadenceLastEl.innerText = `Last sync: ${lastSyncTimeStr}`;
+      }
+
+      // Re-run airport data fetch with force refresh
+      await onAirportChange(currentAirport, true);
+      renderGlobalAlertBar();
+
+      setTimeout(() => {
+        if (pulseDot) {
+          pulseDot.style.background = '#00e676';
+          pulseDot.style.boxShadow = '0 0 6px #00e676';
+        }
+      }, 3000);
+    }
 
     const canvas = document.getElementById('radarCanvas');
     const ctx = canvas.getContext('2d');
-    let scrubOffsetMinutes = 0;
 
     // Convective Scenario Simulator database (used for pilot training & TAF deficit demonstrations)
     const simScenarios = {
       'VTBD': {
+        baseEta: 28,
         cellStart: { x: -35, y: 55 },
         cellVel: { dx: 1.1, dy: -2.0 },
-        dbz: 52, top: 'FL420', eta: 28, pop: 94,
+        dbz: 52, top: 'FL420', pop: 94,
         intensity: '+TSRA Severe'
       },
       'VTBS': {
+        baseEta: 45,
         cellStart: { x: -60, y: 30 },
         cellVel: { dx: 1.5, dy: -0.8 },
-        dbz: 42, top: 'FL380', eta: 45, pop: 78,
+        dbz: 42, top: 'FL380', pop: 78,
         intensity: 'TSRA Moderate'
       },
+      'VTPP': {
+        baseEta: 55,
+        cellStart: { x: -50, y: 40 },
+        cellVel: { dx: 1.2, dy: -1.0 },
+        dbz: 38, top: 'FL340', pop: 65,
+        intensity: 'SHRA Rain Shower'
+      },
+      'VTPH': {
+        baseEta: 40,
+        cellStart: { x: 50, y: 20 },
+        cellVel: { dx: -1.5, dy: -0.2 },
+        dbz: 32, top: 'FL280', pop: 50,
+        intensity: 'SHRA Isolated'
+      },
       'VTUD': {
+        baseEta: 32,
         cellStart: { x: -45, y: 35 },
         cellVel: { dx: 1.2, dy: -0.9 },
-        dbz: 48, top: 'FL410', eta: 32, pop: 90,
+        dbz: 48, top: 'FL410', pop: 90,
         intensity: '+TSRA Severe'
+      },
+      'VTUI': {
+        baseEta: 45,
+        cellStart: { x: -60, y: 10 },
+        cellVel: { dx: 1.4, dy: -0.2 },
+        dbz: 35, top: 'FL310', pop: 60,
+        intensity: 'SHRA Rain Shower'
       }
     };
+
+// simStartTimestamp declared at script top
+
+    function getScenarioState(icao) {
+      if (!simScenarios[icao]) return null;
+      const sc = simScenarios[icao];
+      const elapsedMs = Math.max(0, Date.now() - simStartTimestamp);
+      const elapsedMin = Math.floor(elapsedMs / 60000);
+
+      // 60-minute dynamic simulation lifecycle:
+      // - 0 to baseEta: approaching runway threshold, ETA counts down to 0
+      // - baseEta to baseEta + 12: active storm core over airport / runway (ETA = 0, ACTIVE IMPACT)
+      // - baseEta + 12 to 60: core moves past airport, weather clears (NSW Fair)
+      const cycleMin = elapsedMin % 60;
+      let dynamicEta = null;
+      let dynamicIntensity = sc.intensity;
+      let dynamicDbz = sc.dbz;
+      let dynamicPop = sc.pop;
+      let isOverField = false;
+      let hasPassed = false;
+
+      if (cycleMin < sc.baseEta) {
+        dynamicEta = sc.baseEta - cycleMin;
+      } else if (cycleMin <= sc.baseEta + 12) {
+        dynamicEta = 0;
+        isOverField = true;
+        dynamicIntensity = `${sc.intensity} (ACTIVE IMPACT)`;
+      } else {
+        hasPassed = true;
+        dynamicEta = null;
+        dynamicDbz = 0;
+        dynamicPop = 15;
+        dynamicIntensity = 'NSW Fair (Passed)';
+      }
+
+      // Advection translation along velocity vector in 10-minute units:
+      const advectionUnits = Math.min(sc.baseEta, cycleMin) / 10;
+      const currentCellPos = hasPassed ? null : {
+        x: sc.cellStart.x + sc.cellVel.dx * advectionUnits,
+        y: sc.cellStart.y + sc.cellVel.dy * advectionUnits
+      };
+
+      return {
+        eta: dynamicEta,
+        isOverField: isOverField,
+        hasPassed: hasPassed,
+        intensity: dynamicIntensity,
+        dbz: dynamicDbz,
+        top: hasPassed ? 'None' : sc.top,
+        pop: dynamicPop,
+        cellStart: currentCellPos,
+        cellVel: sc.cellVel,
+        baseEta: sc.baseEta,
+        cycleMin: cycleMin
+      };
+    }
 
     // Actual Real-World Published TAF database aligned with TMD 2300Z, 0500Z, 1100Z, 1700Z cycles
     // 26 Thai Airport Stations with Lat, Lon, and TMD Radar Quality Status
@@ -945,9 +1211,9 @@
         name: 'Don Mueang (DMK)',
         lat: 13.9126, lon: 100.6067,
         rwy: 213,
-        radarName: 'On-field (Suvarnabhumi / BMA C-Band)',
-        radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
-        isNeighborRadar: false,
+        radarName: 'Nearest: Suvarnabhumi Airport Radar (28 km SE)',
+        radarUrl: 'https://weather.tmd.go.th/svp240loop.php',
+        isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
         cellStart: null,
         cellVel: null,
@@ -961,7 +1227,7 @@
         lat: 13.6900, lon: 100.7501,
         rwy: 194,
         radarName: 'On-field (Suvarnabhumi Airport Radar)',
-        radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
+        radarUrl: 'https://weather.tmd.go.th/svp240loop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
         cellStart: null,
@@ -975,14 +1241,14 @@
         name: 'Chiang Mai (CNX)',
         lat: 18.7668, lon: 98.9626,
         rwy: 180,
-        radarName: 'On-field (Chiang Mai Omkoi Radar)',
-        radarUrl: 'https://weather.tmd.go.th/omk/omkLoop.gif',
+        radarName: 'On-field (Chiang Mai Omkoi 240km Radar)',
+        radarUrl: 'https://weather.tmd.go.th/omkLoop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 20, y: -80 },
-        cellVel: { dx: -0.4, dy: 1.2 },
-        dbz: 28, top: 'FL260', eta: null, pop: 20,
-        intensity: '-RA Light',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 850, cin: 65, pwat: 38,
         actualTaf: 'TAF VTCC 162300Z 1700/1724 00000KT 8000 FEW025 BECMG 1703/1705 14006KT 9999'
       },
@@ -991,12 +1257,12 @@
         lat: 19.9522, lon: 99.8828,
         rwy: 210,
         radarName: 'On-field (Chiang Rai Radar)',
-        radarUrl: 'https://weather.tmd.go.th/cri/criloop.gif',
+        radarUrl: 'https://weather.tmd.go.th/criloop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 40, y: -40 },
-        cellVel: { dx: -0.8, dy: 0.5 },
-        dbz: 22, top: 'FL220', eta: null, pop: 15,
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 720, cin: 80, pwat: 35,
         actualTaf: 'TAF VTCT 162300Z 1700/1724 02006KT 9999 SCT030'
@@ -1005,14 +1271,14 @@
         name: 'Nan Nakhon (NNT)',
         lat: 18.8080, lon: 100.7833,
         rwy: 190,
-        radarName: 'Nearest: Phitsanulok Doppler (120 km SW)',
-        radarUrl: 'https://weather.tmd.go.th/phs/phsloop.gif',
-        isNeighborRadar: true,
+        radarName: 'On-field (Nan Nakhon TMD Radar 120km)',
+        radarUrl: 'https://weather.tmd.go.th/nan120Loop.php',
+        isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -30, y: -60 },
-        cellVel: { dx: 0.6, dy: 0.8 },
-        dbz: 25, top: 'FL240', eta: null, pop: 25,
-        intensity: '-RA Light',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 950, cin: 50, pwat: 40,
         actualTaf: 'TAF VTCN 162300Z 1700/1724 18005KT 9999 FEW030'
       },
@@ -1020,13 +1286,13 @@
         name: 'Lampang (LPT)',
         lat: 18.2612, lon: 99.5050,
         rwy: 180,
-        radarName: 'Nearest: Chiang Mai Omkoi Doppler (80 km NW)',
-        radarUrl: 'https://weather.tmd.go.th/omk/omkLoop.gif',
-        isNeighborRadar: true,
+        radarName: 'On-field (Lampang TMD Radar)',
+        radarUrl: 'https://weather.tmd.go.th/lmploop.php',
+        isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -20, y: -30 },
-        cellVel: { dx: 0.4, dy: 0.4 },
-        dbz: 18, top: 'FL180', eta: null, pop: 10,
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 650, cin: 90, pwat: 32,
         actualTaf: 'TAF VTCL 162300Z 1700/1724 00000KT 9999 SKC'
@@ -1036,13 +1302,13 @@
         lat: 16.7825, lon: 100.2783,
         rwy: 140,
         radarName: 'On-field (Phitsanulok Radar)',
-        radarUrl: 'https://weather.tmd.go.th/phs/phsloop.gif',
+        radarUrl: 'https://weather.tmd.go.th/phsloop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -50, y: 40 },
-        cellVel: { dx: 1.2, dy: -1.0 },
-        dbz: 38, top: 'FL340', eta: 55, pop: 65,
-        intensity: 'SHRA Rain Shower',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1750, cin: 25, pwat: 48,
         actualTaf: 'TAF VTPP 162300Z 1700/1724 12008KT 9999 TEMPO 1708/1711 4000 SHRA'
       },
@@ -1050,14 +1316,14 @@
         name: 'Hua Hin (HHQ)',
         lat: 12.6360, lon: 99.9519,
         rwy: 160,
-        radarName: 'Nearest: Samut Songkhram / Suvarnabhumi (110 km N)',
-        radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
-        isNeighborRadar: true,
+        radarName: 'On-field (Hua Hin TMD Radar 240km)',
+        radarUrl: 'https://weather.tmd.go.th/hhnLoop.php',
+        isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 50, y: 20 },
-        cellVel: { dx: -1.5, dy: -0.2 },
-        dbz: 32, top: 'FL280', eta: 40, pop: 50,
-        intensity: 'SHRA Isolated',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1400, cin: 30, pwat: 46,
         actualTaf: 'TAF VTPH 162300Z 1700/1724 19012KT 9999 SCT025'
       },
@@ -1066,12 +1332,12 @@
         lat: 16.4660, lon: 102.7836,
         rwy: 210,
         radarName: 'On-field (Khon Kaen Doppler Radar)',
-        radarUrl: 'https://weather.tmd.go.th/kkn/kkn240Loop.gif',
+        radarUrl: 'https://weather.tmd.go.th/kkn240loop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 10, y: 20 },
-        cellVel: { dx: 0.5, dy: -0.5 },
-        dbz: 15, top: 'FL150', eta: null, pop: 10,
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 800, cin: 85, pwat: 34,
         actualTaf: 'TAF VTUK 162300Z 1700/1724 09006KT 9999 SKC'
@@ -1081,12 +1347,12 @@
         lat: 17.3865, lon: 102.7885,
         rwy: 300,
         radarName: 'Nearest: Sakon Nakhon Doppler (85 km E)',
-        radarUrl: 'https://weather.tmd.go.th/skn/sknLoop.gif',
+        radarUrl: 'https://weather.tmd.go.th/sknloop.php',
         isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
         cellStart: null,
         cellVel: null,
-        dbz: 0, top: 'None', eta: null, pop: 15,
+        dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 2550, cin: 5, pwat: 60,
         actualTaf: 'TAF VTUD 162300Z 1700/1724 07008KT 9999 FEW025 BKN090'
@@ -1096,13 +1362,13 @@
         lat: 15.2514, lon: 104.8703,
         rwy: 230,
         radarName: 'On-field (Ubon Ratchathani Radar)',
-        radarUrl: 'https://weather.tmd.go.th/ubn/ubnLoop.gif',
+        radarUrl: 'https://weather.tmd.go.th/ubn240loop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -25, y: 70 },
-        cellVel: { dx: 0.8, dy: -1.6 },
-        dbz: 36, top: 'FL320', eta: 48, pop: 70,
-        intensity: 'RA Moderate',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1600, cin: 30, pwat: 50,
         actualTaf: 'TAF VTUU 162300Z 1700/1724 10010KT 9999 TEMPO 1707/1710 4000 RA'
       },
@@ -1111,13 +1377,13 @@
         lat: 16.1168, lon: 103.7744,
         rwy: 180,
         radarName: 'Nearest: Khon Kaen Radar (80 km NW)',
-        radarUrl: 'https://weather.tmd.go.th/kkn/kkn240Loop.gif',
+        radarUrl: 'https://weather.tmd.go.th/kkn240loop.php',
         isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 30, y: 30 },
-        cellVel: { dx: -0.6, dy: -0.6 },
-        dbz: 26, top: 'FL250', eta: null, pop: 25,
-        intensity: '-RA Light',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1100, cin: 55, pwat: 42,
         actualTaf: 'TAF VTUV 162300Z 1700/1724 09007KT 9999 FEW030'
       },
@@ -1126,12 +1392,12 @@
         lat: 15.2289, lon: 103.2533,
         rwy: 220,
         radarName: 'Nearest: Khon Kaen Doppler Radar (100 km N)',
-        radarUrl: 'https://weather.tmd.go.th/kkn/kkn240Loop.gif',
+        radarUrl: 'https://weather.tmd.go.th/kkn240loop.php',
         isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -40, y: -20 },
-        cellVel: { dx: 1.0, dy: 0.5 },
-        dbz: 20, top: 'FL200', eta: null, pop: 15,
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 900, cin: 70, pwat: 36,
         actualTaf: 'TAF VTUO 162300Z 1700/1724 08006KT 9999 SKC'
@@ -1141,13 +1407,13 @@
         lat: 17.4397, lon: 101.7222,
         rwy: 190,
         radarName: 'Nearest: Phitsanulok Doppler (120 km W)',
-        radarUrl: 'https://weather.tmd.go.th/phs/phsloop.gif',
+        radarUrl: 'https://weather.tmd.go.th/phsloop.php',
         isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 20, y: -50 },
-        cellVel: { dx: -0.5, dy: 0.9 },
-        dbz: 30, top: 'FL280', eta: null, pop: 30,
-        intensity: '-RA Light',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1250, cin: 45, pwat: 44,
         actualTaf: 'TAF VTUL 162300Z 1700/1724 00000KT 9999 SCT030'
       },
@@ -1156,13 +1422,13 @@
         lat: 17.1950, lon: 104.1194,
         rwy: 170,
         radarName: 'On-field (Sakon Nakhon Radar)',
-        radarUrl: 'https://weather.tmd.go.th/skn/sknLoop.gif',
+        radarUrl: 'https://weather.tmd.go.th/sknloop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -60, y: 10 },
-        cellVel: { dx: 1.4, dy: -0.2 },
-        dbz: 35, top: 'FL310', eta: 45, pop: 60,
-        intensity: 'SHRA Rain Shower',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1650, cin: 30, pwat: 49,
         actualTaf: 'TAF VTUI 162300Z 1700/1724 09009KT 9999 TEMPO 1708/1711 SHRA'
       },
@@ -1171,12 +1437,12 @@
         lat: 17.3839, lon: 104.6433,
         rwy: 150,
         radarName: 'Nearest: Sakon Nakhon Doppler (75 km W)',
-        radarUrl: 'https://weather.tmd.go.th/skn/sknLoop.gif',
+        radarUrl: 'https://weather.tmd.go.th/sknloop.php',
         isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -30, y: -20 },
-        cellVel: { dx: 0.8, dy: 0.4 },
-        dbz: 24, top: 'FL220', eta: null, pop: 20,
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1050, cin: 60, pwat: 40,
         actualTaf: 'TAF VTUW 162300Z 1700/1724 07008KT 9999 SCT025'
@@ -1188,7 +1454,7 @@
         lat: 8.1132, lon: 98.3169,
         rwy: 270,
         radarName: 'TMD Phuket Radar (FROZEN 2023-04-22 -> DISCARDED)',
-        radarUrl: 'https://weather.tmd.go.th/pkt/pkt240Loop.gif',
+        radarUrl: 'https://weather.tmd.go.th/pktloop.php',
         isNeighborRadar: false,
         tmdFreshness: {
           isFresh: false,
@@ -1196,11 +1462,10 @@
           reason: 'TMD Phuket Doppler feed frozen at 2023-04-22. Stale echo data discarded from nowcast.',
           fallbackSource: 'windy.com'
         },
-        cellStart: { x: 0, y: 0 },
-        cellVel: { dx: 0, dy: 0 },
-        dbz: null, top: null, eta: null,
-        pop: 15,
-        intensity: 'NSW Fair (Windy Live Composite)',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1950, cin: 10, pwat: 56,
         actualTaf: 'TAF VTSP 162300Z 1700/1724 26012KT 9999 SCT020 TEMPO 1706/1710 4000 SHRA BKN018'
       },
@@ -1209,7 +1474,7 @@
         lat: 8.0991, lon: 98.9862,
         rwy: 320,
         radarName: 'Nearest TMD Radar (Phuket feed frozen -> DISCARDED)',
-        radarUrl: 'https://weather.tmd.go.th/pkt/pkt240Loop.gif',
+        radarUrl: 'https://weather.tmd.go.th/krbLoop.php',
         isNeighborRadar: true,
         tmdFreshness: {
           isFresh: false,
@@ -1217,11 +1482,10 @@
           reason: 'Phuket radar feed frozen at 2023-04-22. Discarded from nowcast.',
           fallbackSource: 'windy.com'
         },
-        cellStart: { x: 0, y: 0 },
-        cellVel: { dx: 0, dy: 0 },
-        dbz: null, top: null, eta: null,
-        pop: 20,
-        intensity: 'NSW Fair (Windy Live Composite)',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1550, cin: 25, pwat: 51,
         actualTaf: 'TAF VTSG 162300Z 1700/1724 24012KT 9999 TEMPO 1707/1710 4000 SHRA'
       },
@@ -1229,14 +1493,14 @@
         name: 'Hat Yai (HDY)',
         lat: 6.9333, lon: 100.3931,
         rwy: 260,
-        radarName: 'Nearest: Songkhla Satingpra Radar (45 km N)',
-        radarUrl: 'https://weather.tmd.go.th/ska/skaloop.gif',
-        isNeighborRadar: true,
+        radarName: 'On-field (Hat Yai TMD Radar)',
+        radarUrl: 'https://weather.tmd.go.th/hyiloop.php',
+        isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 30, y: -60 },
-        cellVel: { dx: -0.7, dy: 1.1 },
-        dbz: 28, top: 'FL260', eta: null, pop: 30,
-        intensity: '-RA Light',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1300, cin: 40, pwat: 47,
         actualTaf: 'TAF VTSS 162300Z 1700/1724 18008KT 9999 SCT020'
       },
@@ -1244,20 +1508,14 @@
         name: 'Surat Thani (URT)',
         lat: 9.1326, lon: 99.1356,
         rwy: 220,
-        radarName: 'TMD Phunphin Radar (FROZEN -> DISCARDED)',
-        radarUrl: 'https://weather.tmd.go.th/stn/stnLoop.gif',
+        radarName: 'On-field (Surat Thani TMD Radar)',
+        radarUrl: 'https://weather.tmd.go.th/srtloop.php',
         isNeighborRadar: false,
-        tmdFreshness: {
-          isFresh: false,
-          staleDate: '2023-05-18',
-          reason: 'Surat Thani Phunphin radar frozen. Discarded from nowcast.',
-          fallbackSource: 'windy.com'
-        },
-        cellStart: { x: 0, y: 0 },
-        cellVel: { dx: 0, dy: 0 },
-        dbz: null, top: null, eta: null,
-        pop: 20,
-        intensity: 'NSW Fair (Windy Live Composite)',
+        tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1450, cin: 35, pwat: 48,
         actualTaf: 'TAF VTSB 162300Z 1700/1724 22010KT 9999 TEMPO 1708/1711 SHRA'
       },
@@ -1265,20 +1523,14 @@
         name: 'Koh Samui (USM)',
         lat: 9.5478, lon: 100.0628,
         rwy: 170,
-        radarName: 'TMD Surat Radar (FROZEN -> DISCARDED)',
-        radarUrl: 'https://weather.tmd.go.th/stn/stnLoop.gif',
+        radarName: 'Nearest: Surat Thani TMD Radar (110 km SW)',
+        radarUrl: 'https://weather.tmd.go.th/srtloop.php',
         isNeighborRadar: true,
-        tmdFreshness: {
-          isFresh: false,
-          staleDate: '2023-05-18',
-          reason: 'Surat Thani radar feed frozen. Discarded from nowcast.',
-          fallbackSource: 'windy.com'
-        },
-        cellStart: { x: 0, y: 0 },
-        cellVel: { dx: 0, dy: 0 },
-        dbz: null, top: null, eta: null,
-        pop: 20,
-        intensity: 'NSW Fair (Windy Live Composite)',
+        tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1200, cin: 50, pwat: 45,
         actualTaf: 'TAF VTSM 162300Z 1700/1724 20012KT 9999 SCT022'
       },
@@ -1286,20 +1538,14 @@
         name: 'Trang (TST)',
         lat: 7.5098, lon: 99.6158,
         rwy: 260,
-        radarName: 'TMD Radar (Phuket feed frozen -> DISCARDED)',
-        radarUrl: 'https://weather.tmd.go.th/ska/skaloop.gif',
-        isNeighborRadar: true,
-        tmdFreshness: {
-          isFresh: false,
-          staleDate: '2023-04-22',
-          reason: 'Regional radar feed frozen. Discarded from nowcast.',
-          fallbackSource: 'windy.com'
-        },
-        cellStart: { x: 0, y: 0 },
-        cellVel: { dx: 0, dy: 0 },
-        dbz: null, top: null, eta: null,
-        pop: 15,
-        intensity: 'NSW Fair (Windy Live Composite)',
+        radarName: 'On-field (Trang TMD Radar)',
+        radarUrl: 'https://weather.tmd.go.th/trgloop.php',
+        isNeighborRadar: false,
+        tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1150, cin: 60, pwat: 43,
         actualTaf: 'TAF VTST 162300Z 1700/1724 21008KT 9999 SCT025'
       },
@@ -1307,14 +1553,14 @@
         name: 'Nakhon Si Thammarat (NST)',
         lat: 8.5404, lon: 99.9447,
         rwy: 190,
-        radarName: 'Nearest: Songkhla Doppler (90 km S)',
-        radarUrl: 'https://weather.tmd.go.th/ska/skaloop.gif',
+        radarName: 'Nearest: Songkhla Satingpra Radar (75 km S)',
+        radarUrl: 'https://weather.tmd.go.th/stploop.php',
         isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -50, y: -20 },
-        cellVel: { dx: 1.1, dy: 0.4 },
-        dbz: 24, top: 'FL220', eta: null, pop: 20,
-        intensity: '-RA Light',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1250, cin: 55, pwat: 44,
         actualTaf: 'TAF VTSK 162300Z 1700/1724 18009KT 9999 FEW025'
       },
@@ -1322,20 +1568,14 @@
         name: 'Ranong (UNN)',
         lat: 9.7777, lon: 98.5855,
         rwy: 200,
-        radarName: 'TMD Radar (Surat feed frozen -> DISCARDED)',
-        radarUrl: 'https://weather.tmd.go.th/stn/stnLoop.gif',
-        isNeighborRadar: true,
-        tmdFreshness: {
-          isFresh: false,
-          staleDate: '2023-05-18',
-          reason: 'Surat Thani radar feed frozen. Discarded from nowcast.',
-          fallbackSource: 'windy.com'
-        },
-        cellStart: { x: 0, y: 0 },
-        cellVel: { dx: 0, dy: 0 },
-        dbz: null, top: null, eta: null,
-        pop: 20,
-        intensity: 'NSW Fair (Windy Live Composite)',
+        radarName: 'On-field (Ranong TMD Radar)',
+        radarUrl: 'https://weather.tmd.go.th/rng240Loop.php',
+        isNeighborRadar: false,
+        tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1500, cin: 30, pwat: 52,
         actualTaf: 'TAF VTSR 162300Z 1700/1724 24012KT 9999 SCT020'
       },
@@ -1344,13 +1584,13 @@
         lat: 10.7121, lon: 99.3615,
         rwy: 180,
         radarName: 'On-field (Chumphon Radar)',
-        radarUrl: 'https://weather.tmd.go.th/cmp/cmploop.gif',
+        radarUrl: 'https://weather.tmd.go.th/cmploop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: 30, y: 50 },
-        cellVel: { dx: -0.9, dy: -1.3 },
-        dbz: 26, top: 'FL240', eta: null, pop: 25,
-        intensity: '-RA Light',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 1350, cin: 40, pwat: 46,
         actualTaf: 'TAF VTSE 162300Z 1700/1724 17010KT 9999 SCT025'
       },
@@ -1359,21 +1599,19 @@
         lat: 6.5199, lon: 101.7431,
         rwy: 200,
         radarName: 'On-field (Narathiwat Radar)',
-        radarUrl: 'https://weather.tmd.go.th/nrt/nrtloop.gif',
+        radarUrl: 'https://weather.tmd.go.th/nrtloop.php',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -20, y: 30 },
-        cellVel: { dx: 0.6, dy: -0.8 },
-        dbz: 22, top: 'FL200', eta: null, pop: 20,
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1100, cin: 60, pwat: 42,
         actualTaf: 'TAF VTSN 162300Z 1700/1724 12008KT 9999 FEW025'
       }
     };
 
-    let currentAirport = 'VTBD';
-    let currentRadarDisplayMode = 'tactical';
-    let operationalMode = 'live';
+// State variables declared at script top
 
     function setOperationalMode(mode) {
       operationalMode = mode;
@@ -1389,6 +1627,7 @@
         badge.style.color = 'var(--accent-green)';
         statusText.innerText = 'Live mode active: Reflects real-time radar observations and official METAR truth. Clear sky displays 0 dBZ and no deficit.';
       } else {
+        simStartTimestamp = Date.now();
         btnLive.className = 'op-btn';
         btnSim.className = 'op-btn sim-active';
         badge.innerText = '● CONVECTIVE SIMULATOR ACTIVE';
@@ -1484,12 +1723,20 @@
           };
         } else {
           const tempoNotice = hasTempo ? `Published TEMPO window starts at ${formatTimePad(tempoStartHour)}00Z (${(tempoStartHour+7)%24}:00 LT)` : 'No TEMPO published in TAF';
+          let timingDesc = '';
+          if (cellEtaMinutes === 0) {
+            timingDesc = `Active ${rainIntensity} directly over runway threshold. Ceiling & visibility severely reduced.`;
+          } else {
+            const arrZ = `${formatTimePad(arrivalHour)}${formatTimePad((curMinute+cellEtaMinutes)%60)}Z`;
+            const arrLT = `${formatTimePad((arrivalHour+7)%24)}:${formatTimePad((curMinute+cellEtaMinutes)%60)}`;
+            timingDesc = `Unforecast ${rainIntensity} arriving in ${cellEtaMinutes}m at ${arrZ} (${arrLT} BKK). Active TAF currently states NSW. ${tempoNotice}.`;
+          }
           return {
             isDiscrepancy: true,
-            tag: 'CRITICAL TAF DEFICIT',
+            tag: cellEtaMinutes === 0 ? 'IMPACT NOW' : 'CRITICAL TAF DEFICIT',
             activeTafCondition: isBaseNsw ? 'NSW (No rain now)' : 'FAIR',
             nowCondition: rainIntensity,
-            msg: `Unforecast ${rainIntensity} arriving at ${formatTimePad(arrivalHour)}${formatTimePad((curMinute+cellEtaMinutes)%60)}Z. Active TAF currently states NSW. ${tempoNotice}.`
+            msg: timingDesc
           };
         }
       }
@@ -1510,8 +1757,17 @@
 
       Object.keys(airports).forEach(icao => {
         const apt = Object.assign({}, airports[icao]);
-        if (operationalMode === 'sim' && simScenarios[icao]) {
-          Object.assign(apt, simScenarios[icao]);
+        if (operationalMode === 'sim') {
+          const scState = getScenarioState(icao);
+          if (scState && !scState.hasPassed) {
+            Object.assign(apt, scState);
+          } else {
+            apt.cellStart = null;
+            apt.cellVel = null;
+            apt.dbz = 0;
+            apt.eta = null;
+            apt.intensity = 'NSW Fair';
+          }
         } else if (operationalMode === 'live') {
           apt.cellStart = null;
           apt.cellVel = null;
@@ -1525,7 +1781,8 @@
           discrepancyCount++;
           const chip = document.createElement('div');
           chip.className = 'discrepancy-chip';
-          chip.innerHTML = `<strong>${icao}</strong> (${apt.name.split(' ')[0]}): ${apt.intensity} ETA ${apt.eta}m [TAF DEFICIT]`;
+          const etaText = apt.eta === 0 ? 'ACTIVE IMPACT' : `ETA ${apt.eta}m`;
+          chip.innerHTML = `<strong>${icao}</strong> (${apt.name.split(' ')[0]}): ${apt.intensity} ${etaText} [TAF DEFICIT]`;
           chip.onclick = () => {
             document.getElementById('airportSelect').value = icao;
             onAirportChange(icao);
@@ -1538,7 +1795,7 @@
       document.getElementById('globalAlertTicker').style.display = discrepancyCount > 0 ? 'flex' : 'none';
     }
 
-    async function onAirportChange(icao) {
+    async function onAirportChange(icao, forceRefresh = false) {
       currentAirport = icao;
       const data = airports[icao];
       const now = new Date();
@@ -1548,9 +1805,10 @@
       let cycleTagText = "Cycle: 2300Z";
       let countdownTagText = " | Next: 0500Z";
       let isLiveSource = false;
+      const forceQ = forceRefresh ? '&force=1' : '';
 
       try {
-        const resp = await fetch(`/api/taf/${icao}?t=${Date.now()}`);
+        const resp = await fetch(`/api/taf/${icao}?t=${Date.now()}${forceQ}`);
         if (resp.ok) {
           const json = await resp.json();
           if (json.raw_taf) {
@@ -1630,7 +1888,7 @@
       // Fetch latest ground-truth METAR for live observation cross-check
       let stationMetar = '';
       try {
-        const mResp = await fetch(`/api/metar_history?icao=${icao}&t=${Date.now()}`);
+        const mResp = await fetch(`/api/metar_history?icao=${icao}&t=${Date.now()}${forceQ}`);
         if (mResp.ok) {
           const mJson = await mResp.json();
           if (mJson.history && mJson.history.length > 0) {
@@ -1640,15 +1898,26 @@
       } catch (me) {}
 
       // Apply operational mode state
-      if (operationalMode === 'sim' && simScenarios[icao]) {
-        const sc = simScenarios[icao];
-        data.cellStart = Object.assign({}, sc.cellStart);
-        data.cellVel = Object.assign({}, sc.cellVel);
-        data.dbz = sc.dbz;
-        data.top = sc.top;
-        data.eta = sc.eta;
-        data.pop = sc.pop;
-        data.intensity = sc.intensity;
+      if (operationalMode === 'sim') {
+        const scState = getScenarioState(icao);
+        if (scState && !scState.hasPassed) {
+          data.cellStart = scState.cellStart;
+          data.cellVel = scState.cellVel;
+          data.dbz = scState.dbz;
+          data.top = scState.top;
+          data.eta = scState.eta;
+          data.pop = scState.pop;
+          data.intensity = scState.intensity;
+          data.isOverField = scState.isOverField;
+        } else {
+          data.cellStart = null;
+          data.cellVel = null;
+          data.dbz = 0;
+          data.top = 'None';
+          data.eta = null;
+          data.pop = 10;
+          data.intensity = 'NSW Fair';
+        }
       } else if (operationalMode === 'live') {
         const rainRegex = /(?:TS|SHRA|TSRA|\+TSRA|-TSRA|VCTS|\+RA|\bRA\b|-RA|GR|SQ)/i;
         const hasRainInMetar = stationMetar ? rainRegex.test(stationMetar) : false;
@@ -1668,7 +1937,7 @@
       const evalResult = evaluateTafDiscrepancy(data, tafText);
 
       let etaTimeStr = '';
-      if (data.eta) {
+      if (data.eta !== null) {
         const etaDate = new Date(now.getTime() + data.eta * 60000);
         const etaZ = `${formatTimePad(etaDate.getUTCHours())}${formatTimePad(etaDate.getUTCMinutes())}Z`;
         const bkkEta = `${formatTimePad((etaDate.getUTCHours() + 7) % 24)}:${formatTimePad(etaDate.getUTCMinutes())}`;
@@ -1682,7 +1951,8 @@
         alertBanner.className = 'alert-banner';
         alertTag.className = 'alert-tag';
         alertTag.innerText = evalResult.tag;
-        document.getElementById('alertEta').innerText = `IMPACT IN ${data.eta} MIN (${etaTimeStr})`;
+        const etaLabel = (data.eta === 0) ? `IMPACT ACTIVE NOW (${times.ltStr.split(' ')[0]} LT)` : `IMPACT IN ${data.eta} MIN (${etaTimeStr})`;
+        document.getElementById('alertEta').innerText = etaLabel;
         document.getElementById('alertMsg').innerHTML = `
           <strong>${data.intensity}</strong> tracking toward RWY ${Math.round(data.rwy/10)} approach.<br>
           ${evalResult.msg}
@@ -1692,7 +1962,7 @@
         alertBanner.className = 'alert-banner normal';
         alertTag.className = 'alert-tag normal';
         alertTag.innerText = evalResult.tag;
-        document.getElementById('alertEta').innerText = data.eta ? `RAIN ETA ${data.eta} MIN` : (isTmdStale ? 'WINDY LIVE: NO THREAT' : 'NO CONVECTIVE THREAT');
+        document.getElementById('alertEta').innerText = data.eta !== null ? `RAIN ETA ${data.eta} MIN` : (isTmdStale ? 'WINDY LIVE: NO THREAT' : 'NO CONVECTIVE THREAT');
         document.getElementById('alertMsg').innerHTML = evalResult.msg;
         document.getElementById('discrepancyBadge').style.display = 'none';
       }
@@ -1701,7 +1971,7 @@
       badge.innerText = `Radar: ${data.radarName}`;
       badge.style.color = isTmdStale ? 'var(--accent-red)' : (data.isNeighborRadar ? 'var(--accent-amber)' : 'var(--accent-cyan)');
       document.getElementById('tmdDirectLink').href = data.radarUrl;
-      document.getElementById('tmdDirectLink').innerText = `\u2197 Open TMD Loop: ${data.radarName.split('(')[0]}`;
+      document.getElementById('tmdDirectLink').innerText = `\u2197 TMD ${data.name.split(' ')[0]} Radar Loop (THA_loop)`;
 
       document.getElementById('popVal').innerText = data.pop + '%';
       document.getElementById('popVal').style.color = data.pop >= 70 ? 'var(--accent-red)' : (data.pop >= 40 ? 'var(--accent-amber)' : 'var(--accent-green)');
@@ -1792,7 +2062,7 @@
     }
 
     function refreshCurrentTaf() {
-      onAirportChange(currentAirport);
+      triggerCadenceSync('Manual Refresh');
     }
 
     function updateTimeScrub(val) {
@@ -1931,7 +2201,7 @@
         ctx.fillText(`CELL (${apt.dbz} dBZ)`, curX + 16, curY - 8);
         ctx.fillStyle = '#ffab00';
         ctx.font = '8px monospace';
-        ctx.fillText(`${apt.eta ? 'ETA ' + apt.eta + 'm' : (apt.pop >= 40 ? 'NEARBY' : 'WEAK')}`, curX + 16, curY + 4);
+        ctx.fillText(`${apt.eta !== null ? (apt.eta === 0 ? 'ACTIVE IMPACT' : 'ETA ' + apt.eta + 'm') : (apt.pop >= 40 ? 'NEARBY' : 'WEAK')}`, curX + 16, curY + 4);
       } else {
         ctx.fillStyle = 'rgba(0, 230, 118, 0.9)';
         ctx.font = 'bold 11px monospace';
@@ -1952,8 +2222,11 @@
       ctx.fillText(currentAirport, cx + 8, cy + 4);
     }
 
+    // Application Bootstrap & Real-time Interval
     renderGlobalAlertBar();
     onAirportChange('VTBD');
+    setInterval(updateClocks, 1000);
+    updateClocks();
   </script>
 </body>
 </html>
