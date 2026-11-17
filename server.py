@@ -21,16 +21,16 @@ PORT = int(os.environ.get("PORT", 8080))
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
 TAA_AIRPORTS = [
+    # Bangkok Metropolitan
     {"icao": "VTBD", "name": "Don Mueang (DMK)", "radar": "Suvarnabhumi / BMA C-Band", "is_neighbor": False, "radar_fresh": True, "fallback": None},
     {"icao": "VTBS", "name": "Suvarnabhumi (BKK)", "radar": "Suvarnabhumi Airport", "is_neighbor": False, "radar_fresh": True, "fallback": None},
+    # Northern Region
     {"icao": "VTCC", "name": "Chiang Mai (CNX)", "radar": "Chiang Mai Omkoi", "is_neighbor": False, "radar_fresh": True, "fallback": None},
-    {"icao": "VTSP", "name": "Phuket (HKT)", "radar": "Phuket Airport (TMD Frozen -> Discarded)", "is_neighbor": False, "radar_fresh": False, "stale_date": "2023-04-22", "fallback": "windy.com"},
-    {"icao": "VTSS", "name": "Hat Yai (HDY)", "radar": "Songkhla Satingpra", "is_neighbor": True, "radar_fresh": True, "fallback": None},
     {"icao": "VTCT", "name": "Chiang Rai (CEI)", "radar": "Chiang Rai", "is_neighbor": False, "radar_fresh": True, "fallback": None},
     {"icao": "VTCN", "name": "Nan Nakhon (NNT)", "radar": "Phitsanulok", "is_neighbor": True, "radar_fresh": True, "fallback": None},
     {"icao": "VTCL", "name": "Lampang (LPT)", "radar": "Chiang Mai Omkoi", "is_neighbor": True, "radar_fresh": True, "fallback": None},
     {"icao": "VTPP", "name": "Phitsanulok (PHS)", "radar": "Phitsanulok", "is_neighbor": False, "radar_fresh": True, "fallback": None},
-    {"icao": "VTPH", "name": "Hua Hin (HHQ)", "radar": "Samut Songkhram / BMA", "is_neighbor": True, "radar_fresh": True, "fallback": None},
+    # Northeastern Region
     {"icao": "VTUK", "name": "Khon Kaen (KKC)", "radar": "Khon Kaen", "is_neighbor": False, "radar_fresh": True, "fallback": None},
     {"icao": "VTUD", "name": "Udon Thani (UTH)", "radar": "Sakon Nakhon", "is_neighbor": True, "radar_fresh": True, "fallback": None},
     {"icao": "VTUU", "name": "Ubon Ratchathani (UBP)", "radar": "Ubon Ratchathani", "is_neighbor": False, "radar_fresh": True, "fallback": None},
@@ -39,7 +39,11 @@ TAA_AIRPORTS = [
     {"icao": "VTUL", "name": "Loei (LOE)", "radar": "Phitsanulok", "is_neighbor": True, "radar_fresh": True, "fallback": None},
     {"icao": "VTUI", "name": "Sakon Nakhon (SNO)", "radar": "Sakon Nakhon", "is_neighbor": False, "radar_fresh": True, "fallback": None},
     {"icao": "VTUW", "name": "Nakhon Phanom (KOP)", "radar": "Sakon Nakhon", "is_neighbor": True, "radar_fresh": True, "fallback": None},
+    # Southern Region
+    {"icao": "VTPH", "name": "Hua Hin (HHQ)", "radar": "Samut Songkhram / BMA", "is_neighbor": True, "radar_fresh": True, "fallback": None},
+    {"icao": "VTSP", "name": "Phuket (HKT)", "radar": "Phuket Airport (TMD Frozen -> Discarded)", "is_neighbor": False, "radar_fresh": False, "stale_date": "2023-04-22", "fallback": "windy.com"},
     {"icao": "VTSG", "name": "Krabi (KBV)", "radar": "Phuket Radar (Frozen -> Discarded)", "is_neighbor": True, "radar_fresh": False, "stale_date": "2023-04-22", "fallback": "windy.com"},
+    {"icao": "VTSS", "name": "Hat Yai (HDY)", "radar": "Songkhla Satingpra", "is_neighbor": True, "radar_fresh": True, "fallback": None},
     {"icao": "VTSB", "name": "Surat Thani (URT)", "radar": "Surat Thani Phunphin (Frozen -> Discarded)", "is_neighbor": False, "radar_fresh": False, "stale_date": "2023-05-18", "fallback": "windy.com"},
     {"icao": "VTSM", "name": "Koh Samui (USM)", "radar": "Surat Thani Samui (Frozen -> Discarded)", "is_neighbor": False, "radar_fresh": False, "stale_date": "2023-05-18", "fallback": "windy.com"},
     {"icao": "VTST", "name": "Trang (TST)", "radar": "Phuket / Songkhla (Frozen -> Discarded)", "is_neighbor": True, "radar_fresh": False, "stale_date": "2023-04-22", "fallback": "windy.com"},
@@ -80,30 +84,31 @@ FALLBACK_TAFS = {
 
 # Real 24-hour METAR sequence for VTBD (Don Mueang) recorded by airport sensors
 VTBD_ACTUAL_METAR_HISTORY = [
-    "VTBD 170200Z 10005KT 9999 FEW020 32/25 Q1008 NOSIG",
-    "VTBD 170130Z 10006KT 9999 FEW020 30/24 Q1010 NOSIG",
-    "VTBD 170100Z 10004KT 4000 BR FEW020 28/25 Q1010 NOSIG",
-    "VTBD 170030Z 10003KT 4000 BR FEW020 27/25 Q1010 NOSIG",
-    "VTBD 170000Z 10003KT 3500 BR FEW020 26/25 Q1010 NOSIG",
-    "VTBD 162330Z 09003KT 3000 BR FEW018 26/25 Q1009 NOSIG",
-    "VTBD 162300Z 08003KT 3000 BR FEW018 26/25 Q1009 NOSIG",
-    "VTBD 162230Z 09004KT 4000 BR FEW018 26/25 Q1009 NOSIG",
-    "VTBD 162200Z 08003KT 4000 BR FEW018 26/25 Q1009 NOSIG",
-    "VTBD 162130Z 09003KT 5000 BR FEW020 27/25 Q1009 NOSIG",
-    "VTBD 162100Z 08003KT 5000 BR FEW020 27/25 Q1009 NOSIG",
-    "VTBD 162030Z 07003KT 6000 FEW020 27/25 Q1009 NOSIG",
-    "VTBD 162000Z 06003KT 6000 FEW020 27/25 Q1009 NOSIG",
-    "VTBD 161930Z 05003KT 7000 FEW020 28/25 Q1010 NOSIG",
-    "VTBD 161900Z 00000KT 8000 FEW020 28/25 Q1010 NOSIG",
-    "VTBD 161830Z 00000KT 8000 FEW020 28/24 Q1010 NOSIG",
-    "VTBD 161800Z 00000KT 9999 FEW020 28/24 Q1010 NOSIG",
-    "VTBD 161730Z 34003KT 9999 FEW020 29/24 Q1011 NOSIG",
-    "VTBD 161700Z 35004KT 9999 FEW020 29/24 Q1011 NOSIG",
-    "VTBD 161630Z 36005KT 9999 FEW020 29/24 Q1011 NOSIG",
-    "VTBD 161600Z 32004KT 240V340 9999 FEW020 28/24 Q1014 NOSIG",
-    "VTBD 161530Z 31005KT 9999 FEW020 29/24 Q1013 NOSIG",
-    "VTBD 161500Z 30005KT 9999 FEW020 29/24 Q1013 NOSIG",
-    "VTBD 161430Z 28006KT 9999 FEW020 30/24 Q1012 NOSIG"
+    "METAR VTBD 170330Z 16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG",
+    "METAR VTBD 170300Z 15005KT 120V190 9999 FEW015 31/26 Q1014 NOSIG",
+    "METAR VTBD 170230Z 14004KT 040V190 9999 FEW015 31/27 Q1014 NOSIG",
+    "METAR VTBD 170200Z 16005KT 130V190 8000 FEW020 30/27 Q1014 NOSIG",
+    "METAR VTBD 170130Z 12004KT 090V160 8000 FEW020 29/27 Q1014 NOSIG",
+    "METAR VTBD 170100Z 12005KT 080V150 9999 FEW020 29/27 Q1013 NOSIG",
+    "METAR VTBD 170030Z 10005KT 9999 FEW020 28/27 Q1012 NOSIG",
+    "METAR VTBD 170000Z 11004KT 9999 FEW020 28/26 Q1012 NOSIG",
+    "METAR VTBD 162330Z 10004KT 9999 FEW020 28/26 Q1012 NOSIG",
+    "METAR VTBD 162300Z 12003KT 9999 FEW020 28/26 Q1011 NOSIG",
+    "METAR VTBD 162230Z 08003KT 9999 FEW020 27/26 Q1011 NOSIG",
+    "METAR VTBD 162200Z 07002KT 9999 FEW020 27/26 Q1010 NOSIG",
+    "METAR VTBD 162130Z 06003KT 9999 FEW020 27/26 Q1010 NOSIG",
+    "METAR VTBD 162100Z 00000KT 9999 FEW020 28/25 Q1010 NOSIG",
+    "METAR VTBD 162030Z 00000KT 9999 FEW020 28/25 Q1010 NOSIG",
+    "METAR VTBD 162000Z 17003KT 9999 FEW020 28/26 Q1011 NOSIG",
+    "METAR VTBD 161930Z 20003KT 9999 FEW020 28/26 Q1011 NOSIG",
+    "METAR VTBD 161900Z 20003KT 9999 FEW020 28/25 Q1011 NOSIG",
+    "METAR VTBD 161830Z 21003KT 9999 FEW020 28/25 Q1011 NOSIG",
+    "METAR VTBD 161800Z 20002KT 9999 FEW020 28/25 Q1011 NOSIG",
+    "METAR VTBD 161730Z 19003KT 9999 FEW020 28/25 Q1011 NOSIG",
+    "METAR VTBD 161700Z 18001KT 9999 FEW020 29/25 Q1011 NOSIG",
+    "METAR VTBD 161630Z 00000KT 9999 FEW020 28/25 Q1011 NOSIG",
+    "METAR VTBD 161600Z 15002KT 9999 FEW020 29/25 Q1011 NOSIG",
+    "METAR VTBD 161530Z 00000KT 9999 FEW020 29/25 Q1011 NOSIG"
 ]
 
 taf_cache = {}
@@ -147,16 +152,19 @@ def fetch_live_taf(icao: str) -> dict:
     if cache_entry and (now - cache_entry["time"]).total_seconds() < 60:
         return cache_entry["data"]
 
-    url = f"https://aviationweather.gov/api/data/taf?ids={icao}&format=raw"
+    ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
-    req = urllib.request.Request(url, headers={"User-Agent": "AeroCast-TH/1.0"})
 
     raw_taf = ""
     is_live = False
+
+    # 1. Primary: Direct TAF raw feed from aviationweather.gov
     try:
-        with urllib.request.urlopen(req, context=ctx, timeout=4) as resp:
+        url = f"https://aviationweather.gov/api/data/taf?ids={icao}&format=raw"
+        req = urllib.request.Request(url, headers={"User-Agent": ua})
+        with urllib.request.urlopen(req, context=ctx, timeout=8) as resp:
             content = resp.read().decode("utf-8").strip()
             if content and icao in content:
                 lines = [l.strip() for l in content.splitlines() if l.strip()]
@@ -164,6 +172,28 @@ def fetch_live_taf(icao: str) -> dict:
                 is_live = True
     except Exception:
         pass
+
+    # 2. Secondary: Combined METAR + TAF endpoint from aviationweather.gov
+    if not raw_taf:
+        try:
+            url_combo = f"https://aviationweather.gov/api/data/metar?ids={icao}&taf=1&format=raw"
+            req_combo = urllib.request.Request(url_combo, headers={"User-Agent": ua})
+            with urllib.request.urlopen(req_combo, context=ctx, timeout=8) as resp:
+                content = resp.read().decode("utf-8").strip()
+                if content and "TAF " + icao in content:
+                    taf_lines = []
+                    found_taf = False
+                    for line in content.splitlines():
+                        line = line.strip()
+                        if line.startswith("TAF " + icao) or line.startswith(icao) and "TAF" in line:
+                            found_taf = True
+                        if found_taf:
+                            taf_lines.append(line)
+                    if taf_lines:
+                        raw_taf = " ".join(taf_lines)
+                        is_live = True
+        except Exception:
+            pass
 
     if not raw_taf:
         raw_taf = FALLBACK_TAFS.get(icao, f"TAF {icao} 162300Z 1700/1724 10006KT 9999 SCT025")
@@ -189,27 +219,59 @@ def fetch_live_metar_history(icao: str, hours: int = 24) -> dict:
     if cache_entry and (now - cache_entry["time"]).total_seconds() < 60:
         return cache_entry["data"]
 
-    url = f"https://aviationweather.gov/api/data/metar?ids={icao}&hours={hours}&format=raw"
+    ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
-    req = urllib.request.Request(url, headers={"User-Agent": "AeroCast-TH/1.0"})
 
     records = []
     is_live = False
 
+    # 1. Primary: 24-hr historical raw feed from aviationweather.gov
     try:
-        with urllib.request.urlopen(req, context=ctx, timeout=4) as resp:
+        url = f"https://aviationweather.gov/api/data/metar?ids={icao}&hours={hours}&format=raw"
+        req = urllib.request.Request(url, headers={"User-Agent": ua})
+        with urllib.request.urlopen(req, context=ctx, timeout=10) as resp:
             content = resp.read().decode("utf-8").strip()
             if content and icao in content:
                 for line in content.splitlines():
                     line = line.strip()
-                    if line and line.startswith(icao) or line.startswith("METAR " + icao) or line.startswith("SPECI " + icao):
+                    if line and (line.startswith(icao) or line.startswith("METAR " + icao) or line.startswith("SPECI " + icao)):
                         records.append(line)
                 if records:
                     is_live = True
     except Exception:
         pass
+
+    # 2. Secondary: Combined endpoint from aviationweather.gov (contains latest METAR)
+    if not records:
+        try:
+            url_combo = f"https://aviationweather.gov/api/data/metar?ids={icao}&taf=1&format=raw"
+            req_combo = urllib.request.Request(url_combo, headers={"User-Agent": ua})
+            with urllib.request.urlopen(req_combo, context=ctx, timeout=8) as resp:
+                content = resp.read().decode("utf-8").strip()
+                if content and icao in content:
+                    for line in content.splitlines():
+                        line = line.strip()
+                        if line and (line.startswith(icao) or line.startswith("METAR " + icao) or line.startswith("SPECI " + icao)):
+                            records.append(line)
+                    if records:
+                        is_live = True
+        except Exception:
+            pass
+
+    # 3. Tertiary: VATSIM live ICAO feed backup
+    if not records:
+        try:
+            v_url = f"https://metar.vatsim.net/metar.php?id={icao}"
+            v_req = urllib.request.Request(v_url, headers={"User-Agent": ua})
+            with urllib.request.urlopen(v_req, context=ctx, timeout=5) as v_resp:
+                v_text = v_resp.read().decode("utf-8").strip()
+                if v_text and icao in v_text:
+                    records.append(v_text)
+                    is_live = True
+        except Exception:
+            pass
 
     if not records:
         if icao == "VTBD":

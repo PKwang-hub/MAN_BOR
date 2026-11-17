@@ -1530,14 +1530,39 @@
         },
         {
           item: 'Surface Wind',
-          taf: '100/05 KT BECMG 190/05 KT',
-          now: evalResult.isDiscrepancy ? '210/18 G32 KT (Shear)' : '180/08 KT',
+          taf: (() => {
+            const windMatch = tafText.match(/\b(\d{3}|VRB)(\d{2,3})(G\d{2,3})?KT\b/);
+            if (!windMatch) return 'Not reported';
+            let w = windMatch[1] + '/' + windMatch[2];
+            if (windMatch[3]) w += ' ' + windMatch[3];
+            w += ' KT';
+            const becmgWind = tafText.match(/BECMG\s+\d{4}\/\d{4}\s+(\d{3}|VRB)(\d{2,3})(G\d{2,3})?KT/);
+            if (becmgWind) {
+              w += ' BECMG ' + becmgWind[1] + '/' + becmgWind[2];
+              if (becmgWind[3]) w += ' ' + becmgWind[3];
+              w += ' KT';
+            }
+            return w;
+          })(),
+          now: evalResult.isDiscrepancy ? `${Math.round(data.rwy)}°/${Math.round(data.pop/5+10)} G${Math.round(data.pop/3+15)} KT (Shear)` : `${Math.round(data.rwy)}°/${Math.round(5+Math.random()*5)} KT`,
           bad: evalResult.isDiscrepancy
         },
         {
           item: 'Visibility',
-          taf: '4000 BR BECMG 9999 NSW',
-          now: evalResult.isDiscrepancy ? 'RVR 1,200 m in storm core' : '9999 m VMC',
+          taf: (() => {
+            const visMatch = tafText.match(/\b(\d{4})\b/);
+            const vis = visMatch ? visMatch[1] : '9999';
+            const wxMatch = tafText.match(/\b(BR|FG|HZ|RA|DZ|TSRA|SHRA)\b/);
+            let v = vis;
+            if (wxMatch) v += ' ' + wxMatch[1];
+            const becmgVis = tafText.match(/BECMG\s+\d{4}\/\d{4}\s+(\d{4})(?:\s+(NSW|BR|FG|HZ))?/);
+            if (becmgVis) {
+              v += ' BECMG ' + becmgVis[1];
+              if (becmgVis[2]) v += ' ' + becmgVis[2];
+            }
+            return v;
+          })(),
+          now: evalResult.isDiscrepancy ? `RVR ${Math.round(800+Math.random()*600)} m in storm core` : '9999 m VMC',
           bad: evalResult.isDiscrepancy
         }
       ];
@@ -1713,12 +1738,6 @@
       ctx.font = 'bold 10px monospace';
       ctx.fillText(currentAirport, cx + 8, cy + 4);
     }
-
-    renderGlobalAlertBar();
-    onAirportChange('VTBD');
-  </script>
-</body>
-</html>
 
     renderGlobalAlertBar();
     onAirportChange('VTBD');
