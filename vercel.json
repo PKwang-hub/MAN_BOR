@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/verification", "destination": "/verification.html" },
     { "source": "/api/taf/(.*)", "destination": "/api/taf?icao=$1" }
   ]
 }

@@ -439,7 +439,16 @@ class AeroCastHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(json.dumps(TAA_AIRPORTS, indent=2).encode("utf-8"))
+        elif clean_path.rstrip("/") in ["/verification", "/verification.html"]:
+            self.path = "/verification.html"
+            super().do_GET()
         else:
+            # Check clean URLs without .html extension
+            clean_name = clean_path.strip("/")
+            if clean_name and not os.path.isfile(os.path.join(DIRECTORY, clean_name)):
+                candidate = os.path.join(DIRECTORY, clean_name + ".html")
+                if os.path.isfile(candidate):
+                    self.path = "/" + clean_name + ".html"
             super().do_GET()
 
 def wsgi_app(environ, start_response):
@@ -492,8 +501,19 @@ def wsgi_app(environ, start_response):
         ])
         return [data]
 
-    target_file = "index.html" if clean_path in ["", "/", "/index.html"] else clean_path.lstrip("/")
+    clean_no_slash = clean_path.strip("/")
+    if clean_no_slash in ["", "index", "index.html"]:
+        target_file = "index.html"
+    elif clean_no_slash in ["verification", "verification.html"]:
+        target_file = "verification.html"
+    else:
+        target_file = clean_no_slash
+
     file_path = os.path.normpath(os.path.join(DIRECTORY, target_file))
+
+    # Support clean URLs when request lacks .html extension
+    if not os.path.isfile(file_path) and os.path.isfile(file_path + ".html"):
+        file_path = file_path + ".html"
 
     if not file_path.startswith(DIRECTORY) or not os.path.isfile(file_path):
         file_path = os.path.join(DIRECTORY, "index.html")
