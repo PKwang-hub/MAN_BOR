@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: aerocast-th
+    env: python
+    buildCommand: "echo 'No build step required'"
+    startCommand: "python server.py"
+    plan: free

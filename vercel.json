@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/taf/(.*)", "destination": "/api/taf?icao=$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "AeroCast TH - Tactical Convective Nowcast",
+  "short_name": "AeroCast-TH",
+  "description": "Tactical Convective Rain & TAF Discrepancy Nowcasting for Thai Airports",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230a0e17' stroke='%2300ffcc' stroke-width='4'/><path d='M50 20 L50 80 M20 50 L80 50' stroke='%23223344' stroke-width='2'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23224455' stroke-width='2' stroke-dasharray='4'/><path d='M35 60 Q50 30 65 50 Q75 40 80 60 Z' fill='%23ff3366'/><polygon points='45,65 52,50 48,50 55,35' fill='%23ffcc00'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

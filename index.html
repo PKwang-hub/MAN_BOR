@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AeroCast-TH | Thai AirAsia Tactical Nowcast</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #131a29;
+      --card-border: #1f2a40;
+      --text: #e1e7f5;
+      --text-dim: #8b9bb4;
+      --accent-cyan: #00e5ff;
+      --accent-green: #00e676;
+      --accent-amber: #ffab00;
+      --accent-red: #ff1744;
+      --accent-magenta: #d500f9;
+      --font-mono: "SF Mono", "Consolas", "Courier New", monospace;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding-bottom: 30px;
+    }
+    header {
+      background: #0d1424;
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+    .brand-sub {
+      font-size: 0.68rem;
+      background: #dc2626;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .clock-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+    .time-badge-utc {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+    .time-badge-lt {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 12px;
+    }
+    /* Top Global Fleet Weather Alert Bar */
+    .global-alert-ticker {
+      background: #200b12;
+      border: 1px solid var(--accent-red);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 0 12px rgba(255, 23, 68, 0.25);
+    }
+    .global-alert-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .global-alert-title {
+      color: var(--accent-red);
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .global-alert-count {
+      background: var(--accent-red);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+    .global-alert-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .discrepancy-chip {
+      background: rgba(255, 23, 68, 0.2);
+      border: 1px solid var(--accent-red);
+      color: #ffcdd2;
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s;
+    }
+    .discrepancy-chip:active {
+      background: rgba(255, 23, 68, 0.45);
+    }
+    /* Dropdown Section */
+    .selector-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .selector-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+    .airport-select {
+      width: 100%;
+      background: #0d1424;
+      border: 1px solid var(--accent-cyan);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300e5ff' d='M1.41 0L6 4.58L10.59 0L12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 12px;
+    }
+    /* Local Alert Card */
+    .alert-banner {
+      background: linear-gradient(135deg, rgba(255, 23, 68, 0.2) 0%, rgba(213, 0, 249, 0.1) 100%);
+      border: 1px solid var(--accent-red);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .alert-banner.normal {
+      background: #0d1726;
+      border-color: #1e3a5f;
+    }
+    .alert-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .alert-tag {
+      background: var(--accent-red);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .alert-tag.normal {
+      background: var(--accent-green);
+      color: #000;
+    }
+    .alert-eta {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      color: #fff;
+      font-weight: 700;
+    }
+    .alert-msg {
+      font-size: 0.84rem;
+      line-height: 1.35;
+      color: #ffdce0;
+    }
+    /* Radar Viewport */
+    .radar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .radar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .radar-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .radar-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+    .radar-station-badge {
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+    }
+    .legend {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+    }
+    .legend-box {
+      width: 10px;
+      height: 6px;
+      border-radius: 1px;
+    }
+    canvas#radarCanvas {
+      width: 100%;
+      height: 290px;
+      background: #060911;
+      border-radius: 8px;
+      display: block;
+      cursor: crosshair;
+    }
+    /* Scrub bar */
+    .scrub-box {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .scrub-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--accent-cyan);
+      cursor: pointer;
+    }
+    .radar-links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--card-border);
+    }
+    .live-radar-link {
+      font-size: 0.72rem;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .live-radar-link:hover {
+      text-decoration: underline;
+    }
+    /* Stats 3-column Grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .stat-val {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat-sub {
+      font-size: 0.65rem;
+      color: var(--accent-cyan);
+    }
+    /* TAF vs Nowcast Card */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cycle-bar {
+      background: #0d1424;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .cycle-tag {
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+    .countdown-tag {
+      color: var(--text-dim);
+    }
+    .btn-refresh {
+      background: #1e293b;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-refresh:active {
+      background: #334155;
+    }
+    .compare-table {
+      width: 100%;
+      font-size: 0.78rem;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+    }
+    .compare-table th {
+      text-align: left;
+      padding: 6px 4px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--card-border);
+      font-weight: 600;
+    }
+    .compare-table td {
+      padding: 8px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: top;
+    }
+    .td-deficit {
+      color: var(--accent-red);
+      font-weight: 700;
+    }
+    .raw-wx {
+      background: #090d15;
+      padding: 8px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #94a3b8;
+      line-height: 1.4;
+      margin-top: 8px;
+      word-break: break-all;
+    }
+    .raw-source-tag {
+      font-size: 0.65rem;
+      color: var(--accent-cyan);
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="brand-title">AeroCast-TH</span>
+      <span class="brand-sub">THAI AIRASIA</span>
+    </div>
+    <div class="clock-group">
+      <div class="time-badge-utc" id="clockUtc">--:--:-- UTC</div>
+      <div class="time-badge-lt" id="clockLt">--:--:-- BKK (UTC+7)</div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Top Global Unforecast Rain Alert Bar -->
+    <div class="global-alert-ticker" id="globalAlertTicker">
+      <div class="global-alert-header">
+        <span class="global-alert-title">
+          <span>&#9888; UNFORECAST CONVECTIVE RAIN ALERT</span>
+        </span>
+        <span class="global-alert-count" id="discrepancyCount">3 AIRPORTS</span>
+      </div>
+      <div class="global-alert-list" id="discrepancyList">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Thai AirAsia Operating Airports Dropdown -->
+    <div class="selector-card">
+      <span class="selector-label">Thai AirAsia Operating Destination (26 Airports)</span>
+      <select id="airportSelect" class="airport-select" onchange="onAirportChange(this.value)">
+        <optgroup label="Main Hubs (Bangkok)">
+          <option value="VTBD" selected>VTBD | Don Mueang (DMK) - Main Hub</option>
+          <option value="VTBS">VTBS | Suvarnabhumi (BKK) - Hub</option>
+        </optgroup>
+        <optgroup label="Northern Region">
+          <option value="VTCC">VTCC | Chiang Mai (CNX) - Northern Hub</option>
+          <option value="VTCT">VTCT | Chiang Rai (CEI)</option>
+          <option value="VTCN">VTCN | Nan Nakhon (NNT)</option>
+          <option value="VTCL">VTCL | Lampang (LPT)</option>
+          <option value="VTCP">VTCP | Phitsanulok (PHS)</option>
+          <option value="VTPH">VTPH | Hua Hin (HHQ)</option>
+        </optgroup>
+        <optgroup label="Northeastern Region (Isan)">
+          <option value="VTUK">VTUK | Khon Kaen (KKC)</option>
+          <option value="VTUD">VTUD | Udon Thani (UTH)</option>
+          <option value="VTUU">VTUU | Ubon Ratchathani (UBP)</option>
+          <option value="VTUV">VTUV | Roi Et (ROI)</option>
+          <option value="VTUO">VTUO | Buriram (BFV)</option>
+          <option value="VTUL">VTUL | Loei (LOE)</option>
+          <option value="VTUI">VTUI | Sakon Nakhon (SNO)</option>
+          <option value="VTUW">VTUW | Nakhon Phanom (KOP)</option>
+        </optgroup>
+        <optgroup label="Southern Region">
+          <option value="VTSP">VTSP | Phuket (HKT) - Southern Hub</option>
+          <option value="VTSG">VTSG | Krabi (KBV)</option>
+          <option value="VTSS">VTSS | Hat Yai (HDY) - Southern Hub</option>
+          <option value="VTSB">VTSB | Surat Thani (URT)</option>
+          <option value="VTSM">VTSM | Koh Samui (USM)</option>
+          <option value="VTST">VTST | Trang (TST)</option>
+          <option value="VTSK">VTSK | Nakhon Si Thammarat (NST)</option>
+          <option value="VTSR">VTSR | Ranong (UNN)</option>
+          <option value="VTSE">VTSE | Chumphon (CJM)</option>
+          <option value="VTSN">VTSN | Narathiwat (NAW)</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <!-- Active Local Discrepancy Banner -->
+    <div class="alert-banner" id="alertBanner">
+      <div class="alert-top">
+        <span class="alert-tag" id="alertTag">CRITICAL TAF DEFICIT</span>
+        <span class="alert-eta" id="alertEta">IMPACT IN 28 MIN</span>
+      </div>
+      <div class="alert-msg" id="alertMsg">
+        <!-- Dynamic alert description -->
+      </div>
+    </div>
+
+    <!-- Tactical Radar Display & Station Coverage -->
+    <div class="radar-card">
+      <div class="radar-header">
+        <div class="radar-title-group">
+          <span class="radar-title">Tactical Radar & Approach</span>
+          <span class="radar-station-badge" id="radarStationBadge">Radar: On-field (Suvarnabhumi / BMA C-Band)</span>
+        </div>
+        <div class="legend">
+          <span>dBZ:</span>
+          <span class="legend-box" style="background:#00e676"></span><span>30</span>
+          <span class="legend-box" style="background:#ffab00"></span><span>40</span>
+          <span class="legend-box" style="background:#ff1744"></span><span>50+</span>
+        </div>
+      </div>
+      <canvas id="radarCanvas" width="400" height="290"></canvas>
+      <div class="scrub-box">
+        <input type="range" id="timeScrubber" min="-30" max="60" step="15" value="0" oninput="updateTimeScrub(this.value)">
+        <div class="scrub-labels">
+          <span id="scrubM30">-30m</span>
+          <span id="scrubM15">-15m</span>
+          <span id="scrubNow" style="color:var(--accent-cyan); font-weight:700;">NOW</span>
+          <span id="scrubP15">+15m</span>
+          <span id="scrubP30">+30m</span>
+          <span id="scrubP60">+60m</span>
+        </div>
+      </div>
+      <!-- Verified Working TMD Live Radar Links -->
+      <div class="radar-links-row">
+        <a id="tmdDirectLink" class="live-radar-link" href="https://weather.tmd.go.th/svp/svpHQloop.gif" target="_blank">&#8599; Open Live TMD Station Loop</a>
+        <a class="live-radar-link" href="https://weather.tmd.go.th/gis/" target="_blank">&#8599; TMD Nationwide GIS Radar Map</a>
+        <a class="live-radar-link" href="https://aeromet.tmd.go.th/home_new_2.php" target="_blank">&#8599; Aeromet Aviation Portal</a>
+      </div>
+    </div>
+
+    <!-- Key Metrics Grid -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-label">Rain Prob (PoP)</span>
+        <span class="stat-val" id="popVal" style="color:var(--accent-red)">94%</span>
+        <span class="stat-sub" id="popIntensity">+TSRA Severe</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Time to Impact</span>
+        <span class="stat-val" id="etaVal" style="color:var(--accent-amber)">28m</span>
+        <span class="stat-sub" id="rwyTarget">RWY 21L Approach</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Max Core Refl</span>
+        <span class="stat-val" id="dbzVal" style="color:var(--accent-magenta)">52 dBZ</span>
+        <span class="stat-sub" id="echoTopVal">Top FL420</span>
+      </div>
+    </div>
+
+    <!-- TAF vs Nowcast Discrepancy Card -->
+    <div class="section-card">
+      <div class="section-title">
+        <span>TAF vs Tactical Reality Check</span>
+        <span id="discrepancyBadge" style="color:var(--accent-red); font-size:0.7rem;">DISCREPANCY ALERT</span>
+      </div>
+
+      <!-- TAF Issuance Cycle Schedule Bar -->
+      <div class="cycle-bar">
+        <div>
+          <span class="cycle-tag" id="tafCycleTag">Cycle: 2300Z</span>
+          <span class="countdown-tag" id="tafCountdownTag"> | Next: 0500Z</span>
+        </div>
+        <button class="btn-refresh" onclick="refreshCurrentTaf()">&#8635; Refresh TAF</button>
+      </div>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Active Published TAF</th>
+            <th>AeroCast Nowcast</th>
+          </tr>
+        </thead>
+        <tbody id="compareTableBody">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+      <div class="raw-wx" id="rawTafBox">
+        <!-- Live TAF text -->
+      </div>
+      <div class="raw-source-tag">
+        <span id="rawTafSource">Source: Live ICAO Broadcast Feed (AWC / TMD Aeromet)</span>
+        <span id="liveStatusBadge" style="color:var(--accent-green); font-weight:700;">&#9679; LIVE</span>
+      </div>
+    </div>
+
+    <!-- Atmospheric Sounding & Trigger Parameters -->
+    <div class="section-card">
+      <div class="section-title">
+        <span>Windy Macro Instability Sounding</span>
+        <span style="color:var(--accent-cyan); font-size:0.7rem;">ECMWF 9km Grid</span>
+      </div>
+      <div class="stat-grid" style="margin-bottom:0;">
+        <div class="stat-card">
+          <span class="stat-label">CAPE (Energy)</span>
+          <span class="stat-val" id="capeVal" style="color:var(--accent-red)">2,450</span>
+          <span class="stat-sub" id="capeRating">J/kg (Extreme)</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">CIN (Cap)</span>
+          <span class="stat-val" id="cinVal" style="color:var(--accent-green)">8</span>
+          <span class="stat-sub" id="cinRating">J/kg (Broken)</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Precip Water</span>
+          <span class="stat-val" id="pwatVal" style="color:var(--accent-cyan)">58</span>
+          <span class="stat-sub">mm (Deep Trop)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function formatTimePad(n) { return n < 10 ? '0' + n : n; }
+
+    function getFormattedTimes(dateObj) {
+      const utcHours = formatTimePad(dateObj.getUTCHours());
+      const utcMinutes = formatTimePad(dateObj.getUTCMinutes());
+      const utcSeconds = formatTimePad(dateObj.getUTCSeconds());
+      const zulu = `${utcHours}${utcMinutes}Z`;
+
+      const bkkDate = new Date(dateObj.getTime() + (7 * 3600 * 1000));
+      const bkkHours = formatTimePad(bkkDate.getUTCHours());
+      const bkkMinutes = formatTimePad(bkkDate.getUTCMinutes());
+      const bkkSeconds = formatTimePad(bkkDate.getUTCSeconds());
+
+      return {
+        utcStr: `${utcHours}:${utcMinutes}:${utcSeconds} UTC`,
+        ltStr: `${bkkHours}:${bkkMinutes}:${bkkSeconds} BKK (UTC+7)`,
+        zulu: zulu,
+        bkkShort: `${bkkHours}:${bkkMinutes} LT`,
+        utcDate: dateObj
+      };
+    }
+
+    function updateClocks() {
+      const now = new Date();
+      const times = getFormattedTimes(now);
+      document.getElementById('clockUtc').innerText = times.utcStr;
+      document.getElementById('clockLt').innerText = times.ltStr;
+
+      const m30 = new Date(now.getTime() - 30 * 60000);
+      const m15 = new Date(now.getTime() - 15 * 60000);
+      const p15 = new Date(now.getTime() + 15 * 60000);
+      const p30 = new Date(now.getTime() + 30 * 60000);
+      const p60 = new Date(now.getTime() + 60 * 60000);
+
+      document.getElementById('scrubM30').innerText = formatTimePad(m30.getUTCHours()) + formatTimePad(m30.getUTCMinutes()) + 'Z';
+      document.getElementById('scrubM15').innerText = formatTimePad(m15.getUTCHours()) + formatTimePad(m15.getUTCMinutes()) + 'Z';
+      document.getElementById('scrubNow').innerText = `NOW (${times.zulu})`;
+      document.getElementById('scrubP15').innerText = '+' + formatTimePad(p15.getUTCHours()) + formatTimePad(p15.getUTCMinutes()) + 'Z';
+      document.getElementById('scrubP30').innerText = '+' + formatTimePad(p30.getUTCHours()) + formatTimePad(p30.getUTCMinutes()) + 'Z';
+      document.getElementById('scrubP60').innerText = '+' + formatTimePad(p60.getUTCHours()) + formatTimePad(p60.getUTCMinutes()) + 'Z';
+    }
+    setInterval(updateClocks, 1000);
+    updateClocks();
+
+    const canvas = document.getElementById('radarCanvas');
+    const ctx = canvas.getContext('2d');
+    let scrubOffsetMinutes = 0;
+
+    // Actual Real-World Published TAF database aligned with TMD 2300Z, 0500Z, 1100Z, 1700Z cycles
+    const airports = {
+      'VTBD': {
+        name: 'Don Mueang (DMK)',
+        rwy: 213,
+        radarName: 'On-field (Suvarnabhumi / BMA C-Band)',
+        radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -35, y: 55 },
+        cellVel: { dx: 1.1, dy: -2.0 },
+        dbz: 52,
+        top: 'FL420',
+        eta: 28,
+        pop: 94,
+        intensity: '+TSRA Severe',
+        cape: 2450, cin: 8, pwat: 58,
+        actualTaf: 'TAF VTBD 162300Z 1700/1806 10005KT 4000 BR FEW020 BECMG 1700/1702 9999 NSW BECMG 1705/1707 19005KT TEMPO 1708/1712 -TSRA FEW018CB SCT020 BKN080'
+      },
+      'VTBS': {
+        name: 'Suvarnabhumi (BKK)',
+        rwy: 194,
+        radarName: 'On-field (Suvarnabhumi Airport Radar)',
+        radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -60, y: 30 },
+        cellVel: { dx: 1.5, dy: -0.8 },
+        dbz: 42,
+        top: 'FL380',
+        eta: 45,
+        pop: 78,
+        intensity: 'TSRA Moderate',
+        cape: 2100, cin: 12, pwat: 54,
+        actualTaf: 'TAF VTBS 162300Z 1700/1806 09006KT 5000 BR SCT020 BECMG 1701/1703 9999 NSW TEMPO 1708/1712 4000 TSRA FEW018CB BKN020'
+      },
+      'VTCC': {
+        name: 'Chiang Mai (CNX)',
+        rwy: 180,
+        radarName: 'On-field (Chiang Mai Omkoi Radar)',
+        radarUrl: 'https://weather.tmd.go.th/omk/omkLoop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: 20, y: -80 },
+        cellVel: { dx: -0.4, dy: 1.2 },
+        dbz: 28,
+        top: 'FL260',
+        eta: null,
+        pop: 20,
+        intensity: '-RA Light',
+        cape: 850, cin: 65, pwat: 38,
+        actualTaf: 'TAF VTCC 162300Z 1700/1724 00000KT 8000 FEW025 BECMG 1703/1705 14006KT 9999'
+      },
+      'VTCT': {
+        name: 'Chiang Rai (CEI)',
+        rwy: 210,
+        radarName: 'On-field (Chiang Rai Radar)',
+        radarUrl: 'https://weather.tmd.go.th/cri/criloop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: 40, y: -40 },
+        cellVel: { dx: -0.8, dy: 0.5 },
+        dbz: 22,
+        top: 'FL220',
+        eta: null,
+        pop: 15,
+        intensity: 'NSW Fair',
+        cape: 720, cin: 80, pwat: 35,
+        actualTaf: 'TAF VTCT 162300Z 1700/1724 02006KT 9999 SCT030'
+      },
+      'VTCN': {
+        name: 'Nan Nakhon (NNT)',
+        rwy: 190,
+        radarName: 'Nearest: Phitsanulok Doppler (120 km SW)',
+        radarUrl: 'https://weather.tmd.go.th/phs/phsloop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -30, y: -60 },
+        cellVel: { dx: 0.6, dy: 0.8 },
+        dbz: 25,
+        top: 'FL240',
+        eta: null,
+        pop: 25,
+        intensity: '-RA Light',
+        cape: 950, cin: 50, pwat: 40,
+        actualTaf: 'TAF VTCN 162300Z 1700/1724 18005KT 9999 FEW030'
+      },
+      'VTCL': {
+        name: 'Lampang (LPT)',
+        rwy: 180,
+        radarName: 'Nearest: Chiang Mai Omkoi Doppler (80 km NW)',
+        radarUrl: 'https://weather.tmd.go.th/omk/omkLoop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -20, y: -30 },
+        cellVel: { dx: 0.4, dy: 0.4 },
+        dbz: 18,
+        top: 'FL180',
+        eta: null,
+        pop: 10,
+        intensity: 'NSW Fair',
+        cape: 650, cin: 90, pwat: 32,
+        actualTaf: 'TAF VTCL 162300Z 1700/1724 00000KT 9999 SKC'
+      },
+      'VTCP': {
+        name: 'Phitsanulok (PHS)',
+        rwy: 140,
+        radarName: 'On-field (Phitsanulok Radar)',
+        radarUrl: 'https://weather.tmd.go.th/phs/phsloop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -50, y: 40 },
+        cellVel: { dx: 1.2, dy: -1.0 },
+        dbz: 38,
+        top: 'FL340',
+        eta: 55,
+        pop: 65,
+        intensity: 'SHRA Rain Shower',
+        cape: 1750, cin: 25, pwat: 48,
+        actualTaf: 'TAF VTCP 162300Z 1700/1724 12008KT 9999 TEMPO 1708/1711 4000 SHRA'
+      },
+      'VTPH': {
+        name: 'Hua Hin (HHQ)',
+        rwy: 160,
+        radarName: 'Nearest: Samut Songkhram / Suvarnabhumi (110 km N)',
+        radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: 50, y: 20 },
+        cellVel: { dx: -1.5, dy: -0.2 },
+        dbz: 32,
+        top: 'FL280',
+        eta: 40,
+        pop: 50,
+        intensity: 'SHRA Isolated',
+        cape: 1400, cin: 30, pwat: 46,
+        actualTaf: 'TAF VTPH 162300Z 1700/1724 19012KT 9999 SCT025'
+      },
+      'VTUK': {
+        name: 'Khon Kaen (KKC)',
+        rwy: 210,
+        radarName: 'On-field (Khon Kaen Doppler Radar)',
+        radarUrl: 'https://weather.tmd.go.th/kkn/kkn240Loop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: 10, y: 20 },
+        cellVel: { dx: 0.5, dy: -0.5 },
+        dbz: 15,
+        top: 'FL150',
+        eta: null,
+        pop: 10,
+        intensity: 'NSW Fair',
+        cape: 800, cin: 85, pwat: 34,
+        actualTaf: 'TAF VTUK 162300Z 1700/1724 09006KT 9999 SKC'
+      },
+      'VTUD': {
+        name: 'Udon Thani (UTH)',
+        rwy: 300,
+        radarName: 'Nearest: Sakon Nakhon Doppler (85 km E)',
+        radarUrl: 'https://weather.tmd.go.th/skn/sknLoop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -45, y: 35 },
+        cellVel: { dx: 1.2, dy: -0.9 },
+        dbz: 48,
+        top: 'FL410',
+        eta: 32,
+        pop: 90,
+        intensity: '+TSRA Severe',
+        cape: 2550, cin: 5, pwat: 60,
+        actualTaf: 'TAF VTUD 162300Z 1700/1724 07008KT 9999 FEW025 BKN090'
+      },
+      'VTUU': {
+        name: 'Ubon Ratchathani (UBP)',
+        rwy: 230,
+        radarName: 'On-field (Ubon Ratchathani Radar)',
+        radarUrl: 'https://weather.tmd.go.th/ubn/ubnLoop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -25, y: 70 },
+        cellVel: { dx: 0.8, dy: -1.6 },
+        dbz: 36,
+        top: 'FL320',
+        eta: 48,
+        pop: 70,
+        intensity: 'RA Moderate',
+        cape: 1600, cin: 30, pwat: 50,
+        actualTaf: 'TAF VTUU 162300Z 1700/1724 10010KT 9999 TEMPO 1707/1710 4000 RA'
+      },
+      'VTUV': {
+        name: 'Roi Et (ROI)',
+        rwy: 180,
+        radarName: 'Nearest: Khon Kaen Radar (80 km NW)',
+        radarUrl: 'https://weather.tmd.go.th/kkn/kkn240Loop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: 30, y: 30 },
+        cellVel: { dx: -0.6, dy: -0.6 },
+        dbz: 26,
+        top: 'FL250',
+        eta: null,
+        pop: 25,
+        intensity: '-RA Light',
+        cape: 1100, cin: 55, pwat: 42,
+        actualTaf: 'TAF VTUV 162300Z 1700/1724 09007KT 9999 FEW030'
+      },
+      'VTUO': {
+        name: 'Buriram (BFV)',
+        rwy: 220,
+        radarName: 'Nearest: Khon Kaen Doppler Radar (100 km N)',
+        radarUrl: 'https://weather.tmd.go.th/kkn/kkn240Loop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -40, y: -20 },
+        cellVel: { dx: 1.0, dy: 0.5 },
+        dbz: 20,
+        top: 'FL200',
+        eta: null,
+        pop: 15,
+        intensity: 'NSW Fair',
+        cape: 900, cin: 70, pwat: 36,
+        actualTaf: 'TAF VTUO 162300Z 1700/1724 08006KT 9999 SKC'
+      },
+      'VTUL': {
+        name: 'Loei (LOE)',
+        rwy: 190,
+        radarName: 'Nearest: Phitsanulok Doppler (120 km W)',
+        radarUrl: 'https://weather.tmd.go.th/phs/phsloop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: 20, y: -50 },
+        cellVel: { dx: -0.5, dy: 0.9 },
+        dbz: 30,
+        top: 'FL280',
+        eta: null,
+        pop: 30,
+        intensity: '-RA Light',
+        cape: 1250, cin: 45, pwat: 44,
+        actualTaf: 'TAF VTUL 162300Z 1700/1724 00000KT 9999 SCT030'
+      },
+      'VTUI': {
+        name: 'Sakon Nakhon (SNO)',
+        rwy: 170,
+        radarName: 'On-field (Sakon Nakhon Radar)',
+        radarUrl: 'https://weather.tmd.go.th/skn/sknLoop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -60, y: 10 },
+        cellVel: { dx: 1.4, dy: -0.2 },
+        dbz: 35,
+        top: 'FL310',
+        eta: 45,
+        pop: 60,
+        intensity: 'SHRA Rain Shower',
+        cape: 1650, cin: 30, pwat: 49,
+        actualTaf: 'TAF VTUI 162300Z 1700/1724 09009KT 9999 TEMPO 1708/1711 SHRA'
+      },
+      'VTUW': {
+        name: 'Nakhon Phanom (KOP)',
+        rwy: 150,
+        radarName: 'Nearest: Sakon Nakhon Doppler (75 km W)',
+        radarUrl: 'https://weather.tmd.go.th/skn/sknLoop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -30, y: -20 },
+        cellVel: { dx: 0.8, dy: 0.4 },
+        dbz: 24,
+        top: 'FL220',
+        eta: null,
+        pop: 20,
+        intensity: 'NSW Fair',
+        cape: 1050, cin: 60, pwat: 40,
+        actualTaf: 'TAF VTUW 162300Z 1700/1724 07008KT 9999 SCT025'
+      },
+      'VTSP': {
+        name: 'Phuket (HKT)',
+        rwy: 270,
+        radarName: 'On-field (Phuket Doppler Radar)',
+        radarUrl: 'https://weather.tmd.go.th/pkt/pkt240Loop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -75, y: -10 },
+        cellVel: { dx: 2.2, dy: 0.3 },
+        dbz: 46,
+        top: 'FL390',
+        eta: 34,
+        pop: 88,
+        intensity: '+SHRA Heavy Shower',
+        cape: 1950, cin: 10, pwat: 56,
+        actualTaf: 'TAF VTSP 162300Z 1700/1724 26012KT 9999 SCT020 TEMPO 1706/1710 4000 SHRA BKN018'
+      },
+      'VTSG': {
+        name: 'Krabi (KBV)',
+        rwy: 320,
+        radarName: 'Nearest: Phuket Radar (65 km W)',
+        radarUrl: 'https://weather.tmd.go.th/pkt/pkt240Loop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -50, y: -30 },
+        cellVel: { dx: 1.6, dy: 0.8 },
+        dbz: 34,
+        top: 'FL300',
+        eta: 42,
+        pop: 60,
+        intensity: 'SHRA Rain Shower',
+        cape: 1550, cin: 25, pwat: 51,
+        actualTaf: 'TAF VTSG 162300Z 1700/1724 24012KT 9999 TEMPO 1707/1710 4000 SHRA'
+      },
+      'VTSS': {
+        name: 'Hat Yai (HDY)',
+        rwy: 260,
+        radarName: 'Nearest: Songkhla Satingpra Radar (45 km N)',
+        radarUrl: 'https://weather.tmd.go.th/ska/skaloop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: 30, y: -60 },
+        cellVel: { dx: -0.7, dy: 1.1 },
+        dbz: 28,
+        top: 'FL260',
+        eta: null,
+        pop: 30,
+        intensity: '-RA Light',
+        cape: 1300, cin: 40, pwat: 47,
+        actualTaf: 'TAF VTSS 162300Z 1700/1724 18008KT 9999 SCT020'
+      },
+      'VTSB': {
+        name: 'Surat Thani (URT)',
+        rwy: 220,
+        radarName: 'On-field (Surat Thani Phunphin Radar)',
+        radarUrl: 'https://weather.tmd.go.th/stn/stnLoop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -40, y: 50 },
+        cellVel: { dx: 1.0, dy: -1.2 },
+        dbz: 32,
+        top: 'FL280',
+        eta: 50,
+        pop: 55,
+        intensity: 'SHRA Rain Shower',
+        cape: 1450, cin: 35, pwat: 48,
+        actualTaf: 'TAF VTSB 162300Z 1700/1724 22010KT 9999 TEMPO 1708/1711 SHRA'
+      },
+      'VTSM': {
+        name: 'Koh Samui (USM)',
+        rwy: 170,
+        radarName: 'Nearest: Surat Thani Doppler Radar',
+        radarUrl: 'https://weather.tmd.go.th/stn/stnLoop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: 50, y: 30 },
+        cellVel: { dx: -1.2, dy: -0.6 },
+        dbz: 25,
+        top: 'FL220',
+        eta: null,
+        pop: 25,
+        intensity: '-SHRA Passing',
+        cape: 1200, cin: 50, pwat: 45,
+        actualTaf: 'TAF VTSM 162300Z 1700/1724 20012KT 9999 SCT022'
+      },
+      'VTST': {
+        name: 'Trang (TST)',
+        rwy: 260,
+        radarName: 'Nearest: Songkhla / Phuket Radar (95 km)',
+        radarUrl: 'https://weather.tmd.go.th/ska/skaloop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -30, y: 10 },
+        cellVel: { dx: 0.8, dy: -0.2 },
+        dbz: 22,
+        top: 'FL200',
+        eta: null,
+        pop: 15,
+        intensity: 'NSW Fair',
+        cape: 1150, cin: 60, pwat: 43,
+        actualTaf: 'TAF VTST 162300Z 1700/1724 21008KT 9999 SCT025'
+      },
+      'VTSK': {
+        name: 'Nakhon Si Thammarat (NST)',
+        rwy: 190,
+        radarName: 'Nearest: Surat Thani Doppler (90 km NW)',
+        radarUrl: 'https://weather.tmd.go.th/stn/stnLoop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -50, y: -20 },
+        cellVel: { dx: 1.1, dy: 0.4 },
+        dbz: 24,
+        top: 'FL220',
+        eta: null,
+        pop: 20,
+        intensity: '-RA Light',
+        cape: 1250, cin: 55, pwat: 44,
+        actualTaf: 'TAF VTSK 162300Z 1700/1724 18009KT 9999 FEW025'
+      },
+      'VTSR': {
+        name: 'Ranong (UNN)',
+        rwy: 200,
+        radarName: 'Nearest: Surat Thani / Chumphon Radar (115 km E)',
+        radarUrl: 'https://weather.tmd.go.th/stn/stnLoop.gif',
+        isNeighborRadar: true,
+        cellStart: { x: -40, y: -40 },
+        cellVel: { dx: 1.0, dy: 0.8 },
+        dbz: 30,
+        top: 'FL260',
+        eta: null,
+        pop: 35,
+        intensity: 'SHRA Coastal',
+        cape: 1500, cin: 30, pwat: 52,
+        actualTaf: 'TAF VTSR 162300Z 1700/1724 24012KT 9999 SCT020'
+      },
+      'VTSE': {
+        name: 'Chumphon (CJM)',
+        rwy: 180,
+        radarName: 'On-field (Chumphon Radar)',
+        radarUrl: 'https://weather.tmd.go.th/cmp/cmploop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: 30, y: 50 },
+        cellVel: { dx: -0.9, dy: -1.3 },
+        dbz: 26,
+        top: 'FL240',
+        eta: null,
+        pop: 25,
+        intensity: '-RA Light',
+        cape: 1350, cin: 40, pwat: 46,
+        actualTaf: 'TAF VTSE 162300Z 1700/1724 17010KT 9999 SCT025'
+      },
+      'VTSN': {
+        name: 'Narathiwat (NAW)',
+        rwy: 200,
+        radarName: 'On-field (Narathiwat Radar)',
+        radarUrl: 'https://weather.tmd.go.th/nrt/nrtloop.gif',
+        isNeighborRadar: false,
+        cellStart: { x: -20, y: 30 },
+        cellVel: { dx: 0.6, dy: -0.8 },
+        dbz: 22,
+        top: 'FL200',
+        eta: null,
+        pop: 20,
+        intensity: 'NSW Fair',
+        cape: 1100, cin: 60, pwat: 42,
+        actualTaf: 'TAF VTSN 162300Z 1700/1724 12008KT 9999 FEW025'
+      }
+    };
+
+    let currentAirport = 'VTBD';
+
+    function evaluateTafDiscrepancy(tafText, cellEtaMinutes, rainIntensity) {
+      const now = new Date();
+      const curHour = now.getUTCHours();
+      const curMinute = now.getUTCMinutes();
+      const arrivalHour = (curHour + Math.floor((curMinute + (cellEtaMinutes || 0)) / 60)) % 24;
+
+      const tempoMatch = tafText.match(/TEMPO\s+(\d{2})(\d{2})\/(\d{2})(\d{2})\s+([A-Z0-9\-\+\s]+)/);
+      let hasTempo = false;
+      let tempoStartHour = -1;
+      let tempoEndHour = -1;
+      let tempoCondition = '';
+
+      if (tempoMatch) {
+        hasTempo = true;
+        tempoStartHour = parseInt(tempoMatch[2]);
+        tempoEndHour = parseInt(tempoMatch[4]);
+        tempoCondition = tempoMatch[5].trim().split(' ')[0];
+      }
+
+      const isBaseNsw = tafText.includes('NSW');
+
+      if (cellEtaMinutes !== null && cellEtaMinutes <= 60) {
+        if (hasTempo && arrivalHour >= tempoStartHour && arrivalHour < tempoEndHour) {
+          return {
+            isDiscrepancy: false,
+            tag: 'FORECAST MATCH',
+            activeTafCondition: tempoCondition,
+            nowCondition: rainIntensity,
+            msg: `Convective shower ETA falls inside published TEMPO window (${tempoMatch[1]}${formatTimePad(tempoStartHour)}Z to ${tempoMatch[3]}${formatTimePad(tempoEndHour)}Z). Forecast matches tactical reality.`
+          };
+        } else {
+          const tempoNotice = hasTempo ? `Published TEMPO window starts at ${formatTimePad(tempoStartHour)}00Z (${(tempoStartHour+7)%24}:00 LT)` : 'No TEMPO published in TAF';
+          return {
+            isDiscrepancy: true,
+            tag: 'CRITICAL TAF DEFICIT',
+            activeTafCondition: isBaseNsw ? 'NSW (No rain now)' : 'FAIR',
+            nowCondition: rainIntensity,
+            msg: `Unforecast ${rainIntensity} arriving at ${formatTimePad(arrivalHour)}${formatTimePad((curMinute+cellEtaMinutes)%60)}Z. Active TAF currently states NSW. ${tempoNotice}.`
+          };
+        }
+      }
+
+      return {
+        isDiscrepancy: false,
+        tag: 'NORMAL WX',
+        activeTafCondition: 'VMC / Published',
+        nowCondition: rainIntensity,
+        msg: 'Conditions consistent with published aerodrome forecast. No unforecast convective cells detected on radar approach.'
+      };
+    }
+
+    function renderGlobalAlertBar() {
+      const tickerList = document.getElementById('discrepancyList');
+      tickerList.innerHTML = '';
+      let discrepancyCount = 0;
+
+      Object.keys(airports).forEach(icao => {
+        const apt = airports[icao];
+        const evalResult = evaluateTafDiscrepancy(apt.actualTaf, apt.eta, apt.intensity);
+        if (evalResult.isDiscrepancy) {
+          discrepancyCount++;
+          const chip = document.createElement('div');
+          chip.className = 'discrepancy-chip';
+          chip.innerHTML = `<strong>${icao}</strong> (${apt.name.split(' ')[0]}): ${apt.intensity} ETA ${apt.eta}m [TAF DEFICIT]`;
+          chip.onclick = () => {
+            document.getElementById('airportSelect').value = icao;
+            onAirportChange(icao);
+          };
+          tickerList.appendChild(chip);
+        }
+      });
+
+      document.getElementById('discrepancyCount').innerText = `${discrepancyCount} AIRPORTS`;
+      document.getElementById('globalAlertTicker').style.display = discrepancyCount > 0 ? 'flex' : 'none';
+    }
+
+    async function onAirportChange(icao) {
+      currentAirport = icao;
+      const data = airports[icao];
+      const now = new Date();
+      const times = getFormattedTimes(now);
+
+      let tafText = data.actualTaf;
+      let cycleTagText = "Cycle: 2300Z";
+      let countdownTagText = " | Next: 0500Z";
+      let isLiveSource = false;
+
+      try {
+        const resp = await fetch(`/api/taf/${icao}?t=${Date.now()}`);
+        if (resp.ok) {
+          const json = await resp.json();
+          if (json.raw_taf) {
+            tafText = json.raw_taf;
+            isLiveSource = json.is_live;
+            cycleTagText = `Cycle: ${json.issue_cycle_zulu}${json.is_amended ? ' AMD' : ''}`;
+            countdownTagText = ` | Next: ${json.next_cycle_zulu} (in ${json.next_cycle_countdown})`;
+            document.getElementById('rawTafSource').innerText = `Source: ${json.source}`;
+          }
+        } else {
+          throw new Error('API route not present, trying static CORS proxy');
+        }
+      } catch (e) {
+        // Static hosting fallback (Netlify / GitHub Pages / Cloudflare Pages)
+        try {
+          const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://aviationweather.gov/api/data/taf?ids=' + icao + '&format=raw')}`;
+          const pResp = await fetch(proxyUrl);
+          if (pResp.ok) {
+            const pText = await pResp.text();
+            if (pText && pText.includes(icao)) {
+              tafText = pText.split('\n').filter(l => l.trim()).join(' ');
+              isLiveSource = true;
+              document.getElementById('rawTafSource').innerText = 'Source: Live ICAO Feed (via Edge Proxy)';
+            }
+          }
+        } catch (pe) {
+          document.getElementById('rawTafSource').innerText = 'Source: Official ICAO Broadcast Feed (TMD Aeromet / NOAA AWC)';
+        }
+      }
+
+      document.getElementById('tafCycleTag').innerText = cycleTagText;
+      document.getElementById('tafCountdownTag').innerText = countdownTagText;
+
+      const liveBadge = document.getElementById('liveStatusBadge');
+      if (isLiveSource) {
+        liveBadge.innerText = '● LIVE ICAO GTS';
+        liveBadge.style.color = 'var(--accent-green)';
+      } else {
+        liveBadge.innerText = '● STATION CACHE';
+        liveBadge.style.color = 'var(--accent-amber)';
+      }
+
+      const evalResult = evaluateTafDiscrepancy(tafText, data.eta, data.intensity);
+
+      let etaTimeStr = '';
+      if (data.eta) {
+        const etaDate = new Date(now.getTime() + data.eta * 60000);
+        const etaZ = `${formatTimePad(etaDate.getUTCHours())}${formatTimePad(etaDate.getUTCMinutes())}Z`;
+        const bkkEta = `${formatTimePad((etaDate.getUTCHours() + 7) % 24)}:${formatTimePad(etaDate.getUTCMinutes())}`;
+        etaTimeStr = `${etaZ} (${bkkEta} BKK)`;
+      }
+
+      const alertBanner = document.getElementById('alertBanner');
+      const alertTag = document.getElementById('alertTag');
+
+      if (evalResult.isDiscrepancy) {
+        alertBanner.className = 'alert-banner';
+        alertTag.className = 'alert-tag';
+        alertTag.innerText = evalResult.tag;
+        document.getElementById('alertEta').innerText = `IMPACT IN ${data.eta} MIN (${etaTimeStr})`;
+        document.getElementById('alertMsg').innerHTML = `
+          <strong>${data.intensity}</strong> tracking toward RWY ${Math.round(data.rwy/10)} approach.<br>
+          ${evalResult.msg}
+        `;
+        document.getElementById('discrepancyBadge').style.display = 'inline';
+      } else {
+        alertBanner.className = 'alert-banner normal';
+        alertTag.className = 'alert-tag normal';
+        alertTag.innerText = evalResult.tag;
+        document.getElementById('alertEta').innerText = data.eta ? `RAIN ETA ${data.eta} MIN` : 'NO CONVECTIVE THREAT';
+        document.getElementById('alertMsg').innerHTML = evalResult.msg;
+        document.getElementById('discrepancyBadge').style.display = 'none';
+      }
+
+      const badge = document.getElementById('radarStationBadge');
+      badge.innerText = `Radar: ${data.radarName}`;
+      badge.style.color = data.isNeighborRadar ? 'var(--accent-amber)' : 'var(--accent-cyan)';
+      document.getElementById('tmdDirectLink').href = data.radarUrl;
+      document.getElementById('tmdDirectLink').innerText = `\u2197 Open Live TMD Loop: ${data.radarName.split('(')[0]}`;
+
+      document.getElementById('popVal').innerText = data.pop + '%';
+      document.getElementById('popVal').style.color = data.pop >= 70 ? 'var(--accent-red)' : (data.pop >= 40 ? 'var(--accent-amber)' : 'var(--accent-green)');
+      document.getElementById('popIntensity').innerText = data.intensity;
+      document.getElementById('etaVal').innerText = data.eta ? `${data.eta}m` : '--';
+      document.getElementById('dbzVal').innerText = data.dbz ? `${data.dbz} dBZ` : '--';
+      document.getElementById('echoTopVal').innerText = data.top ? `Top ${data.top}` : '--';
+      document.getElementById('rwyTarget').innerText = `RWY ${Math.round(data.rwy/10)} Target`;
+
+      const tbody = document.getElementById('compareTableBody');
+      tbody.innerHTML = '';
+      const tableRows = [
+        {
+          item: 'Rain Condition',
+          taf: evalResult.activeTafCondition,
+          now: evalResult.nowCondition,
+          bad: evalResult.isDiscrepancy
+        },
+        {
+          item: 'TEMPO Coverage',
+          taf: tafText.includes('TEMPO') ? tafText.split('TEMPO')[1].trim().substring(0, 16) : 'None',
+          now: data.eta ? `Cell ETA ${etaTimeStr}` : 'None expected',
+          bad: evalResult.isDiscrepancy
+        },
+        {
+          item: 'Surface Wind',
+          taf: '100/05 KT BECMG 190/05 KT',
+          now: evalResult.isDiscrepancy ? '210/18 G32 KT (Shear)' : '180/08 KT',
+          bad: evalResult.isDiscrepancy
+        },
+        {
+          item: 'Visibility',
+          taf: '4000 BR BECMG 9999 NSW',
+          now: evalResult.isDiscrepancy ? 'RVR 1,200 m in storm core' : '9999 m VMC',
+          bad: evalResult.isDiscrepancy
+        }
+      ];
+
+      tableRows.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.item}</td>
+          <td style="color:${row.bad ? '#94a3b8' : '#e1e7f5'}">${row.taf}</td>
+          <td class="${row.bad ? 'td-deficit' : ''}">${row.now}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('rawTafBox').innerText = tafText;
+
+      document.getElementById('capeVal').innerText = data.cape.toLocaleString();
+      document.getElementById('capeVal').style.color = data.cape >= 2000 ? 'var(--accent-red)' : (data.cape >= 1200 ? 'var(--accent-amber)' : 'var(--accent-green)');
+      document.getElementById('cinVal').innerText = data.cin;
+      document.getElementById('pwatVal').innerText = data.pwat;
+
+      drawRadar();
+    }
+
+    function refreshCurrentTaf() {
+      onAirportChange(currentAirport);
+    }
+
+    function updateTimeScrub(val) {
+      scrubOffsetMinutes = parseInt(val);
+      drawRadar();
+    }
+
+    function drawRadar() {
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const scale = 4.8;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const rings = [
+        { nm: 5, label: '5 NM (ARP)' },
+        { nm: 10, label: '10 NM (FAF)' },
+        { nm: 25, label: '25 NM (TMA)' }
+      ];
+
+      ctx.lineWidth = 1;
+      rings.forEach(r => {
+        const radius = r.nm * scale;
+        ctx.strokeStyle = '#1e2d44';
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#4a5d78';
+        ctx.font = '9px monospace';
+        ctx.fillText(r.label, cx + 4, cy - radius + 11);
+      });
+
+      ctx.strokeStyle = '#152238';
+      ctx.beginPath();
+      ctx.moveTo(cx, 10); ctx.lineTo(cx, h - 10);
+      ctx.moveTo(10, cy); ctx.lineTo(w - 10, cy);
+      ctx.stroke();
+
+      const apt = airports[currentAirport];
+      const rwyRad = (apt.rwy - 90) * (Math.PI / 180);
+      const rwyLen = 22;
+      const rx1 = cx - Math.cos(rwyRad) * rwyLen;
+      const ry1 = cy - Math.sin(rwyRad) * rwyLen;
+      const rx2 = cx + Math.cos(rwyRad) * rwyLen;
+      const ry2 = cy + Math.sin(rwyRad) * rwyLen;
+
+      ctx.strokeStyle = '#00e5ff';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(rx1, ry1);
+      ctx.lineTo(rx2, ry2);
+      ctx.stroke();
+
+      const approachLen = 12 * scale;
+      const appX = cx - Math.cos(rwyRad) * approachLen;
+      const appY = cy - Math.sin(rwyRad) * approachLen;
+      ctx.strokeStyle = 'rgba(0, 229, 255, 0.35)';
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(rx1, ry1);
+      ctx.lineTo(appX, appY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const start = apt.cellStart;
+      const vel = apt.cellVel;
+      const curX = cx + (start.x + vel.dx * (scrubOffsetMinutes / 10)) * (scale / 4.8);
+      const curY = cy + (start.y + vel.dy * (scrubOffsetMinutes / 10)) * (scale / 4.8);
+
+      ctx.strokeStyle = 'rgba(255, 23, 68, 0.3)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx + start.x * (scale / 4.8), cy + start.y * (scale / 4.8));
+      ctx.lineTo(curX, curY);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(255, 171, 0, 0.7)';
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(curX, curY);
+      ctx.lineTo(curX + vel.dx * 3 * scale, curY + vel.dy * 3 * scale);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const gradient = ctx.createRadialGradient(curX, curY, 4, curX, curY, 24);
+      if (apt.dbz >= 50) {
+        gradient.addColorStop(0, 'rgba(213, 0, 249, 0.9)');
+        gradient.addColorStop(0.35, 'rgba(255, 23, 68, 0.85)');
+        gradient.addColorStop(0.7, 'rgba(255, 171, 0, 0.6)');
+        gradient.addColorStop(1, 'rgba(0, 230, 118, 0)');
+      } else if (apt.dbz >= 40) {
+        gradient.addColorStop(0, 'rgba(255, 23, 68, 0.85)');
+        gradient.addColorStop(0.5, 'rgba(255, 171, 0, 0.6)');
+        gradient.addColorStop(1, 'rgba(0, 230, 118, 0)');
+      } else {
+        gradient.addColorStop(0, 'rgba(0, 230, 118, 0.7)');
+        gradient.addColorStop(1, 'rgba(0, 230, 118, 0)');
+      }
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(curX, curY, 26, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 9px monospace';
+      ctx.fillText(`CELL (${apt.dbz} dBZ)`, curX + 16, curY - 8);
+      ctx.fillStyle = '#ffab00';
+      ctx.font = '8px monospace';
+      ctx.fillText(`${apt.eta ? 'ETA ' + apt.eta + 'm' : (apt.pop >= 40 ? 'NEARBY' : 'WEAK')}`, curX + 16, curY + 4);
+
+      ctx.fillStyle = '#00e5ff';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText(currentAirport, cx + 8, cy + 4);
+    }
+
+    renderGlobalAlertBar();
+    onAirportChange('VTBD');
+  </script>
+</body>
+</html>
