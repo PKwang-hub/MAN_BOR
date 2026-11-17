@@ -108,6 +108,12 @@
       flex-direction: column;
       gap: 4px;
       box-shadow: 0 0 12px rgba(255, 23, 68, 0.25);
+      transition: all 0.3s ease;
+    }
+    .global-alert-ticker.normal {
+      background: #061a12;
+      border-color: #059669;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
     }
     .global-alert-header {
       display: flex;
@@ -124,6 +130,9 @@
       align-items: center;
       gap: 6px;
     }
+    .global-alert-ticker.normal .global-alert-title {
+      color: #34d399;
+    }
     .global-alert-count {
       background: var(--accent-red);
       color: #fff;
@@ -131,6 +140,12 @@
       font-weight: 800;
       padding: 1px 6px;
       border-radius: 10px;
+      border: 1px solid transparent;
+    }
+    .global-alert-ticker.normal .global-alert-count {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #6ee7b7;
     }
     .global-alert-list {
       display: flex;
@@ -674,9 +689,9 @@
   <div class="container">
 
     <!-- Top Global Unforecast Rain Alert Bar -->
-    <div class="global-alert-ticker" id="globalAlertTicker" style="display: none;">
+    <div class="global-alert-ticker" id="globalAlertTicker" style="display: flex;">
       <div class="global-alert-header">
-        <span class="global-alert-title">
+        <span class="global-alert-title" id="globalAlertTitle">
           <span>&#9888; UNFORECAST CONVECTIVE RAIN ALERT</span>
         </span>
         <span class="global-alert-count" id="discrepancyCount">0 AIRPORTS</span>
@@ -1626,6 +1641,14 @@
         badge.innerText = '● LIVE DOPPLER ACTIVE';
         badge.style.color = 'var(--accent-green)';
         statusText.innerText = 'Live mode active: Reflects real-time radar observations and official METAR truth. Clear sky displays 0 dBZ and no deficit.';
+        Object.keys(airports).forEach(k => {
+          airports[k].cellStart = null;
+          airports[k].cellVel = null;
+          airports[k].dbz = 0;
+          airports[k].top = 'None';
+          airports[k].eta = null;
+          airports[k].intensity = 'NSW Fair';
+        });
       } else {
         simStartTimestamp = Date.now();
         btnLive.className = 'op-btn';
@@ -1755,44 +1778,100 @@
       tickerList.innerHTML = '';
       let discrepancyCount = 0;
 
-      Object.keys(airports).forEach(icao => {
-        const apt = Object.assign({}, airports[icao]);
-        if (operationalMode === 'sim') {
+      const titleEl = document.getElementById('globalAlertTitle');
+      const tickerEl = document.getElementById('globalAlertTicker');
+      const countEl = document.getElementById('discrepancyCount');
+
+      if (operationalMode === 'sim') {
+        if (titleEl) {
+          titleEl.innerHTML = '<span>&#9888; [SIMULATOR TRAINING] UNFORECAST CONVECTIVE RAIN ALERT</span>';
+        }
+
+        Object.keys(simScenarios).forEach(icao => {
+          const apt = Object.assign({}, airports[icao]);
           const scState = getScenarioState(icao);
           if (scState && !scState.hasPassed) {
             Object.assign(apt, scState);
-          } else {
-            apt.cellStart = null;
-            apt.cellVel = null;
-            apt.dbz = 0;
-            apt.eta = null;
-            apt.intensity = 'NSW Fair';
+            const evalResult = evaluateTafDiscrepancy(apt, apt.actualTaf);
+            if (evalResult.isDiscrepancy) {
+              discrepancyCount++;
+              const chip = document.createElement('div');
+              chip.className = 'discrepancy-chip';
+              const etaText = apt.eta === 0 ? 'ACTIVE IMPACT' : `ETA ${apt.eta}m`;
+              chip.innerHTML = `<strong>${icao}</strong> (${apt.name.split(' ')[0]}): ${apt.intensity} ${etaText} [SIMULATED DEFICIT]`;
+              chip.onclick = () => {
+                document.getElementById('airportSelect').value = icao;
+                onAirportChange(icao);
+              };
+              tickerList.appendChild(chip);
+            }
           }
-        } else if (operationalMode === 'live') {
-          apt.cellStart = null;
-          apt.cellVel = null;
-          apt.dbz = 0;
-          apt.eta = null;
-          apt.intensity = 'NSW Fair';
+        });
+      } else if (operationalMode === 'live') {
+        if (titleEl) {
+          titleEl.innerHTML = '<span>&#9888; UNFORECAST CONVECTIVE RAIN ALERT</span>';
         }
 
-        const evalResult = evaluateTafDiscrepancy(apt, apt.actualTaf);
-        if (evalResult.isDiscrepancy) {
-          discrepancyCount++;
-          const chip = document.createElement('div');
-          chip.className = 'discrepancy-chip';
-          const etaText = apt.eta === 0 ? 'ACTIVE IMPACT' : `ETA ${apt.eta}m`;
-          chip.innerHTML = `<strong>${icao}</strong> (${apt.name.split(' ')[0]}): ${apt.intensity} ${etaText} [TAF DEFICIT]`;
-          chip.onclick = () => {
-            document.getElementById('airportSelect').value = icao;
-            onAirportChange(icao);
-          };
-          tickerList.appendChild(chip);
-        }
-      });
+        // Live mode: evaluate observed station precipitation against published TAF
+        Object.keys(airports).forEach(icao => {
+          const apt = airports[icao];
+          const rainRegex = /(?:TS|SHRA|TSRA|\+TSRA|-TSRA|VCTS|\+RA|\bRA\b|-RA|GR|SQ)/i;
+          const hasRain = apt.latestMetar ? rainRegex.test(apt.latestMetar) : (apt.eta === 0 && apt.intensity && rainRegex.test(apt.intensity));
 
-      document.getElementById('discrepancyCount').innerText = `${discrepancyCount} AIRPORTS`;
-      document.getElementById('globalAlertTicker').style.display = discrepancyCount > 0 ? 'flex' : 'none';
+          if (hasRain) {
+            const evalResult = evaluateTafDiscrepancy({
+              eta: 0,
+              dbz: 45,
+              cellStart: { x: 0, y: 0 },
+              cellVel: { dx: 0, dy: 0 },
+              intensity: apt.intensity || 'Observed Rain / TS'
+            }, apt.actualTaf);
+
+            if (evalResult.isDiscrepancy) {
+              discrepancyCount++;
+              const chip = document.createElement('div');
+              chip.className = 'discrepancy-chip';
+              chip.innerHTML = `<strong>${icao}</strong> (${apt.name.split(' ')[0]}): ${apt.intensity || 'Rain'} ACTIVE IMPACT [TAF DEFICIT]`;
+              chip.onclick = () => {
+                document.getElementById('airportSelect').value = icao;
+                onAirportChange(icao);
+              };
+              tickerList.appendChild(chip);
+            }
+          }
+        });
+      }
+
+      if (discrepancyCount > 0) {
+        countEl.innerText = `${discrepancyCount} AIRPORTS`;
+        countEl.style.background = 'var(--accent-red)';
+        countEl.style.color = '#fff';
+        countEl.style.borderColor = 'transparent';
+        tickerEl.className = 'global-alert-ticker';
+        tickerEl.style.display = 'flex';
+      } else {
+        countEl.innerText = '0 AIRPORTS';
+        countEl.style.background = 'rgba(0, 230, 118, 0.2)';
+        countEl.style.color = 'var(--accent-green)';
+        countEl.style.borderColor = 'var(--accent-green)';
+        if (titleEl) {
+          titleEl.innerHTML = operationalMode === 'sim'
+            ? '<span style="color:var(--text-dim); font-weight:700;">&#10003; [SIMULATOR] ALL CELLS PASSED (AWAITING NEXT CYCLE)</span>'
+            : '<span style="color:var(--accent-green); font-weight:700;">&#10003; ALL 26 AIRPORTS MONITORED | TAF COMPLIANT</span>';
+        }
+        const chip = document.createElement('div');
+        chip.className = 'discrepancy-chip';
+        chip.style.borderColor = 'rgba(0, 230, 118, 0.3)';
+        chip.style.background = 'rgba(0, 230, 118, 0.08)';
+        chip.style.color = '#a7f3d0';
+        chip.style.cursor = 'default';
+        chip.innerHTML = operationalMode === 'sim'
+          ? 'Simulation cycle completed. All storm cells cleared airfield.'
+          : 'All 26 aerodromes matching active TAF. No unforecast convective rain detected across network.';
+        tickerList.appendChild(chip);
+        tickerEl.className = 'global-alert-ticker normal';
+        tickerEl.style.display = 'flex';
+      }
     }
 
     async function onAirportChange(icao, forceRefresh = false) {
@@ -1893,9 +1972,12 @@
           const mJson = await mResp.json();
           if (mJson.history && mJson.history.length > 0) {
             stationMetar = mJson.history[0].raw || '';
+          } else if (mJson.observations && mJson.observations.length > 0) {
+            stationMetar = mJson.observations[0].raw_text || '';
           }
         }
       } catch (me) {}
+      data.latestMetar = stationMetar;
 
       // Apply operational mode state
       if (operationalMode === 'sim') {
@@ -1921,11 +2003,17 @@
       } else if (operationalMode === 'live') {
         const rainRegex = /(?:TS|SHRA|TSRA|\+TSRA|-TSRA|VCTS|\+RA|\bRA\b|-RA|GR|SQ)/i;
         const hasRainInMetar = stationMetar ? rainRegex.test(stationMetar) : false;
-        const hasRainInTaf = rainRegex.test(tafText);
 
-        if (!hasRainInMetar && !hasRainInTaf) {
-          data.cellStart = null;
-          data.cellVel = null;
+        data.cellStart = null;
+        data.cellVel = null;
+
+        if (hasRainInMetar) {
+          data.dbz = 45;
+          data.top = 'FL350';
+          data.eta = 0;
+          data.intensity = 'Observed Rain / TS (METAR)';
+          data.pop = 95;
+        } else {
           data.dbz = 0;
           data.top = 'None';
           data.eta = null;
@@ -2059,6 +2147,7 @@
       document.getElementById('pwatVal').innerText = data.pwat;
 
       drawRadar();
+      renderGlobalAlertBar();
     }
 
     function refreshCurrentTaf() {
@@ -2202,6 +2291,18 @@
         ctx.fillStyle = '#ffab00';
         ctx.font = '8px monospace';
         ctx.fillText(`${apt.eta !== null ? (apt.eta === 0 ? 'ACTIVE IMPACT' : 'ETA ' + apt.eta + 'm') : (apt.pop >= 40 ? 'NEARBY' : 'WEAK')}`, curX + 16, curY + 4);
+      } else if (operationalMode === 'live' && apt.eta === 0) {
+        ctx.fillStyle = 'rgba(255, 23, 68, 0.9)';
+        ctx.font = 'bold 11px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('ACTIVE ONSITE PRECIPITATION', cx, cy - 35);
+        ctx.fillStyle = '#ffab00';
+        ctx.font = '9px monospace';
+        ctx.fillText('Surface Rain / TS observed at station (METAR)', cx, cy - 20);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '8px monospace';
+        ctx.fillText('View Windy / TMD loops for regional radar composite', cx, cy - 6);
+        ctx.textAlign = 'left';
       } else {
         ctx.fillStyle = 'rgba(0, 230, 118, 0.9)';
         ctx.font = 'bold 11px monospace';
