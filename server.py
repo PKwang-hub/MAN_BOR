@@ -446,8 +446,20 @@ def wsgi_app(environ, start_response):
     raw_path = environ.get("PATH_INFO", "/")
     clean_path = raw_path.split("?")[0]
 
-    if clean_path.startswith("/api/taf/"):
-        icao = clean_path.split("/")[-1].upper()
+    if clean_path.startswith("/api/taf"):
+        query = environ.get("QUERY_STRING", "")
+        if not query and "?" in raw_path:
+            query = raw_path.split("?", 1)[1]
+        qs = urllib.parse.parse_qs(query)
+        icao = qs.get("icao", [""])[0].upper()
+        if not icao:
+            parts = [p for p in clean_path.split("/") if p]
+            if len(parts) >= 3:
+                icao = parts[2].upper()
+            elif len(parts) == 2 and parts[1].upper() != "TAF":
+                icao = parts[1].upper()
+        if not icao or len(icao) != 4:
+            icao = "VTBD"
         data = json.dumps(fetch_live_taf(icao), indent=2).encode("utf-8")
         start_response("200 OK", [
             ("Content-Type", "application/json"),
@@ -506,7 +518,7 @@ def wsgi_app(environ, start_response):
 
 app = wsgi_app
 application = wsgi_app
-handler = AeroCastHandler
+handler = wsgi_app
 
 def get_local_ip():
     try:

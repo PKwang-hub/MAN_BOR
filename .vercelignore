@@ -1,3 +1,5 @@
-server.py
 Procfile
 render.yaml
+__pycache__/
+*.pyc
+.pytest_cache/
