@@ -191,6 +191,85 @@
       background-position: right 14px center;
       background-size: 12px;
     }
+    /* Operational Mode Switcher */
+    .operational-mode-card {
+      background: #0d1424;
+      border: 1px solid #1e2d44;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .op-mode-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .op-mode-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+    .op-mode-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .op-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #152238;
+      border: 1px solid #1e2d44;
+      color: #94a3b8;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .op-btn:hover {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+    .op-btn.active {
+      background: rgba(0, 230, 118, 0.15);
+      border-color: var(--accent-green);
+      color: #00e676;
+    }
+    .op-btn.sim-active {
+      background: rgba(255, 23, 68, 0.18);
+      border-color: var(--accent-red);
+      color: #ff1744;
+    }
+    .live-pulse-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #00e676;
+      box-shadow: 0 0 6px #00e676;
+      animation: pulse 1.8s infinite;
+    }
+    .sim-pulse-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff1744;
+      box-shadow: 0 0 6px #ff1744;
+    }
+    .op-status-text {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
     /* Local Alert Card */
     .alert-banner {
       background: linear-gradient(135deg, rgba(255, 23, 68, 0.2) 0%, rgba(213, 0, 249, 0.1) 100%);
@@ -606,14 +685,33 @@
       </select>
     </div>
 
+    <!-- Operational Radar Mode Switcher -->
+    <div class="operational-mode-card">
+      <div class="op-mode-header">
+        <span class="op-mode-title">Operational Radar Mode</span>
+        <span id="opModeBadge" style="font-size:0.7rem; font-weight:700; color:var(--accent-green);">● LIVE DOPPLER ACTIVE</span>
+      </div>
+      <div class="op-mode-group">
+        <button id="btnOpLive" class="op-btn active" onclick="setOperationalMode('live')">
+          <span class="live-pulse-dot"></span> Live Real-Time Radar
+        </button>
+        <button id="btnOpSim" class="op-btn" onclick="setOperationalMode('sim')">
+          <span class="sim-pulse-dot"></span> Convective Simulation
+        </button>
+      </div>
+      <div class="op-status-text" id="opStatusText">
+        Live mode active: Reflects real-time radar observations and official METAR truth. Clear sky displays 0 dBZ and no deficit.
+      </div>
+    </div>
+
     <!-- Active Local Discrepancy Banner -->
-    <div class="alert-banner" id="alertBanner">
+    <div class="alert-banner normal" id="alertBanner">
       <div class="alert-top">
-        <span class="alert-tag" id="alertTag">CRITICAL TAF DEFICIT</span>
-        <span class="alert-eta" id="alertEta">IMPACT IN 28 MIN</span>
+        <span class="alert-tag normal" id="alertTag">NORMAL WX</span>
+        <span class="alert-eta" id="alertEta">NO CONVECTIVE THREAT</span>
       </div>
       <div class="alert-msg" id="alertMsg">
-        <!-- Dynamic alert description -->
+        Evaluating real-time Doppler radar and station METAR observations...
       </div>
     </div>
 
@@ -690,18 +788,18 @@
     <div class="stat-grid">
       <div class="stat-card">
         <span class="stat-label">Rain Prob (PoP)</span>
-        <span class="stat-val" id="popVal" style="color:var(--accent-red)">94%</span>
-        <span class="stat-sub" id="popIntensity">+TSRA Severe</span>
+        <span class="stat-val" id="popVal" style="color:var(--accent-green)">10%</span>
+        <span class="stat-sub" id="popIntensity">NSW Fair</span>
       </div>
       <div class="stat-card">
         <span class="stat-label">Time to Impact</span>
-        <span class="stat-val" id="etaVal" style="color:var(--accent-amber)">28m</span>
-        <span class="stat-sub" id="rwyTarget">RWY 21L Approach</span>
+        <span class="stat-val" id="etaVal" style="color:var(--text-dim)">--</span>
+        <span class="stat-sub" id="rwyTarget">Approach Clear</span>
       </div>
       <div class="stat-card">
         <span class="stat-label">Max Core Refl</span>
-        <span class="stat-val" id="dbzVal" style="color:var(--accent-magenta)">52 dBZ</span>
-        <span class="stat-sub" id="echoTopVal">Top FL420</span>
+        <span class="stat-val" id="dbzVal" style="color:var(--accent-green)">0 dBZ</span>
+        <span class="stat-sub" id="echoTopVal">Top None</span>
       </div>
     </div>
 
@@ -709,7 +807,7 @@
     <div class="section-card">
       <div class="section-title">
         <span>TAF vs Tactical Reality Check</span>
-        <span id="discrepancyBadge" style="color:var(--accent-red); font-size:0.7rem;">DISCREPANCY ALERT</span>
+        <span id="discrepancyBadge" style="display:none; color:var(--accent-red); font-size:0.7rem;">DISCREPANCY ALERT</span>
       </div>
 
       <!-- TAF Issuance Cycle Schedule Bar -->
@@ -818,6 +916,28 @@
     const ctx = canvas.getContext('2d');
     let scrubOffsetMinutes = 0;
 
+    // Convective Scenario Simulator database (used for pilot training & TAF deficit demonstrations)
+    const simScenarios = {
+      'VTBD': {
+        cellStart: { x: -35, y: 55 },
+        cellVel: { dx: 1.1, dy: -2.0 },
+        dbz: 52, top: 'FL420', eta: 28, pop: 94,
+        intensity: '+TSRA Severe'
+      },
+      'VTBS': {
+        cellStart: { x: -60, y: 30 },
+        cellVel: { dx: 1.5, dy: -0.8 },
+        dbz: 42, top: 'FL380', eta: 45, pop: 78,
+        intensity: 'TSRA Moderate'
+      },
+      'VTUD': {
+        cellStart: { x: -45, y: 35 },
+        cellVel: { dx: 1.2, dy: -0.9 },
+        dbz: 48, top: 'FL410', eta: 32, pop: 90,
+        intensity: '+TSRA Severe'
+      }
+    };
+
     // Actual Real-World Published TAF database aligned with TMD 2300Z, 0500Z, 1100Z, 1700Z cycles
     // 26 Thai Airport Stations with Lat, Lon, and TMD Radar Quality Status
     const airports = {
@@ -829,10 +949,10 @@
         radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -35, y: 55 },
-        cellVel: { dx: 1.1, dy: -2.0 },
-        dbz: 52, top: 'FL420', eta: 28, pop: 94,
-        intensity: '+TSRA Severe',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 2450, cin: 8, pwat: 58,
         actualTaf: 'TAF VTBD 162300Z 1700/1806 10005KT 4000 BR FEW020 BECMG 1700/1702 9999 NSW BECMG 1705/1707 19005KT TEMPO 1708/1712 -TSRA FEW018CB SCT020 BKN080'
       },
@@ -844,10 +964,10 @@
         radarUrl: 'https://weather.tmd.go.th/svp/svpHQloop.gif',
         isNeighborRadar: false,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -60, y: 30 },
-        cellVel: { dx: 1.5, dy: -0.8 },
-        dbz: 42, top: 'FL380', eta: 45, pop: 78,
-        intensity: 'TSRA Moderate',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 10,
+        intensity: 'NSW Fair',
         cape: 2100, cin: 12, pwat: 54,
         actualTaf: 'TAF VTBS 162300Z 1700/1806 09006KT 5000 BR SCT020 BECMG 1701/1703 9999 NSW TEMPO 1708/1712 4000 TSRA FEW018CB BKN020'
       },
@@ -964,10 +1084,10 @@
         radarUrl: 'https://weather.tmd.go.th/skn/sknLoop.gif',
         isNeighborRadar: true,
         tmdFreshness: { isFresh: true, source: 'TMD C-Band Active' },
-        cellStart: { x: -45, y: 35 },
-        cellVel: { dx: 1.2, dy: -0.9 },
-        dbz: 48, top: 'FL410', eta: 32, pop: 90,
-        intensity: '+TSRA Severe',
+        cellStart: null,
+        cellVel: null,
+        dbz: 0, top: 'None', eta: null, pop: 15,
+        intensity: 'NSW Fair',
         cape: 2550, cin: 5, pwat: 60,
         actualTaf: 'TAF VTUD 162300Z 1700/1724 07008KT 9999 FEW025 BKN090'
       },
@@ -1253,6 +1373,31 @@
 
     let currentAirport = 'VTBD';
     let currentRadarDisplayMode = 'tactical';
+    let operationalMode = 'live';
+
+    function setOperationalMode(mode) {
+      operationalMode = mode;
+      const btnLive = document.getElementById('btnOpLive');
+      const btnSim = document.getElementById('btnOpSim');
+      const badge = document.getElementById('opModeBadge');
+      const statusText = document.getElementById('opStatusText');
+
+      if (mode === 'live') {
+        btnLive.className = 'op-btn active';
+        btnSim.className = 'op-btn';
+        badge.innerText = '● LIVE DOPPLER ACTIVE';
+        badge.style.color = 'var(--accent-green)';
+        statusText.innerText = 'Live mode active: Reflects real-time radar observations and official METAR truth. Clear sky displays 0 dBZ and no deficit.';
+      } else {
+        btnLive.className = 'op-btn';
+        btnSim.className = 'op-btn sim-active';
+        badge.innerText = '● CONVECTIVE SIMULATOR ACTIVE';
+        badge.style.color = 'var(--accent-red)';
+        statusText.innerText = 'Simulator active: Demonstrating unforecast 52 dBZ severe convective cell intercepting approach for TAF deficit training.';
+      }
+      onAirportChange(currentAirport);
+      renderGlobalAlertBar();
+    }
 
     function setRadarDisplayMode(mode) {
       currentRadarDisplayMode = mode;
@@ -1297,6 +1442,19 @@
 
       const cellEtaMinutes = apt.eta;
       const rainIntensity = apt.intensity;
+      const isBaseNsw = tafText.includes('NSW');
+
+      // Clear approach gate: no cell, 0 dBZ, or no ETA
+      if (!apt.cellStart || !apt.dbz || apt.dbz === 0 || cellEtaMinutes === null) {
+        return {
+          isDiscrepancy: false,
+          tag: 'NORMAL WX',
+          activeTafCondition: isBaseNsw ? 'NSW (No rain now)' : 'VMC',
+          nowCondition: apt.intensity || 'NSW Fair',
+          msg: 'Approach clear (0 dBZ). No unforecast convective storm cells detected on Doppler composite.'
+        };
+      }
+
       const now = new Date();
       const curHour = now.getUTCHours();
       const curMinute = now.getUTCMinutes();
@@ -1314,8 +1472,6 @@
         tempoEndHour = parseInt(tempoMatch[4]);
         tempoCondition = tempoMatch[5].trim().split(' ')[0];
       }
-
-      const isBaseNsw = tafText.includes('NSW');
 
       if (cellEtaMinutes !== null && cellEtaMinutes <= 60) {
         if (hasTempo && arrivalHour >= tempoStartHour && arrivalHour < tempoEndHour) {
@@ -1353,7 +1509,17 @@
       let discrepancyCount = 0;
 
       Object.keys(airports).forEach(icao => {
-        const apt = airports[icao];
+        const apt = Object.assign({}, airports[icao]);
+        if (operationalMode === 'sim' && simScenarios[icao]) {
+          Object.assign(apt, simScenarios[icao]);
+        } else if (operationalMode === 'live') {
+          apt.cellStart = null;
+          apt.cellVel = null;
+          apt.dbz = 0;
+          apt.eta = null;
+          apt.intensity = 'NSW Fair';
+        }
+
         const evalResult = evaluateTafDiscrepancy(apt, apt.actualTaf);
         if (evalResult.isDiscrepancy) {
           discrepancyCount++;
@@ -1459,6 +1625,44 @@
         activeSourceBadge.style.borderColor = 'rgba(0, 229, 255, 0.3)';
 
         setRadarDisplayMode('tactical');
+      }
+
+      // Fetch latest ground-truth METAR for live observation cross-check
+      let stationMetar = '';
+      try {
+        const mResp = await fetch(`/api/metar_history?icao=${icao}&t=${Date.now()}`);
+        if (mResp.ok) {
+          const mJson = await mResp.json();
+          if (mJson.history && mJson.history.length > 0) {
+            stationMetar = mJson.history[0].raw || '';
+          }
+        }
+      } catch (me) {}
+
+      // Apply operational mode state
+      if (operationalMode === 'sim' && simScenarios[icao]) {
+        const sc = simScenarios[icao];
+        data.cellStart = Object.assign({}, sc.cellStart);
+        data.cellVel = Object.assign({}, sc.cellVel);
+        data.dbz = sc.dbz;
+        data.top = sc.top;
+        data.eta = sc.eta;
+        data.pop = sc.pop;
+        data.intensity = sc.intensity;
+      } else if (operationalMode === 'live') {
+        const rainRegex = /(?:TS|SHRA|TSRA|\+TSRA|-TSRA|VCTS|\+RA|\bRA\b|-RA|GR|SQ)/i;
+        const hasRainInMetar = stationMetar ? rainRegex.test(stationMetar) : false;
+        const hasRainInTaf = rainRegex.test(tafText);
+
+        if (!hasRainInMetar && !hasRainInTaf) {
+          data.cellStart = null;
+          data.cellVel = null;
+          data.dbz = 0;
+          data.top = 'None';
+          data.eta = null;
+          data.pop = 10;
+          data.intensity = 'NSW Fair';
+        }
       }
 
       const evalResult = evaluateTafDiscrepancy(data, tafText);
@@ -1728,6 +1932,15 @@
         ctx.fillStyle = '#ffab00';
         ctx.font = '8px monospace';
         ctx.fillText(`${apt.eta ? 'ETA ' + apt.eta + 'm' : (apt.pop >= 40 ? 'NEARBY' : 'WEAK')}`, curX + 16, curY + 4);
+      } else {
+        ctx.fillStyle = 'rgba(0, 230, 118, 0.9)';
+        ctx.font = 'bold 11px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('APPROACH CLEAR - 0 dBZ', cx, cy - 35);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '9px monospace';
+        ctx.fillText('No convective storm cells within 25 NM', cx, cy - 20);
+        ctx.textAlign = 'left';
       }
 
       ctx.fillStyle = '#00e5ff';
