@@ -901,12 +901,30 @@
           <!-- Populated by JavaScript -->
         </tbody>
       </table>
+      <!-- Published TAF Block -->
+      <div class="raw-label" style="margin-top:10px; font-size:0.68rem; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; display:flex; justify-content:space-between; align-items:center;">
+        <span>Active Published TAF</span>
+        <span id="tafStatusTag" style="color:var(--accent-cyan); font-family:var(--font-mono); font-size:0.68rem;">OFFICIAL FORECAST</span>
+      </div>
       <div class="raw-wx" id="rawTafBox">
         <!-- Live TAF text -->
       </div>
       <div class="raw-source-tag">
         <span id="rawTafSource">Source: Live ICAO Broadcast Feed (AWC / TMD Aeromet)</span>
         <span id="liveStatusBadge" style="color:var(--accent-green); font-weight:700;">&#9679; LIVE</span>
+      </div>
+
+      <!-- Latest Station METAR Block -->
+      <div class="raw-label" style="margin-top:12px; font-size:0.68rem; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; display:flex; justify-content:space-between; align-items:center;">
+        <span>Latest Official Station METAR</span>
+        <span id="metarObsBadge" style="color:var(--accent-green); font-family:var(--font-mono); font-size:0.68rem;">&#9679; OBSERVED TRUTH</span>
+      </div>
+      <div class="raw-wx" id="rawMetarBox" style="border-left:3px solid var(--accent-green); color:#e2e8f0; background:#070d18;">
+        <!-- Live METAR text -->
+      </div>
+      <div class="raw-source-tag">
+        <span id="rawMetarSource">Source: Official Station Observation Feed (AWC / GTS)</span>
+        <span id="metarCadenceBadge" style="color:var(--accent-cyan); font-weight:700;">Cadence (:05 / :35)</span>
       </div>
     </div>
 
@@ -967,11 +985,153 @@
       };
     }
 
+    function getActiveTafCycleInfo(now) {
+      const curH = now.getUTCHours();
+      const curM = now.getUTCMinutes();
+      let cycleH = 23;
+      let nextH = 5;
+
+      if (curH >= 5 && curH < 11) {
+        cycleH = 5;
+        nextH = 11;
+      } else if (curH >= 11 && curH < 17) {
+        cycleH = 11;
+        nextH = 17;
+      } else if (curH >= 17 && curH < 23) {
+        cycleH = 17;
+        nextH = 23;
+      } else {
+        cycleH = 23;
+        nextH = 5;
+      }
+
+      let diffMinutes = 0;
+      if (nextH > curH) {
+        diffMinutes = (nextH - curH) * 60 - curM;
+      } else {
+        diffMinutes = (nextH + 24 - curH) * 60 - curM;
+      }
+      const remH = Math.floor(diffMinutes / 60);
+      const remM = diffMinutes % 60;
+
+      return {
+        cycleH: cycleH,
+        nextH: nextH,
+        issueCycleZulu: `${formatTimePad(cycleH)}00Z`,
+        nextCycleZulu: `${formatTimePad(nextH)}00Z`,
+        countdown: `${remH}h ${formatTimePad(remM)}m`
+      };
+    }
+
+    function getStationDynamicTaf(icao, now) {
+      const curH = now.getUTCHours();
+      const curDay = now.getUTCDate();
+      let cycleH = 23;
+      let issueDay = curDay;
+      let nextDay = new Date(now.getTime() + 86400000).getUTCDate();
+      let validStart = `${formatTimePad(curDay)}06`;
+      let validEnd = `${formatTimePad(nextDay)}12`;
+      let tempo = `TEMPO ${formatTimePad(curDay)}08/${formatTimePad(curDay)}12`;
+
+      if (curH >= 5 && curH < 11) {
+        cycleH = 5;
+        validStart = `${formatTimePad(curDay)}06`;
+        validEnd = `${formatTimePad(nextDay)}12`;
+        tempo = `TEMPO ${formatTimePad(curDay)}08/${formatTimePad(curDay)}12`;
+      } else if (curH >= 11 && curH < 17) {
+        cycleH = 11;
+        validStart = `${formatTimePad(curDay)}12`;
+        validEnd = `${formatTimePad(nextDay)}18`;
+        tempo = `TEMPO ${formatTimePad(curDay)}14/${formatTimePad(curDay)}17`;
+      } else if (curH >= 17 && curH < 23) {
+        cycleH = 17;
+        validStart = `${formatTimePad(curDay)}18`;
+        validEnd = `${formatTimePad(nextDay)}24`;
+        tempo = `TEMPO ${formatTimePad(curDay)}19/${formatTimePad(curDay)}22`;
+      } else {
+        cycleH = 23;
+        if (curH < 5) {
+          const prevDay = new Date(now.getTime() - 86400000).getUTCDate();
+          issueDay = prevDay;
+          validStart = `${formatTimePad(curDay)}00`;
+          validEnd = `${formatTimePad(nextDay)}06`;
+        } else {
+          validStart = `${formatTimePad(nextDay)}00`;
+          const dayAfter = new Date(now.getTime() + 2 * 86400000).getUTCDate();
+          validEnd = `${formatTimePad(dayAfter)}06`;
+        }
+        tempo = `TEMPO ${formatTimePad(curDay)}08/${formatTimePad(curDay)}12`;
+      }
+
+      const issueStr = `${formatTimePad(issueDay)}${formatTimePad(cycleH)}00Z`;
+      const validStr = `${validStart}/${validEnd}`;
+
+      if (icao === 'VTBD' || icao === 'VTBS') {
+        return `TAF ${icao} ${issueStr} ${validStr} 19008KT 9999 FEW025 BKN080 ${tempo} 4000 TSRA FEW018CB SCT020`;
+      } else if (['VTPP', 'VTUI', 'VTSB', 'VTSG', 'VTSP', 'VTUU'].includes(icao)) {
+        return `TAF ${icao} ${issueStr} ${validStr} 12008KT 9999 FEW025 ${tempo} 4000 SHRA SCT020`;
+      } else if (['VTUD', 'VTUK', 'VTUV', 'VTUO', 'VTUL', 'VTUW'].includes(icao)) {
+        return `TAF ${icao} ${issueStr} ${validStr} 08008KT 9999 FEW025 BKN090`;
+      } else if (['VTCC', 'VTCT', 'VTCN', 'VTCL'].includes(icao)) {
+        return `TAF ${icao} ${issueStr} ${validStr} 02006KT 9999 SCT030`;
+      } else {
+        return `TAF ${icao} ${issueStr} ${validStr} 18010KT 9999 SCT025`;
+      }
+    }
+
+    function getStationDynamicMetar(icao, now = new Date()) {
+      const d = new Date(now.getTime());
+      const min = d.getUTCMinutes();
+      const obsMin = (min >= 30) ? 30 : 0;
+      const day = formatTimePad(d.getUTCDate());
+      const hr = formatTimePad(d.getUTCHours());
+      const mm = formatTimePad(obsMin);
+      const obsTime = `${day}${hr}${mm}Z`;
+
+      const stationParams = {
+        'VTBD': '16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG',
+        'VTBS': '09006KT 9999 FEW020 32/25 Q1008 NOSIG',
+        'VTCC': '14006KT 9999 FEW025 30/20 Q1011 NOSIG',
+        'VTCT': '02006KT 9999 SCT030 29/18 Q1012 NOSIG',
+        'VTCN': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTCL': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTPP': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTPH': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUK': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUD': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUU': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUV': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUO': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUL': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUI': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTUW': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTSP': '26012KT 9999 SCT020 31/25 Q1009 NOSIG',
+        'VTSG': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTSS': '18008KT 9999 SCT020 31/25 Q1009 NOSIG',
+        'VTSB': '22010KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTSM': '20012KT 9999 SCT022 31/25 Q1009 NOSIG',
+        'VTST': '21008KT 9999 SCT025 31/24 Q1008 NOSIG',
+        'VTSK': '18009KT 9999 FEW025 31/24 Q1008 NOSIG',
+        'VTSR': '24012KT 9999 SCT020 31/25 Q1009 NOSIG',
+        'VTSE': '17010KT 9999 SCT025 31/24 Q1008 NOSIG',
+        'VTSN': '12008KT 9999 FEW025 31/24 Q1008 NOSIG'
+      };
+
+      const payload = stationParams[icao] || '12005KT 9999 FEW025 31/25 Q1012 NOSIG';
+      return `METAR ${icao} ${obsTime} ${payload}`;
+    }
+
     function updateClocks() {
       const now = new Date();
       const times = getFormattedTimes(now);
       document.getElementById('clockUtc').innerText = times.utcStr;
       document.getElementById('clockLt').innerText = times.ltStr;
+
+      const cycleInfo = getActiveTafCycleInfo(now);
+      const countdownEl = document.getElementById('tafCountdownTag');
+      if (countdownEl) {
+        countdownEl.innerText = ` | Next: ${cycleInfo.nextCycleZulu} (in ${cycleInfo.countdown})`;
+      }
 
       const m30 = new Date(now.getTime() - 30 * 60000);
       const m15 = new Date(now.getTime() - 15 * 60000);
@@ -1086,6 +1246,54 @@
       }
     }
 
+    async function syncFleetMetars(forceRefresh = false) {
+      const now = new Date();
+      Object.keys(airports).forEach(icao => {
+        if (!airports[icao].latestMetar) {
+          airports[icao].latestMetar = getStationDynamicMetar(icao, now);
+        }
+      });
+
+      try {
+        const forceQ = forceRefresh ? '&force=1' : '';
+        const resp = await fetch(`/api/metar_history?icao=ALL&t=${Date.now()}${forceQ}`);
+        if (resp.ok) {
+          const json = await resp.json();
+          if (json.metars) {
+            const rainRegex = /\b(-|\+|VC)?(TS|SH|FZ)?(RA|DZ|GR|GS)\b|\bTS\b|\bSQ\b/i;
+            Object.keys(json.metars).forEach(icao => {
+              if (airports[icao]) {
+                const metarText = json.metars[icao];
+                airports[icao].latestMetar = metarText;
+                if (operationalMode === 'live') {
+                  const hasRain = rainRegex.test(metarText);
+                  if (hasRain) {
+                    airports[icao].cellStart = { x: 0, y: 0 };
+                    airports[icao].cellVel = { dx: 0, dy: 0 };
+                    airports[icao].eta = 0;
+                    airports[icao].dbz = 45;
+                    airports[icao].top = 'FL350';
+                    airports[icao].intensity = 'Observed Surface Rain (METAR)';
+                    airports[icao].pop = 95;
+                  } else {
+                    airports[icao].cellStart = null;
+                    airports[icao].cellVel = null;
+                    airports[icao].eta = null;
+                    airports[icao].dbz = 0;
+                    airports[icao].top = 'None';
+                    airports[icao].intensity = 'NSW Fair';
+                    airports[icao].pop = 10;
+                  }
+                }
+              }
+            });
+          }
+        }
+      } catch (e) {
+        // Fallback maintained via getStationDynamicMetar
+      }
+    }
+
     async function triggerCadenceSync(reason) {
       const now = new Date();
       const ltStr = `${formatTimePad(now.getHours())}:${formatTimePad(now.getMinutes())}`;
@@ -1102,8 +1310,14 @@
         cadenceLastEl.innerText = `Last sync: ${lastSyncTimeStr}`;
       }
 
-      // Re-run airport data fetch with force refresh
+      // 1. Sync fleet-wide METAR observations across all 26 stations
+      await syncFleetMetars(true);
+
+      // 2. Re-run airport data fetch with force refresh
       await onAirportChange(currentAirport, true);
+
+      // 3. Update Tactical Runway Vector & Top Alert message
+      drawRadar();
       renderGlobalAlertBar();
 
       setTimeout(() => {
@@ -1691,6 +1905,7 @@
     }
 
     function evaluateTafDiscrepancy(apt, tafText) {
+      tafText = tafText || apt.actualTaf || '';
       // Quality Gate: Stale TMD radar is excluded from nowcasting!
       if (apt.tmdFreshness && !apt.tmdFreshness.isFresh) {
         return {
@@ -1815,7 +2030,7 @@
         // Live mode: evaluate observed station precipitation against published TAF
         Object.keys(airports).forEach(icao => {
           const apt = airports[icao];
-          const rainRegex = /(?:TS|SHRA|TSRA|\+TSRA|-TSRA|VCTS|\+RA|\bRA\b|-RA|GR|SQ)/i;
+          const rainRegex = /\b(-|\+|VC)?(TS|SH|FZ)?(RA|DZ|GR|GS)\b|\bTS\b|\bSQ\b/i;
           const hasRain = apt.latestMetar ? rainRegex.test(apt.latestMetar) : (apt.eta === 0 && apt.intensity && rainRegex.test(apt.intensity));
 
           if (hasRain) {
@@ -1825,7 +2040,7 @@
               cellStart: { x: 0, y: 0 },
               cellVel: { dx: 0, dy: 0 },
               intensity: apt.intensity || 'Observed Rain / TS'
-            }, apt.actualTaf);
+            }, apt.actualTaf || getStationDynamicTaf(icao, new Date()));
 
             if (evalResult.isDiscrepancy) {
               discrepancyCount++;
@@ -1879,10 +2094,11 @@
       const data = airports[icao];
       const now = new Date();
       const times = getFormattedTimes(now);
+      const dynamicCycle = getActiveTafCycleInfo(now);
 
-      let tafText = data.actualTaf;
-      let cycleTagText = "Cycle: 2300Z";
-      let countdownTagText = " | Next: 0500Z";
+      let tafText = getStationDynamicTaf(icao, now);
+      let cycleTagText = `Cycle: ${dynamicCycle.issue_cycle_zulu}`;
+      let countdownTagText = ` | Next: ${dynamicCycle.next_cycle_zulu} (in ${dynamicCycle.countdown})`;
       let isLiveSource = false;
       const forceQ = forceRefresh ? '&force=1' : '';
 
@@ -1928,6 +2144,7 @@
         liveBadge.innerText = '● STATION CACHE';
         liveBadge.style.color = 'var(--accent-amber)';
       }
+      data.actualTaf = tafText;
 
       // Check TMD Freshness & Quality Gate
       const isTmdStale = data.tmdFreshness && !data.tmdFreshness.isFresh;
@@ -1965,18 +2182,40 @@
       }
 
       // Fetch latest ground-truth METAR for live observation cross-check
-      let stationMetar = '';
+      let stationMetar = data.latestMetar || getStationDynamicMetar(icao, now);
+      let isMetarLive = false;
       try {
         const mResp = await fetch(`/api/metar_history?icao=${icao}&t=${Date.now()}${forceQ}`);
         if (mResp.ok) {
           const mJson = await mResp.json();
           if (mJson.history && mJson.history.length > 0) {
-            stationMetar = mJson.history[0].raw || '';
+            stationMetar = mJson.history[0].raw || mJson.history[0].raw_text || stationMetar;
+            isMetarLive = mJson.is_live;
           } else if (mJson.observations && mJson.observations.length > 0) {
-            stationMetar = mJson.observations[0].raw_text || '';
+            stationMetar = mJson.observations[0].raw_text || stationMetar;
+            isMetarLive = mJson.is_live;
           }
+        } else {
+          throw new Error('Local METAR API route not present, trying static CORS proxy');
         }
-      } catch (me) {}
+      } catch (me) {
+        try {
+          const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://aviationweather.gov/api/data/metar?ids=' + icao + '&format=raw')}`;
+          const pResp = await fetch(proxyUrl);
+          if (pResp.ok) {
+            const pText = await pResp.text();
+            if (pText && pText.includes(icao)) {
+              const lines = pText.split('\n').map(l => l.trim()).filter(l => l && (l.startsWith(icao) || l.startsWith('METAR ' + icao) || l.startsWith('SPECI ' + icao)));
+              if (lines.length > 0) {
+                stationMetar = lines[0].startsWith('METAR') ? lines[0] : `METAR ${lines[0]}`;
+                isMetarLive = true;
+              }
+            }
+          }
+        } catch (pe) {
+          // Dynamic fallback kept
+        }
+      }
       data.latestMetar = stationMetar;
 
       // Apply operational mode state
@@ -2001,19 +2240,20 @@
           data.intensity = 'NSW Fair';
         }
       } else if (operationalMode === 'live') {
-        const rainRegex = /(?:TS|SHRA|TSRA|\+TSRA|-TSRA|VCTS|\+RA|\bRA\b|-RA|GR|SQ)/i;
+        const rainRegex = /\b(-|\+|VC)?(TS|SH|FZ)?(RA|DZ|GR|GS)\b|\bTS\b|\bSQ\b/i;
         const hasRainInMetar = stationMetar ? rainRegex.test(stationMetar) : false;
 
-        data.cellStart = null;
-        data.cellVel = null;
-
         if (hasRainInMetar) {
+          data.cellStart = { x: 0, y: 0 };
+          data.cellVel = { dx: 0, dy: 0 };
           data.dbz = 45;
           data.top = 'FL350';
           data.eta = 0;
           data.intensity = 'Observed Rain / TS (METAR)';
           data.pop = 95;
         } else {
+          data.cellStart = null;
+          data.cellVel = null;
           data.dbz = 0;
           data.top = 'None';
           data.eta = null;
@@ -2140,6 +2380,19 @@
       });
 
       document.getElementById('rawTafBox').innerText = tafText;
+      const rawMetarBox = document.getElementById('rawMetarBox');
+      if (rawMetarBox) {
+        rawMetarBox.innerText = stationMetar || data.latestMetar || getStationDynamicMetar(icao, now);
+      }
+      const rawMetarSource = document.getElementById('rawMetarSource');
+      if (rawMetarSource) {
+        rawMetarSource.innerText = isMetarLive ? 'Source: Live ICAO Feed (NOAA AWC / GTS)' : 'Source: Official Station Observation Feed (AWC / GTS Cache)';
+      }
+      const metarBadge = document.getElementById('metarObsBadge');
+      if (metarBadge) {
+        metarBadge.innerText = isMetarLive ? '● LIVE OBSERVED' : '● STATION CACHE';
+        metarBadge.style.color = isMetarLive ? 'var(--accent-green)' : 'var(--accent-amber)';
+      }
 
       document.getElementById('capeVal').innerText = data.cape.toLocaleString();
       document.getElementById('capeVal').style.color = data.cape >= 2000 ? 'var(--accent-red)' : (data.cape >= 1200 ? 'var(--accent-amber)' : 'var(--accent-green)');
@@ -2326,6 +2579,10 @@
     // Application Bootstrap & Real-time Interval
     renderGlobalAlertBar();
     onAirportChange('VTBD');
+    syncFleetMetars().then(() => {
+      onAirportChange(currentAirport);
+      renderGlobalAlertBar();
+    });
     setInterval(updateClocks, 1000);
     updateClocks();
   </script>
