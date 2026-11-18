@@ -456,9 +456,17 @@ class AeroCastHandler(http.server.SimpleHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         clean_path = parsed.path
 
-        if clean_path.startswith("/api/taf/"):
-            clean_part = clean_path.split("?")[0]
-            icao = clean_part.split("/")[-1].upper()
+        if clean_path.startswith("/api/taf") or clean_path.startswith("/taf") or clean_path == "/taf.py":
+            qs = urllib.parse.parse_qs(parsed.query)
+            icao = qs.get("icao", [""])[0].upper()
+            if not icao:
+                parts = [p for p in clean_path.split("/") if p]
+                if len(parts) >= 3:
+                    icao = parts[2].upper()
+                elif len(parts) >= 2 and parts[-1].upper() not in ["TAF", "TAF.PY"]:
+                    icao = parts[-1].upper()
+            if not icao or len(icao) != 4:
+                icao = "VTBD"
             force = "force=1" in self.path or "force=true" in self.path
             data = fetch_live_taf(icao, force_refresh=force)
             self.send_response(200)
@@ -466,7 +474,7 @@ class AeroCastHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(json.dumps(data, indent=2).encode("utf-8"))
-        elif clean_path == "/api/metar_history":
+        elif clean_path in ["/api/metar_history", "/metar_history", "/metar_history.py"]:
             qs = urllib.parse.parse_qs(parsed.query)
             icao = qs.get("icao", ["VTBD"])[0].upper()
             hours = int(qs.get("hours", ["24"])[0])
@@ -520,7 +528,7 @@ def wsgi_app(environ, start_response):
     raw_path = environ.get("PATH_INFO", "/")
     clean_path = raw_path.split("?")[0]
 
-    if clean_path.startswith("/api/taf"):
+    if clean_path.startswith("/api/taf") or clean_path.startswith("/taf") or clean_path == "/taf.py":
         query = environ.get("QUERY_STRING", "")
         if not query and "?" in raw_path:
             query = raw_path.split("?", 1)[1]
@@ -531,8 +539,8 @@ def wsgi_app(environ, start_response):
             parts = [p for p in clean_path.split("/") if p]
             if len(parts) >= 3:
                 icao = parts[2].upper()
-            elif len(parts) == 2 and parts[1].upper() != "TAF":
-                icao = parts[1].upper()
+            elif len(parts) >= 2 and parts[-1].upper() not in ["TAF", "TAF.PY"]:
+                icao = parts[-1].upper()
         if not icao or len(icao) != 4:
             icao = "VTBD"
         data = json.dumps(fetch_live_taf(icao, force_refresh=force), indent=2).encode("utf-8")
@@ -543,7 +551,7 @@ def wsgi_app(environ, start_response):
         ])
         return [data]
 
-    if clean_path == "/api/metar_history":
+    if clean_path in ["/api/metar_history", "/metar_history", "/metar_history.py"]:
         query = environ.get("QUERY_STRING", "")
         if not query and "?" in raw_path:
             query = raw_path.split("?", 1)[1]
