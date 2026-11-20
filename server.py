@@ -203,7 +203,10 @@ def fetch_fleet_metars(force_refresh: bool = False) -> dict:
         return cache_entry["data"]
 
     all_icaos = [a["icao"] for a in TAA_AIRPORTS]
-    ids_str = ",".join(all_icaos)
+    aliases = getattr(database, 'AIRPORTS_ALIASES', {})
+    query_ids = list(set(all_icaos + list(aliases.keys())))
+    ids_str = ",".join(query_ids)
+
     ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
@@ -212,18 +215,20 @@ def fetch_fleet_metars(force_refresh: bool = False) -> dict:
     metar_map = {}
     is_live = False
     try:
-        url = f"https://aviationweather.gov/api/data/metar?ids={ids_str}&format=raw"
+        url = f"https://aviationweather.gov/api/data/metar?ids={ids_str}&format=raw&hours=24"
         req = urllib.request.Request(url, headers={"User-Agent": ua})
-        with urllib.request.urlopen(req, context=ctx, timeout=8) as resp:
+        with urllib.request.urlopen(req, context=ctx, timeout=12) as resp:
             content = resp.read().decode("utf-8").strip()
             if content:
                 for line in content.splitlines():
                     line = line.strip()
+                    if not line:
+                        continue
                     for code in all_icaos:
                         if line.startswith(code) or line.startswith("METAR " + code) or line.startswith("SPECI " + code):
                             if code not in metar_map:
                                 metar_map[code] = line
-                    for alias, canon in getattr(database, 'AIRPORTS_ALIASES', {}).items():
+                    for alias, canon in aliases.items():
                         if line.startswith(alias) or line.startswith("METAR " + alias) or line.startswith("SPECI " + alias):
                             if canon not in metar_map:
                                 metar_map[canon] = line.replace(alias, canon, 1)
@@ -232,23 +237,16 @@ def fetch_fleet_metars(force_refresh: bool = False) -> dict:
     except Exception:
         pass
 
-    # Ensure all 26 stations have an observation entry
-    obs_min = 30 if now.minute >= 30 else 0
-    slot_time = now.replace(minute=obs_min, second=0, microsecond=0)
-    ts_str = f"{slot_time.day:02d}{slot_time.hour:02d}{slot_time.minute:02d}Z"
-
-    default_payloads = {
-        "VTBD": "16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG",
-        "VTBS": "09006KT 9999 FEW020 32/25 Q1008 NOSIG",
-        "VTCC": "14006KT 9999 FEW025 30/20 Q1011 NOSIG",
-        "VTCT": "02006KT 9999 SCT030 29/18 Q1012 NOSIG",
-        "VTSP": "26012KT 9999 SCT020 31/25 Q1009 NOSIG"
-    }
-
+    # For hourly or regional stations not broadcasting in the latest hour:
+    # Use the latest actual observation available from the local database or archive.
+    # NEVER fabricate or synthesize fake METAR data.
     for code in all_icaos:
-        if code not in metar_map:
-            p = default_payloads.get(code, "12005KT 9999 FEW025 31/25 Q1012 NOSIG")
-            metar_map[code] = f"METAR {code} {ts_str} {p}"
+        if code not in metar_map or "NIL" in metar_map[code]:
+            last_real = database.get_latest_metar_from_archive(code)
+            if last_real:
+                metar_map[code] = last_real
+            elif code not in metar_map:
+                metar_map[code] = f"METAR {code} NIL"
 
     payload = {
         "is_live": is_live,

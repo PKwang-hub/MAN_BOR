@@ -6,52 +6,23 @@ import ssl
 import re
 from datetime import datetime, timezone, timedelta
 
-def generate_fallback_history(icao: str, now_utc: datetime = None) -> list:
-    """Generates dynamic historical METAR observations counting backward in 30-min cadence."""
-    if not now_utc:
-        now_utc = datetime.now(timezone.utc)
-
-    obs_min = 30 if now_utc.minute >= 30 else 0
-    latest_slot = now_utc.replace(minute=obs_min, second=0, microsecond=0)
-
-    station_payloads = {
-        "VTBD": "16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG",
-        "VTBS": "09006KT 9999 FEW020 32/25 Q1008 NOSIG",
-        "VTCC": "14006KT 9999 FEW025 30/20 Q1011 NOSIG",
-        "VTCT": "02006KT 9999 SCT030 29/18 Q1012 NOSIG",
-        "VTCN": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTCL": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTPP": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTPH": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUK": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUD": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUU": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUV": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUO": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUL": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUI": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTUW": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTSP": "26012KT 9999 SCT020 31/25 Q1009 NOSIG",
-        "VTSG": "10006KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTSS": "18008KT 9999 SCT020 31/25 Q1009 NOSIG",
-        "VTSB": "22010KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTSM": "20012KT 9999 SCT022 31/25 Q1009 NOSIG",
-        "VTST": "21008KT 9999 SCT025 31/24 Q1008 NOSIG",
-        "VTSF": "18009KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTSK": "18009KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTSR": "24012KT 9999 SCT020 31/25 Q1009 NOSIG",
-        "VTSE": "17010KT 9999 SCT025 31/24 Q1008 NOSIG",
-        "VTSC": "12008KT 9999 FEW025 31/24 Q1008 NOSIG",
-        "VTSN": "12008KT 9999 FEW025 31/24 Q1008 NOSIG"
-    }
-    payload = station_payloads.get(icao, "12005KT 9999 FEW025 31/25 Q1012 NOSIG")
-
-    history = []
-    for i in range(24):
-        slot_time = latest_slot - timedelta(minutes=30 * i)
-        ts_str = f"{slot_time.day:02d}{slot_time.hour:02d}{slot_time.minute:02d}Z"
-        history.append(f"METAR {icao} {ts_str} {payload}")
-    return history
+def load_cached_station_history(icao: str) -> list:
+    """Retrieves real historical METAR observations from aerocast_db.json or observations_archive.csv."""
+    records = []
+    # Try aerocast_db.json
+    try:
+        import os
+        db_path = os.path.join(os.path.dirname(__file__), "aerocast_db.json")
+        if os.path.exists(db_path):
+            with open(db_path, "r", encoding="utf-8") as f:
+                d = json.load(f)
+                hist = d.get("airports", {}).get(icao, {}).get("metar_history", [])
+                for r in hist:
+                    if r.get("raw_text") and "12005KT" not in r["raw_text"]:
+                        records.append(r["raw_text"])
+    except Exception:
+        pass
+    return records
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -73,16 +44,18 @@ class handler(BaseHTTPRequestHandler):
                 "VTSE", "VTSC", "VTSN"
             ]
             ids_str = ",".join(thai_icaos)
-            url = f"https://aviationweather.gov/api/data/metar?ids={ids_str}&format=raw"
+            url = f"https://aviationweather.gov/api/data/metar?ids={ids_str}&format=raw&hours=24"
             req = urllib.request.Request(url, headers={"User-Agent": ua})
             metar_map = {}
             is_live = False
             try:
-                with urllib.request.urlopen(req, context=ctx, timeout=8) as resp:
+                with urllib.request.urlopen(req, context=ctx, timeout=12) as resp:
                     content = resp.read().decode("utf-8").strip()
                     if content:
                         for line in content.splitlines():
                             line = line.strip()
+                            if not line:
+                                continue
                             for code in thai_icaos:
                                 if line.startswith(code) or line.startswith("METAR " + code) or line.startswith("SPECI " + code):
                                     if code not in metar_map:
@@ -94,8 +67,11 @@ class handler(BaseHTTPRequestHandler):
 
             for code in thai_icaos:
                 if code not in metar_map:
-                    hist = generate_fallback_history(code)
-                    metar_map[code] = hist[0] if hist else f"METAR {code} 180900Z 12005KT 9999 FEW025 31/25 Q1010 NOSIG"
+                    hist = load_cached_station_history(code)
+                    if hist:
+                        metar_map[code] = hist[0]
+                    else:
+                        metar_map[code] = f"METAR {code} NIL"
 
             payload = {
                 "is_live": is_live,
@@ -160,7 +136,7 @@ class handler(BaseHTTPRequestHandler):
                 pass
 
         if not records:
-            records = generate_fallback_history(icao)
+            records = load_cached_station_history(icao)
 
         parsed_obs = []
         for raw in records:

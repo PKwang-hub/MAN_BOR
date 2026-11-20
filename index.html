@@ -1026,101 +1026,11 @@
     }
 
     function getStationDynamicTaf(icao, now) {
-      const curH = now.getUTCHours();
-      const curDay = now.getUTCDate();
-      let cycleH = 23;
-      let issueDay = curDay;
-      let nextDay = new Date(now.getTime() + 86400000).getUTCDate();
-      let validStart = `${formatTimePad(curDay)}06`;
-      let validEnd = `${formatTimePad(nextDay)}12`;
-      let tempo = `TEMPO ${formatTimePad(curDay)}08/${formatTimePad(curDay)}12`;
-
-      if (curH >= 5 && curH < 11) {
-        cycleH = 5;
-        validStart = `${formatTimePad(curDay)}06`;
-        validEnd = `${formatTimePad(nextDay)}12`;
-        tempo = `TEMPO ${formatTimePad(curDay)}08/${formatTimePad(curDay)}12`;
-      } else if (curH >= 11 && curH < 17) {
-        cycleH = 11;
-        validStart = `${formatTimePad(curDay)}12`;
-        validEnd = `${formatTimePad(nextDay)}18`;
-        tempo = `TEMPO ${formatTimePad(curDay)}14/${formatTimePad(curDay)}17`;
-      } else if (curH >= 17 && curH < 23) {
-        cycleH = 17;
-        validStart = `${formatTimePad(curDay)}18`;
-        validEnd = `${formatTimePad(nextDay)}24`;
-        tempo = `TEMPO ${formatTimePad(curDay)}19/${formatTimePad(curDay)}22`;
-      } else {
-        cycleH = 23;
-        if (curH < 5) {
-          const prevDay = new Date(now.getTime() - 86400000).getUTCDate();
-          issueDay = prevDay;
-          validStart = `${formatTimePad(curDay)}00`;
-          validEnd = `${formatTimePad(nextDay)}06`;
-        } else {
-          validStart = `${formatTimePad(nextDay)}00`;
-          const dayAfter = new Date(now.getTime() + 2 * 86400000).getUTCDate();
-          validEnd = `${formatTimePad(dayAfter)}06`;
-        }
-        tempo = `TEMPO ${formatTimePad(curDay)}08/${formatTimePad(curDay)}12`;
-      }
-
-      const issueStr = `${formatTimePad(issueDay)}${formatTimePad(cycleH)}00Z`;
-      const validStr = `${validStart}/${validEnd}`;
-
-      if (icao === 'VTBD' || icao === 'VTBS') {
-        return `TAF ${icao} ${issueStr} ${validStr} 19008KT 9999 FEW025 BKN080 ${tempo} 4000 TSRA FEW018CB SCT020`;
-      } else if (['VTPP', 'VTUI', 'VTSB', 'VTSG', 'VTSP', 'VTUU'].includes(icao)) {
-        return `TAF ${icao} ${issueStr} ${validStr} 12008KT 9999 FEW025 ${tempo} 4000 SHRA SCT020`;
-      } else if (['VTUD', 'VTUK', 'VTUV', 'VTUO', 'VTUL', 'VTUW'].includes(icao)) {
-        return `TAF ${icao} ${issueStr} ${validStr} 08008KT 9999 FEW025 BKN090`;
-      } else if (['VTCC', 'VTCT', 'VTCN', 'VTCL'].includes(icao)) {
-        return `TAF ${icao} ${issueStr} ${validStr} 02006KT 9999 SCT030`;
-      } else {
-        return `TAF ${icao} ${issueStr} ${validStr} 18010KT 9999 SCT025`;
-      }
+      return `TAF ${icao} NIL (AWAITING PUBLISHED TAF)`;
     }
 
     function getStationDynamicMetar(icao, now = new Date()) {
-      const d = new Date(now.getTime());
-      const min = d.getUTCMinutes();
-      const obsMin = (min >= 30) ? 30 : 0;
-      const day = formatTimePad(d.getUTCDate());
-      const hr = formatTimePad(d.getUTCHours());
-      const mm = formatTimePad(obsMin);
-      const obsTime = `${day}${hr}${mm}Z`;
-
-      const stationParams = {
-        'VTBD': '16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG',
-        'VTBS': '09006KT 9999 FEW020 32/25 Q1008 NOSIG',
-        'VTCC': '14006KT 9999 FEW025 30/20 Q1011 NOSIG',
-        'VTCT': '02006KT 9999 SCT030 29/18 Q1012 NOSIG',
-        'VTCN': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTCL': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTPP': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTPH': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUK': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUD': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUU': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUV': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUO': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUL': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUI': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTUW': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTSP': '26012KT 9999 SCT020 31/25 Q1009 NOSIG',
-        'VTSG': '10006KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTSS': '18008KT 9999 SCT020 31/25 Q1009 NOSIG',
-        'VTSB': '22010KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTSM': '20012KT 9999 SCT022 31/25 Q1009 NOSIG',
-        'VTST': '21008KT 9999 SCT025 31/24 Q1008 NOSIG',
-        'VTSK': '18009KT 9999 FEW025 31/24 Q1008 NOSIG',
-        'VTSR': '24012KT 9999 SCT020 31/25 Q1009 NOSIG',
-        'VTSE': '17010KT 9999 SCT025 31/24 Q1008 NOSIG',
-        'VTSN': '12008KT 9999 FEW025 31/24 Q1008 NOSIG'
-      };
-
-      const payload = stationParams[icao] || '12005KT 9999 FEW025 31/25 Q1012 NOSIG';
-      return `METAR ${icao} ${obsTime} ${payload}`;
+      return `METAR ${icao} NIL (AWAITING HOURLY REPORT)`;
     }
 
     function updateClocks() {
@@ -1254,6 +1164,7 @@
         if (resp.ok) {
           const snap = await resp.json();
           databaseSnapshot = snap;
+          try { localStorage.setItem('aerocast_last_snap', JSON.stringify(snap)); } catch(e) {}
           if (snap.airports) {
             Object.keys(snap.airports).forEach(icao => {
               if (airports[icao]) {
@@ -1334,7 +1245,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 2450, cin: 8, pwat: 58,
-        actualTaf: 'TAF VTBD 162300Z 1700/1806 10005KT 4000 BR FEW020 BECMG 1700/1702 9999 NSW BECMG 1705/1707 19005KT TEMPO 1708/1712 -TSRA FEW018CB SCT020 BKN080'
+        actualTaf: 'TAF VTBD 200500Z 2006/2112 06008KT 9999 FEW030',
+        latestMetar: 'METAR VTBD 200600Z 08006KT 030V130 9999 FEW040 33/22 Q1014 NOSIG',
       },
       'VTBS': {
         name: 'Suvarnabhumi (BKK)',
@@ -1352,7 +1264,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 2100, cin: 12, pwat: 54,
-        actualTaf: 'TAF VTBS 162300Z 1700/1806 09006KT 5000 BR SCT020 BECMG 1701/1703 9999 NSW TEMPO 1708/1712 4000 TSRA FEW018CB BKN020'
+        actualTaf: 'TAF VTBS 200500Z 2006/2112 06010KT 9999 FEW030',
+        latestMetar: 'METAR VTBS 200600Z 09009KT 050V130 9999 FEW020 33/22 Q1014 NOSIG',
       },
       'VTCC': {
         name: 'Chiang Mai (CNX)',
@@ -1370,7 +1283,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 850, cin: 65, pwat: 38,
-        actualTaf: 'TAF VTCC 162300Z 1700/1724 00000KT 8000 FEW025 BECMG 1703/1705 14006KT 9999'
+        actualTaf: 'TAF VTCC 200500Z 2006/2112 19005KT 9999 SCT035 BECMG 2009/2011 27005KT BECMG 2013/2015 34005KT BECMG 2101/2103 18005KT BECMG 2110/2112 25005KT',
+        latestMetar: 'METAR VTCC 200600Z 20006KT 140V240 9999 FEW035 31/21 Q1017 NOSIG',
       },
       'VTCT': {
         name: 'Chiang Rai (CEI)',
@@ -1388,7 +1302,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 720, cin: 80, pwat: 35,
-        actualTaf: 'TAF VTCT 162300Z 1700/1724 02006KT 9999 SCT030'
+        actualTaf: 'TAF VTCT 200500Z 2006/2112 10005KT 9999 SCT035 BECMG 2009/2011 29005KT TEMPO 2012/2016-TSRA FEW025CB BKN030 BECMG 2017/2019 36005KT BECMG 2021/2023 2000 BR BECMG 2101/2103 15005KT 9999 NSW',
+        latestMetar: 'METAR VTCT 200600Z VRB02KT 9999 SCT020 BKN049 27/23 Q1018 NOSIG',
       },
       'VTCN': {
         name: 'Nan Nakhon (NNT)',
@@ -1406,7 +1321,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 950, cin: 50, pwat: 40,
-        actualTaf: 'TAF VTCN 162300Z 1700/1724 18005KT 9999 FEW030'
+        actualTaf: 'TAF VTCN 200500Z 2006/2106 19005KT 9999 FEW035 BECMG 2010/2012 36005KT BECMG 2101/2103 20005KT',
+        latestMetar: 'METAR VTCN 200600Z 22005KT 140V280 9999 FEW025 31/22 Q1016 NOSIG',
       },
       'VTCL': {
         name: 'Lampang (LPT)',
@@ -1424,7 +1340,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 650, cin: 90, pwat: 32,
-        actualTaf: 'TAF VTCL 162300Z 1700/1724 00000KT 9999 SKC'
+        actualTaf: 'TAF VTCL 200500Z 2006/2106 15005KT 9999 FEW030 BECMG 2009/2011 36005KT BECMG 2021/2023 00000KT 1000 BR BECMG 2101/2103 16005KT 9999 NSW',
+        latestMetar: 'METAR VTCL 200600Z 00000KT 9999 BKN030 31/23 Q1017 NOSIG',
       },
       'VTPP': {
         name: 'Phitsanulok (PHS)',
@@ -1442,7 +1359,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1750, cin: 25, pwat: 48,
-        actualTaf: 'TAF VTPP 162300Z 1700/1724 12008KT 9999 TEMPO 1708/1711 4000 SHRA'
+        actualTaf: 'TAF VTPP 200500Z 2006/2106 16005KT 9999 FEW030 BECMG 2023/2101 27005KT BECMG 2104/2106 21005KT',
+        latestMetar: 'METAR VTPP 200600Z VRB04KT 9999 BKN035 33/21 Q1015 NOSIG',
       },
       'VTPH': {
         name: 'Hua Hin (HHQ)',
@@ -1460,7 +1378,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1400, cin: 30, pwat: 46,
-        actualTaf: 'TAF VTPH 162300Z 1700/1724 19012KT 9999 SCT025'
+        actualTaf: 'TAF VTPH 200500Z 2006/2106 04008KT 9999 FEW030 BECMG 2013/2015 33003KT BECMG 2103/2105 03008KT',
+        latestMetar: 'METAR VTPH 200600Z 03007KT 350V060 9999 FEW030 32/24 Q1014 NOSIG',
       },
       'VTUK': {
         name: 'Khon Kaen (KKC)',
@@ -1478,7 +1397,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 800, cin: 85, pwat: 34,
-        actualTaf: 'TAF VTUK 162300Z 1700/1724 09006KT 9999 SKC'
+        actualTaf: 'TAF VTUK 200500Z 2006/2106 08005KT 9000 FEW030',
+        latestMetar: 'METAR VTUK 200600Z VRB05KT 9999 SCT030 31/20 Q1017 NOSIG',
       },
       'VTUD': {
         name: 'Udon Thani (UTH)',
@@ -1496,7 +1416,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 2550, cin: 5, pwat: 60,
-        actualTaf: 'TAF VTUD 162300Z 1700/1724 07008KT 9999 FEW025 BKN090'
+        actualTaf: 'TAF VTUD 200500Z 2006/2106 09005KT 9000 FEW030',
+        latestMetar: 'METAR VTUD 200600Z 07005KT 310V120 9999 SCT040 32/20 Q1017 NOSIG',
       },
       'VTUU': {
         name: 'Ubon Ratchathani (UBP)',
@@ -1514,7 +1435,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1600, cin: 30, pwat: 50,
-        actualTaf: 'TAF VTUU 162300Z 1700/1724 10010KT 9999 TEMPO 1707/1710 4000 RA'
+        actualTaf: 'TAF VTUU 200500Z 2006/2106 04011KT 9999 FEW035',
+        latestMetar: 'METAR VTUU 200600Z 04015KT 360V070 9999 SCT040 31/22 Q1015 NOSIG',
       },
       'VTUV': {
         name: 'Roi Et (ROI)',
@@ -1532,7 +1454,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1100, cin: 55, pwat: 42,
-        actualTaf: 'TAF VTUV 162300Z 1700/1724 09007KT 9999 FEW030'
+        actualTaf: 'TAF VTUV 200500Z 2006/2106 08012KT 9999 FEW035',
+        latestMetar: 'METAR VTUV 200600Z 06011KT 9999 SCT035 31/20 Q1016 NOSIG',
       },
       'VTUO': {
         name: 'Buriram (BFV)',
@@ -1550,7 +1473,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 900, cin: 70, pwat: 36,
-        actualTaf: 'TAF VTUO 162300Z 1700/1724 08006KT 9999 SKC'
+        actualTaf: 'TAF VTUO 200500Z 2006/2106 06010KT 9000 FEW035',
+        latestMetar: 'METAR VTUO 200600Z 07008KT 9999 FEW030 32/18 Q1016 NOSIG',
       },
       'VTUL': {
         name: 'Loei (LOE)',
@@ -1568,7 +1492,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1250, cin: 45, pwat: 44,
-        actualTaf: 'TAF VTUL 162300Z 1700/1724 00000KT 9999 SCT030'
+        actualTaf: 'TAF VTUL 200500Z 2006/2106 07005KT 9000 FEW030',
+        latestMetar: 'METAR VTUL 200600Z VRB03KT 9999 SCT030 31/21 Q1017 NOSIG',
       },
       'VTUI': {
         name: 'Sakon Nakhon (SNO)',
@@ -1586,7 +1511,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1650, cin: 30, pwat: 49,
-        actualTaf: 'TAF VTUI 162300Z 1700/1724 09009KT 9999 TEMPO 1708/1711 SHRA'
+        actualTaf: 'TAF VTUI 200500Z 2006/2106 10007KT 9000 FEW030',
+        latestMetar: 'METAR VTUI 200600Z 11005KT 080V150 9999 SCT030 32/20 Q1017 NOSIG',
       },
       'VTUW': {
         name: 'Nakhon Phanom (KOP)',
@@ -1604,7 +1530,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1050, cin: 60, pwat: 40,
-        actualTaf: 'TAF VTUW 162300Z 1700/1724 07008KT 9999 SCT025'
+        actualTaf: 'TAF VTUW 200500Z 2006/2106 09007KT 9000 FEW030',
+        latestMetar: 'METAR VTUW 200600Z 07010KT 020V090 9999 FEW030 31/16 Q1017 NOSIG',
       },
       'VTSP': {
         name: 'Phuket (HKT)',
@@ -1622,7 +1549,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1950, cin: 10, pwat: 56,
-        actualTaf: 'TAF VTSP 162300Z 1700/1724 26012KT 9999 SCT020 TEMPO 1706/1710 4000 SHRA BKN018'
+        actualTaf: 'TAF VTSP 200500Z 2006/2112 09009KT 9999 SCT020 TEMPO 2008/2014 -TSRA FEW018CB SCT020 BKN100',
+        latestMetar: 'METAR VTSP 200600Z 08010KT 040V110 9999 FEW020 31/26 Q1012 NOSIG',
       },
       'VTSG': {
         name: 'Krabi (KBV)',
@@ -1640,7 +1568,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1550, cin: 25, pwat: 51,
-        actualTaf: 'TAF VTSG 162300Z 1700/1724 24012KT 9999 TEMPO 1707/1710 4000 SHRA'
+        actualTaf: 'TAF VTSG 200500Z 2006/2106 06006KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100',
+        latestMetar: 'METAR VTSG 200600Z 08005KT 020V110 9999 FEW015 BKN070 29/26 Q1013 NOSIG',
       },
       'VTSS': {
         name: 'Hat Yai (HDY)',
@@ -1658,7 +1587,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1300, cin: 40, pwat: 47,
-        actualTaf: 'TAF VTSS 162300Z 1700/1724 18008KT 9999 SCT020'
+        actualTaf: 'TAF VTSS 200500Z 2006/2106 07010KT 9999 SCT020 BKN100 TEMPO 2006/2013 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 BECMG 2013/2015 25003KT TEMPO 2020/2103 VRB15G25KT -TSRA FEW016CB SCT018 BKN100 BECMG 2103/2105 07010KT',
+        latestMetar: 'METAR VTSS 200600Z 08014KT 9999 SCT020 BKN100 30/24 Q1012 NOSIG',
       },
       'VTSB': {
         name: 'Surat Thani (URT)',
@@ -1676,7 +1606,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1450, cin: 35, pwat: 48,
-        actualTaf: 'TAF VTSB 162300Z 1700/1724 22010KT 9999 TEMPO 1708/1711 SHRA'
+        actualTaf: 'TAF VTSB 200500Z 2006/2106 05006KT 9999 SCT020 PROB40 TEMPO 2006/2012 VRB15G25KT -TSRA FEW016CB SCT018 BKN100',
+        latestMetar: 'METAR VTSB 200600Z 05007KT 9999 VCSH FEW018TCU 31/24 Q1012 NOSIG',
       },
       'VTSM': {
         name: 'Koh Samui (USM)',
@@ -1694,7 +1625,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1200, cin: 50, pwat: 45,
-        actualTaf: 'TAF VTSM 162300Z 1700/1724 20012KT 9999 SCT022'
+        actualTaf: 'TAF VTSM 200500Z 2006/2106 12013KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 TEMPO 2022/2103 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100',
+        latestMetar: 'METAR VTSM 200600Z 11008KT 070V140 9999 -RA SCT020 31/26 Q1014 NOSIG',
       },
       'VTST': {
         name: 'Trang (TST)',
@@ -1712,7 +1644,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1150, cin: 60, pwat: 43,
-        actualTaf: 'TAF VTST 162300Z 1700/1724 21008KT 9999 SCT025'
+        actualTaf: 'TAF VTST 200500Z 2006/2106 06008KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100',
+        latestMetar: 'METAR VTST 200600Z 05009G21KT 020V080 9999 FEW030 31/25 Q1011 NOSIG',
       },
       'VTSF': {
         name: 'Nakhon Si Thammarat (NST)',
@@ -1730,7 +1663,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1250, cin: 55, pwat: 44,
-        actualTaf: 'TAF VTSF 162300Z 1700/1724 18009KT 9999 FEW025'
+        actualTaf: 'TAF VTSF 200500Z 2006/2106 08006KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100 TEMPO 2020/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100',
+        latestMetar: 'METAR VTSF 200600Z 27005KT 240V320 9999 -TSRA FEW016CB BKN018 BKN020 27/27 Q1013 RERA NOSIG',
       },
       'VTSR': {
         name: 'Ranong (UNN)',
@@ -1748,7 +1682,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1500, cin: 30, pwat: 52,
-        actualTaf: 'TAF VTSR 162300Z 1700/1724 24012KT 9999 SCT020'
+        actualTaf: 'TAF VTSR 200500Z 2006/2106 10007KT 9999 SCT020 TEMPO 2008/2012 -TSRA FEW018CB SCT020 BKN100 TEMPO 2102/2106 -TSRA FEW018CB SCT020 BKN100',
+        latestMetar: 'METAR VTSR 200600Z 22005KT 160V270 9999 FEW020 30/24 Q1012 NOSIG',
       },
       'VTSE': {
         name: 'Chumphon (CJM)',
@@ -1766,7 +1701,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1350, cin: 40, pwat: 46,
-        actualTaf: 'TAF VTSE 162300Z 1700/1724 17010KT 9999 SCT025'
+        actualTaf: 'TAF VTSE 200500Z 2006/2106 05008KT 9999 SCT020',
+        latestMetar: 'METAR VTSE 200600Z 04006KT 010V100 9999 SCT020 31/26 Q1012 NOSIG',
       },
       'VTSC': {
         name: 'Narathiwat (NAW)',
@@ -1784,7 +1720,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1100, cin: 60, pwat: 42,
-        actualTaf: 'TAF VTSC 162300Z 1700/1724 12008KT 9999 FEW025'
+        actualTaf: 'TAF VTSC 200500Z 2006/2106 12008KT 9999 SCT020 BKN100 TEMPO 2018/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100',
+        latestMetar: 'METAR VTSC 200600Z 11005KT 070V150 9999 FEW010 SCT018 BKN030 27/26 Q1013 NOSIG',
       }
     };
     airports['VTSK'] = airports['VTSF'];
@@ -2090,10 +2027,13 @@
       const arrivalDate = new Date(now.getTime() + (cellEtaMinutes || 0) * 60000);
       const decodedArrival = decodeAviationTaf(tafText, arrivalDate) || decodedNow;
 
-      const tafForecastsRain = decodedArrival ? decodedArrival.hasRain : false;
-      const tafActiveGroupDesc = (decodedArrival && decodedArrival.activeFluctuations.length > 0)
-        ? decodedArrival.activeFluctuations.map(g => g.rawText).join('; ')
-        : (decodedArrival && decodedArrival.prevailing.allWx.length > 0 ? decodedArrival.prevailing.allWx.join(' ') : 'NSW Prevailing');
+      const tafForecastsRain = (decodedArrival && decodedArrival.hasRain) ? true : false;
+      let tafActiveGroupDesc = 'NSW Prevailing';
+      if (decodedArrival && decodedArrival.activeFluctuations && decodedArrival.activeFluctuations.length > 0) {
+        tafActiveGroupDesc = decodedArrival.activeFluctuations.map(g => g.rawText).join('; ');
+      } else if (decodedArrival && decodedArrival.prevailing && decodedArrival.prevailing.allWx && decodedArrival.prevailing.allWx.length > 0) {
+        tafActiveGroupDesc = decodedArrival.prevailing.allWx.join(' ');
+      }
 
       if (hasRadarImpact) {
         if (tafForecastsRain) {
@@ -2145,14 +2085,16 @@
 
       let rainAlerts = [];
       let visAlerts = [];
+      let forecastRainStations = [];
 
       Object.keys(airports).forEach(icao => {
         const apt = airports[icao];
         if (!apt) return;
         const d = apt.discrepancy || {};
         const m = apt.latestMetarData || {};
+        const rawM = apt.latestMetar || '';
 
-        // 1. Rain deficit check
+        // 1. Rain deficit check (Unforecast rain / TAF deficit)
         if (d.rain_discrepancy || (apt.eta === 0 && apt.dbz >= 40)) {
           rainAlerts.push({
             icao: icao,
@@ -2162,8 +2104,17 @@
           });
         }
 
+        // Track observed rain that was already forecasted in TAF (compliant)
+        const hasRain = m.has_rain || Boolean(rawM.match(/\b(-|\+|VC)?(TS|SH|FZ|BL)?(RA|DZ|GR|GS)\b|\bTS\b/));
+        if (hasRain && !d.rain_discrepancy) {
+          forecastRainStations.push({
+            icao: icao,
+            name: (apt.name || icao).split(' ')[0],
+            intensity: apt.intensity || 'Forecast Rain'
+          });
+        }
+
         // 2. Reduced visibility (<5000m) check caused by rain, fog, mist, haze
-        const rawM = apt.latestMetar || '';
         const visMatch = rawM.match(/\b(?:\d{3}|VRB)\d{2,3}(?:G\d{2,3})?KT\s+(\d{4})\b/);
         const visM = visMatch ? parseInt(visMatch[1], 10) : (m.visibility_m || 9999);
         const hasReducedVis = (visM < 5000) || m.has_reduced_vis;
@@ -2237,17 +2188,33 @@
         countEl.style.background = 'rgba(0, 230, 118, 0.2)';
         countEl.style.color = 'var(--accent-green)';
         countEl.style.borderColor = 'var(--accent-green)';
-        if (titleEl) {
-          titleEl.innerHTML = '<span style="color:var(--accent-green); font-weight:700;">&#10003; ALL 26 AIRPORTS MONITORED | VMC &amp; TAF COMPLIANT</span>';
+
+        if (forecastRainStations.length > 0) {
+          if (titleEl) {
+            titleEl.innerHTML = `<span style="color:var(--accent-green); font-weight:700;">&#10003; 0 UNFORECAST DEFICITS | ${forecastRainStations.length} STATIONS WITH FORECAST RAIN (TAF COMPLIANT)</span>`;
+          }
+          const chip = document.createElement('div');
+          chip.className = 'discrepancy-chip';
+          chip.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+          chip.style.background = 'rgba(56, 189, 248, 0.12)';
+          chip.style.color = '#bae6fd';
+          chip.style.cursor = 'default';
+          const names = forecastRainStations.map(s => `<strong>${s.icao}</strong> (${s.name})`).join(', ');
+          chip.innerHTML = `Active rain observed at ${names} matches published TAFs. Zero unforecast convective threats across network.`;
+          tickerList.appendChild(chip);
+        } else {
+          if (titleEl) {
+            titleEl.innerHTML = '<span style="color:var(--accent-green); font-weight:700;">&#10003; ALL 26 AIRPORTS MONITORED | VMC &amp; CLEAR OF CONVECTIVE RAIN</span>';
+          }
+          const chip = document.createElement('div');
+          chip.className = 'discrepancy-chip';
+          chip.style.borderColor = 'rgba(0, 230, 118, 0.3)';
+          chip.style.background = 'rgba(0, 230, 118, 0.08)';
+          chip.style.color = '#a7f3d0';
+          chip.style.cursor = 'default';
+          chip.innerHTML = 'All 26 aerodromes clear of convective rain. No unforecast rain or reduced visibility (&lt;5000m) detected across network.';
+          tickerList.appendChild(chip);
         }
-        const chip = document.createElement('div');
-        chip.className = 'discrepancy-chip';
-        chip.style.borderColor = 'rgba(0, 230, 118, 0.3)';
-        chip.style.background = 'rgba(0, 230, 118, 0.08)';
-        chip.style.color = '#a7f3d0';
-        chip.style.cursor = 'default';
-        chip.innerHTML = 'All 26 aerodromes matching active TAF. No unforecast convective rain or reduced visibility (&lt;5000m) detected across network.';
-        tickerList.appendChild(chip);
         tickerEl.className = 'global-alert-ticker normal';
         tickerEl.style.display = 'flex';
       }
@@ -2261,7 +2228,15 @@
       const dynamicCycle = getActiveTafCycleInfo(now);
 
       // Fast retrieval from database snapshot (no network waiting!)
-      let tafText = data.actualTaf || getStationDynamicTaf(icao, now);
+      let tafText = data.actualTaf;
+      if (!tafText || tafText.includes('NIL')) {
+        if (databaseSnapshot && databaseSnapshot.airports && databaseSnapshot.airports[icao] && databaseSnapshot.airports[icao].active_taf && databaseSnapshot.airports[icao].active_taf.raw_text && !databaseSnapshot.airports[icao].active_taf.raw_text.includes('NIL')) {
+          tafText = databaseSnapshot.airports[icao].active_taf.raw_text;
+        } else if (airports[icao] && airports[icao].actualTaf && !airports[icao].actualTaf.includes('NIL')) {
+          tafText = airports[icao].actualTaf;
+        }
+      }
+      if (!tafText) tafText = `TAF ${icao} NIL (AWAITING PUBLISHED TAF)`;
       let cycleTagText = `Cycle: ${dynamicCycle.issue_cycle_zulu}`;
       let countdownTagText = ` | Next: ${dynamicCycle.next_cycle_zulu} (in ${dynamicCycle.countdown})`;
       let isLiveSource = true;
@@ -2307,8 +2282,16 @@
         setRadarDisplayMode('tactical');
       }
 
-      // Station METAR from instant database cache
-      const stationMetar = data.latestMetar || getStationDynamicMetar(icao, now);
+      // Station METAR: prioritize live data, then snapshot, then cached real actual observation
+      let stationMetar = data.latestMetar;
+      if (!stationMetar || stationMetar.includes('NIL')) {
+        if (databaseSnapshot && databaseSnapshot.airports && databaseSnapshot.airports[icao] && databaseSnapshot.airports[icao].latest_metar && databaseSnapshot.airports[icao].latest_metar.raw_text && !databaseSnapshot.airports[icao].latest_metar.raw_text.includes('NIL')) {
+          stationMetar = databaseSnapshot.airports[icao].latest_metar.raw_text;
+        } else if (airports[icao] && airports[icao].latestMetar && !airports[icao].latestMetar.includes('NIL')) {
+          stationMetar = airports[icao].latestMetar;
+        }
+      }
+      if (!stationMetar) stationMetar = `METAR ${icao} NIL (AWAITING HOURLY REPORT)`;
       const mData = data.latestMetarData || {};
       const vec = data.tactical_runway_vector || {};
 
@@ -2647,6 +2630,39 @@
       ctx.font = 'bold 10px monospace';
       ctx.fillText(currentAirport, cx + 8, cy + 4);
     }
+
+    // Restore previous database snapshot from localStorage if available (instant 0ms hydration)
+    try {
+      const cached = localStorage.getItem('aerocast_last_snap');
+      if (cached) {
+        const snap = JSON.parse(cached);
+        if (snap && snap.airports) {
+          databaseSnapshot = snap;
+          Object.keys(snap.airports).forEach(k => {
+            if (airports[k]) {
+              const sData = snap.airports[k];
+              const m = sData.latest_metar || {};
+              const v = sData.tactical_runway_vector || {};
+              if (m.raw_text && !m.raw_text.includes('NIL')) {
+                airports[k].latestMetar = m.raw_text;
+                airports[k].latestMetarData = m;
+              }
+              if (sData.active_taf && sData.active_taf.raw_text && !sData.active_taf.raw_text.includes('NIL')) {
+                airports[k].actualTaf = sData.active_taf.raw_text;
+                airports[k].decodedTaf = sData.active_taf.decoded;
+              }
+              if (v && v.pop_percent !== undefined) {
+                airports[k].pop = v.pop_percent;
+                airports[k].intensity = v.intensity || 'NSW Fair';
+                airports[k].dbz = v.dbz !== undefined ? v.dbz : 0;
+                airports[k].eta = v.eta_minutes !== undefined ? v.eta_minutes : null;
+                airports[k].tactical_runway_vector = v;
+              }
+            }
+          });
+        }
+      }
+    } catch(e) {}
 
     // Immediate Synchronous First Frame Render (Instant display, never blank)
     onAirportChange('VTBD');

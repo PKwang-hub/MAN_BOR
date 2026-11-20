@@ -489,13 +489,19 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
     airports_data = {}
     rain_alert_airports = []
     vis_alert_airports = []
+    observed_rain_airports = []
 
     existing_db = load_database()
 
     for apt in AIRPORTS_CONFIG:
         icao = apt["icao"]
-        raw_m = fleet_metars.get(icao, f"METAR {icao} {now_utc.day:02d}{now_utc.hour:02d}00Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG")
-        raw_t = fleet_tafs.get(icao, f"TAF {icao} {now_utc.day:02d}0000Z {now_utc.day:02d}00/{(now_utc+timedelta(days=1)).day:02d}06 18010KT 9999 SCT025")
+        raw_m = fleet_metars.get(icao)
+        if not raw_m or "NIL" in raw_m:
+            raw_m = get_latest_metar_from_archive(icao) or raw_m or f"METAR {icao} NIL"
+
+        raw_t = fleet_tafs.get(icao)
+        if not raw_t or "NIL" in raw_t:
+            raw_t = get_latest_taf_from_archive(icao) or raw_t or f"TAF {icao} NIL"
 
         parsed_m = parse_metar(raw_m)
         vector_data = compute_tactical_vector(icao, parsed_m)
@@ -522,6 +528,13 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
         except Exception:
             decoded_t_info = None
 
+        if parsed_m["has_rain"]:
+            observed_rain_airports.append({
+                "icao": icao,
+                "name": apt["name"],
+                "intensity": vector_data["intensity"],
+                "taf_covered": not discrepancy["rain_discrepancy"]
+            })
         if discrepancy["rain_discrepancy"]:
             rain_alert_airports.append({
                 "icao": icao,
@@ -673,7 +686,9 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
         "global_alerts": {
             "rain_alerts": rain_alert_airports,
             "vis_alerts": vis_alert_airports,
-            "total_alerts": total_alerts
+            "observed_rain_airports": observed_rain_airports,
+            "total_alerts": total_alerts,
+            "observed_rain_count": len(observed_rain_airports)
         },
         "airports": airports_data,
         "current_verification": current_verification_cycle,
@@ -753,6 +768,70 @@ def append_to_csv_archive(airports_data: Dict[str, Any], now_utc: datetime) -> i
             writer.writerows(new_rows)
 
     return len(new_rows)
+
+def get_latest_metar_from_archive(icao: str) -> Optional[str]:
+    """Retrieves the most recent genuine actual METAR on record for this airport."""
+    if os.path.isfile(ARCHIVE_CSV_FILE):
+        try:
+            with open(ARCHIVE_CSV_FILE, "r", encoding="utf-8", errors="replace") as f:
+                reader = csv.reader(f)
+                next(reader, None)
+                latest = None
+                for row in reader:
+                    if len(row) >= 6 and row[2] == icao:
+                        raw = row[5].strip()
+                        if raw and "12005KT" not in raw and "NIL" not in raw:
+                            latest = raw
+                if latest:
+                    return latest
+        except Exception:
+            pass
+
+    # Also check DB_FILE
+    if os.path.isfile(DB_FILE):
+        try:
+            with open(DB_FILE, "r", encoding="utf-8", errors="replace") as f:
+                d = json.load(f)
+                m = d.get("airports", {}).get(icao, {}).get("latest_metar", {}).get("raw_text")
+                if m and "12005KT" not in m and "NIL" not in m:
+                    return m
+                # Check history
+                for h in reversed(d.get("airports", {}).get(icao, {}).get("metar_history", [])):
+                    raw = h.get("raw_text")
+                    if raw and "12005KT" not in raw and "NIL" not in raw:
+                        return raw
+        except Exception:
+            pass
+    return None
+
+def get_latest_taf_from_archive(icao: str) -> Optional[str]:
+    """Retrieves the most recent published TAF on record for this airport."""
+    if os.path.isfile(ARCHIVE_CSV_FILE):
+        try:
+            with open(ARCHIVE_CSV_FILE, "r", encoding="utf-8", errors="replace") as f:
+                reader = csv.reader(f)
+                next(reader, None)
+                latest = None
+                for row in reader:
+                    if len(row) >= 7 and row[2] == icao:
+                        raw = row[6].strip()
+                        if raw and "NIL" not in raw:
+                            latest = raw
+                if latest:
+                    return latest
+        except Exception:
+            pass
+
+    if os.path.isfile(DB_FILE):
+        try:
+            with open(DB_FILE, "r", encoding="utf-8", errors="replace") as f:
+                d = json.load(f)
+                t = d.get("airports", {}).get(icao, {}).get("active_taf", {}).get("raw_text")
+                if t and "NIL" not in t:
+                    return t
+        except Exception:
+            pass
+    return None
 
 def export_archive_csv() -> str:
     """Returns the full contents of observations_archive.csv."""

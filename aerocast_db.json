@@ -1,6 +1,6 @@
 {
   "version": "2.0-unified",
-  "last_updated_utc": "2026-11-20T05:42:00.050631+00:00",
+  "last_updated_utc": "2026-11-20T06:40:57.886061+00:00",
   "cadence": {
     "is_active_window": true,
     "window_name": "DAYLIGHT OPS (2210Z - 1210Z)",
@@ -8,14 +8,29 @@
       10,
       40
     ],
-    "next_slot_zulu": "0610Z",
-    "seconds_remaining": 1679,
-    "countdown_text": "27m 59s"
+    "next_slot_zulu": "0710Z",
+    "seconds_remaining": 1742,
+    "countdown_text": "29m 02s"
   },
   "global_alerts": {
     "rain_alerts": [],
     "vis_alerts": [],
-    "total_alerts": 0
+    "observed_rain_airports": [
+      {
+        "icao": "VTSM",
+        "name": "Koh Samui (USM)",
+        "intensity": "Rain (-RA)",
+        "taf_covered": true
+      },
+      {
+        "icao": "VTSF",
+        "name": "Nakhon Si Thammarat (NST)",
+        "intensity": "Thunderstorm (-TSRA)",
+        "taf_covered": true
+      }
+    ],
+    "total_alerts": 0,
+    "observed_rain_count": 2
   },
   "airports": {
     "VTBD": {
@@ -26,9 +41,9 @@
       "lat": 13.9126,
       "lon": 100.6067,
       "latest_metar": {
-        "raw_text": "METAR VTBD 200530Z 16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 160,
+        "raw_text": "METAR VTBD 200630Z VRB05KT 9999 FEW040 33/21 Q1013 NOSIG",
+        "timestamp_zulu": "200630Z",
+        "wind_dir": 0,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -41,22 +56,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTBD 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
+        "raw_text": "TAF VTBD 200500Z 2006/2112 06008KT 9999 FEW030",
         "decoded": {
           "icao": "VTBD",
           "issue_zulu": "0500Z",
           "valid_str": "2006/2112",
-          "active_wind": "190/8KT",
+          "active_wind": "060/8KT",
           "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 8000ft",
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 190/8KT, Vis 9999m",
+          "active_summary": "Prevailing 060/8KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 19008KT 9999 FEW025 BKN080",
-            "TEMPO 2008/2012 4000 TSRA FEW018CB SCT020"
+            "2006/2112 06008KT 9999 FEW030"
           ]
         }
       },
@@ -69,28 +83,28 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 190/8KT, Vis 9999m"
+        "active_summary": "Prevailing 060/8KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "03L/21R",
         "rwy_dimensions": "3,700m x 60m",
-        "active_rwy": "21R",
-        "active_runway_ident": "21R",
-        "active_runway_heading": 213,
-        "rwy_label": "RWY 21R",
+        "active_rwy": "03L",
+        "active_runway_ident": "03L",
+        "active_runway_heading": 33,
+        "rwy_label": "RWY 03L",
         "full_rwy_config": "RWY 03L/21R (3,700m x 60m)",
-        "rwy_heading": 213,
-        "wind_dir": 160,
+        "rwy_heading": 33,
+        "wind_dir": 0,
         "wind_spd_kt": 5,
-        "headwind_kt": 3.0,
-        "crosswind_kt": 4.0,
+        "headwind_kt": 4.2,
+        "crosswind_kt": 2.7,
         "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
         "eta_minutes": null,
         "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 21R approach clear (0 dBZ)",
+        "target_approach": "RWY 03L approach clear (0 dBZ)",
         "cell_pos": {
           "x": 0,
           "y": 0
@@ -102,29 +116,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTBD 200530Z 16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG",
-          "wind_dir": 160,
+          "timestamp_zulu": "200630Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTBD 200630Z VRB05KT 9999 FEW040 33/21 Q1013 NOSIG",
+          "wind_dir": 0,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
-          "active_runway": "21R",
-          "headwind_kt": 3.0,
-          "crosswind_kt": 4.0,
+          "active_runway": "03L",
+          "headwind_kt": 4.2,
+          "crosswind_kt": 2.7,
           "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTBD 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTBD 200500Z 2006/2112 06008KT 9999 FEW030",
           "valid_str": "2006/2112",
-          "active_summary": "Prevailing 190/8KT, Vis 9999m"
+          "active_summary": "Prevailing 060/8KT, Vis 9999m"
         }
       ]
     },
@@ -136,10 +150,10 @@
       "lat": 13.6811,
       "lon": 100.7473,
       "latest_metar": {
-        "raw_text": "METAR VTBS 200530Z 09006KT 9999 FEW020 32/25 Q1008 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 90,
-        "wind_speed_kt": 6,
+        "raw_text": "METAR VTBS 200630Z 08008KT 040V120 9999 FEW020 33/22 Q1013 NOSIG",
+        "timestamp_zulu": "200630Z",
+        "wind_dir": 80,
+        "wind_speed_kt": 8,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -151,22 +165,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTBS 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
+        "raw_text": "TAF VTBS 200500Z 2006/2112 06010KT 9999 FEW030",
         "decoded": {
           "icao": "VTBS",
           "issue_zulu": "0500Z",
           "valid_str": "2006/2112",
-          "active_wind": "190/8KT",
+          "active_wind": "060/10KT",
           "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 8000ft",
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 190/8KT, Vis 9999m",
+          "active_summary": "Prevailing 060/10KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 19008KT 9999 FEW025 BKN080",
-            "TEMPO 2008/2012 4000 TSRA FEW018CB SCT020"
+            "2006/2112 06010KT 9999 FEW030"
           ]
         }
       },
@@ -179,7 +192,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 190/8KT, Vis 9999m"
+        "active_summary": "Prevailing 060/10KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "01R/19L",
@@ -190,10 +203,10 @@
         "rwy_label": "RWY 01L",
         "full_rwy_config": "RWY 01R/19L (4,000m x 60m)",
         "rwy_heading": 14,
-        "wind_dir": 90,
-        "wind_spd_kt": 6,
-        "headwind_kt": 1.5,
-        "crosswind_kt": 5.8,
+        "wind_dir": 80,
+        "wind_spd_kt": 8,
+        "headwind_kt": 3.3,
+        "crosswind_kt": 7.3,
         "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
@@ -212,29 +225,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTBS 200530Z 09006KT 9999 FEW020 32/25 Q1008 NOSIG",
-          "wind_dir": 90,
-          "wind_speed_kt": 6,
+          "timestamp_zulu": "200630Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTBS 200630Z 08008KT 040V120 9999 FEW020 33/22 Q1013 NOSIG",
+          "wind_dir": 80,
+          "wind_speed_kt": 8,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "01L",
-          "headwind_kt": 1.5,
-          "crosswind_kt": 5.8,
+          "headwind_kt": 3.3,
+          "crosswind_kt": 7.3,
           "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTBS 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTBS 200500Z 2006/2112 06010KT 9999 FEW030",
           "valid_str": "2006/2112",
-          "active_summary": "Prevailing 190/8KT, Vis 9999m"
+          "active_summary": "Prevailing 060/10KT, Vis 9999m"
         }
       ]
     },
@@ -246,10 +259,10 @@
       "lat": 18.7668,
       "lon": 98.9626,
       "latest_metar": {
-        "raw_text": "METAR VTCC 200530Z 14006KT 9999 FEW025 30/20 Q1011 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 140,
-        "wind_speed_kt": 6,
+        "raw_text": "METAR VTCC 200630Z 17005KT 120V220 9999 SCT040 31/20 Q1016 NOSIG",
+        "timestamp_zulu": "200630Z",
+        "wind_dir": 170,
+        "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -261,21 +274,25 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTCC 200500Z 2006/2112 02006KT 9999 SCT030",
+        "raw_text": "TAF VTCC 200500Z 2006/2112 19005KT 9999 SCT035 BECMG 2009/2011 27005KT BECMG 2013/2015 34005KT BECMG 2101/2103 18005KT BECMG 2110/2112 25005KT",
         "decoded": {
           "icao": "VTCC",
           "issue_zulu": "0500Z",
           "valid_str": "2006/2112",
-          "active_wind": "020/6KT",
+          "active_wind": "190/5KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "active_clouds": "Scattered (3-4 oktas) 3500ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "active_summary": "Prevailing 190/5KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 02006KT 9999 SCT030"
+            "2006/2112 19005KT 9999 SCT035",
+            "BECMG 2009/2011 27005KT",
+            "BECMG 2013/2015 34005KT",
+            "BECMG 2101/2103 18005KT",
+            "BECMG 2110/2112 25005KT"
           ]
         }
       },
@@ -288,7 +305,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+        "active_summary": "Prevailing 190/5KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "18/36",
@@ -299,10 +316,10 @@
         "rwy_label": "RWY 18",
         "full_rwy_config": "RWY 18/36 (3,400m x 45m)",
         "rwy_heading": 180,
-        "wind_dir": 140,
-        "wind_spd_kt": 6,
-        "headwind_kt": 4.6,
-        "crosswind_kt": 3.9,
+        "wind_dir": 170,
+        "wind_spd_kt": 5,
+        "headwind_kt": 4.9,
+        "crosswind_kt": 0.9,
         "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
@@ -321,29 +338,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTCC 200530Z 14006KT 9999 FEW025 30/20 Q1011 NOSIG",
-          "wind_dir": 140,
-          "wind_speed_kt": 6,
+          "timestamp_zulu": "200630Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTCC 200630Z 17005KT 120V220 9999 SCT040 31/20 Q1016 NOSIG",
+          "wind_dir": 170,
+          "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "18",
-          "headwind_kt": 4.6,
-          "crosswind_kt": 3.9,
+          "headwind_kt": 4.9,
+          "crosswind_kt": 0.9,
           "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTCC 200500Z 2006/2112 02006KT 9999 SCT030",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTCC 200500Z 2006/2112 19005KT 9999 SCT035 BECMG 2009/2011 27005KT BECMG 2013/2015 34005KT BECMG 2101/2103 18005KT BECMG 2110/2112 25005KT",
           "valid_str": "2006/2112",
-          "active_summary": "Prevailing 020/6KT, Vis 9999m"
+          "active_summary": "Prevailing 190/5KT, Vis 9999m"
         }
       ]
     },
@@ -355,10 +372,10 @@
       "lat": 19.9522,
       "lon": 99.8828,
       "latest_metar": {
-        "raw_text": "METAR VTCT 200530Z 02006KT 9999 SCT030 29/18 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 20,
-        "wind_speed_kt": 6,
+        "raw_text": "METAR VTCT 200600Z VRB02KT 9999 SCT020 BKN049 27/23 Q1018 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 0,
+        "wind_speed_kt": 2,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -370,21 +387,26 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTCT 200500Z 2006/2112 02006KT 9999 SCT030",
+        "raw_text": "TAF VTCT 200500Z 2006/2112 10005KT 9999 SCT035 BECMG 2009/2011 29005KT TEMPO 2012/2016-TSRA FEW025CB BKN030 BECMG 2017/2019 36005KT BECMG 2021/2023 2000 BR BECMG 2101/2103 15005KT 9999 NSW",
         "decoded": {
           "icao": "VTCT",
           "issue_zulu": "0500Z",
           "valid_str": "2006/2112",
-          "active_wind": "020/6KT",
+          "active_wind": "100/5KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "active_clouds": "Scattered (3-4 oktas) 3500ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "active_summary": "Prevailing 100/5KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 02006KT 9999 SCT030"
+            "2006/2112 10005KT 9999 SCT035",
+            "BECMG 2009/2011 29005KT",
+            "TEMPO 2012/2016-TSRA FEW025CB BKN030",
+            "BECMG 2017/2019 36005KT",
+            "BECMG 2021/2023 2000 BR",
+            "BECMG 2101/2103 15005KT 9999 NSW"
           ]
         }
       },
@@ -397,7 +419,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+        "active_summary": "Prevailing 100/5KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "03/21",
@@ -408,9 +430,9 @@
         "rwy_label": "RWY 03",
         "full_rwy_config": "RWY 03/21 (3,000m x 45m)",
         "rwy_heading": 30,
-        "wind_dir": 20,
-        "wind_spd_kt": 6,
-        "headwind_kt": 5.9,
+        "wind_dir": 0,
+        "wind_spd_kt": 2,
+        "headwind_kt": 1.7,
         "crosswind_kt": 1.0,
         "crosswind_dir": "LEFT",
         "pop_percent": 10,
@@ -430,18 +452,18 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTCT 200530Z 02006KT 9999 SCT030 29/18 Q1012 NOSIG",
-          "wind_dir": 20,
-          "wind_speed_kt": 6,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTCT 200600Z VRB02KT 9999 SCT020 BKN049 27/23 Q1018 NOSIG",
+          "wind_dir": 0,
+          "wind_speed_kt": 2,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "03",
-          "headwind_kt": 5.9,
+          "headwind_kt": 1.7,
           "crosswind_kt": 1.0,
           "crosswind_dir": "LEFT"
         }
@@ -449,10 +471,10 @@
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTCT 200500Z 2006/2112 02006KT 9999 SCT030",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTCT 200500Z 2006/2112 10005KT 9999 SCT035 BECMG 2009/2011 29005KT TEMPO 2012/2016-TSRA FEW025CB BKN030 BECMG 2017/2019 36005KT BECMG 2021/2023 2000 BR BECMG 2101/2103 15005KT 9999 NSW",
           "valid_str": "2006/2112",
-          "active_summary": "Prevailing 020/6KT, Vis 9999m"
+          "active_summary": "Prevailing 100/5KT, Vis 9999m"
         }
       ]
     },
@@ -464,9 +486,9 @@
       "lat": 18.808,
       "lon": 100.7833,
       "latest_metar": {
-        "raw_text": "METAR VTCN 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTCN 200600Z 22005KT 140V280 9999 FEW025 31/22 Q1016 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 220,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -479,21 +501,23 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTCN 200500Z 2006/2112 02006KT 9999 SCT030",
+        "raw_text": "TAF VTCN 200500Z 2006/2106 19005KT 9999 FEW035 BECMG 2010/2012 36005KT BECMG 2101/2103 20005KT",
         "decoded": {
           "icao": "VTCN",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "020/6KT",
+          "valid_str": "2006/2106",
+          "active_wind": "190/5KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "active_clouds": "Few (1-2 oktas) 3500ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "active_summary": "Prevailing 190/5KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 02006KT 9999 SCT030"
+            "2006/2106 19005KT 9999 FEW035",
+            "BECMG 2010/2012 36005KT",
+            "BECMG 2101/2103 20005KT"
           ]
         }
       },
@@ -506,7 +530,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+        "active_summary": "Prevailing 190/5KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "02/20",
@@ -517,11 +541,11 @@
         "rwy_label": "RWY 20",
         "full_rwy_config": "RWY 02/20 (2,075m x 45m)",
         "rwy_heading": 200,
-        "wind_dir": 120,
+        "wind_dir": 220,
         "wind_spd_kt": 5,
-        "headwind_kt": 0.9,
-        "crosswind_kt": 4.9,
-        "crosswind_dir": "LEFT",
+        "headwind_kt": 4.7,
+        "crosswind_kt": 1.7,
+        "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -539,10 +563,10 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTCN 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTCN 200600Z 22005KT 140V280 9999 FEW025 31/22 Q1016 NOSIG",
+          "wind_dir": 220,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
@@ -550,18 +574,18 @@
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "20",
-          "headwind_kt": 0.9,
-          "crosswind_kt": 4.9,
-          "crosswind_dir": "LEFT"
+          "headwind_kt": 4.7,
+          "crosswind_kt": 1.7,
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTCN 200500Z 2006/2112 02006KT 9999 SCT030",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 020/6KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTCN 200500Z 2006/2106 19005KT 9999 FEW035 BECMG 2010/2012 36005KT BECMG 2101/2103 20005KT",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 190/5KT, Vis 9999m"
         }
       ]
     },
@@ -573,10 +597,10 @@
       "lat": 18.2619,
       "lon": 99.5053,
       "latest_metar": {
-        "raw_text": "METAR VTCL 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTCL 200600Z 00000KT 9999 BKN030 31/23 Q1017 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 0,
+        "wind_speed_kt": 0,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -588,21 +612,24 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTCL 200500Z 2006/2112 02006KT 9999 SCT030",
+        "raw_text": "TAF VTCL 200500Z 2006/2106 15005KT 9999 FEW030 BECMG 2009/2011 36005KT BECMG 2021/2023 00000KT 1000 BR BECMG 2101/2103 16005KT 9999 NSW",
         "decoded": {
           "icao": "VTCL",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "020/6KT",
+          "valid_str": "2006/2106",
+          "active_wind": "150/5KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "active_summary": "Prevailing 150/5KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 02006KT 9999 SCT030"
+            "2006/2106 15005KT 9999 FEW030",
+            "BECMG 2009/2011 36005KT",
+            "BECMG 2021/2023 00000KT 1000 BR",
+            "BECMG 2101/2103 16005KT 9999 NSW"
           ]
         }
       },
@@ -615,7 +642,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+        "active_summary": "Prevailing 150/5KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "18/36",
@@ -626,11 +653,11 @@
         "rwy_label": "RWY 18",
         "full_rwy_config": "RWY 18/36 (1,975m x 30m)",
         "rwy_heading": 175,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 2.9,
-        "crosswind_kt": 4.1,
-        "crosswind_dir": "LEFT",
+        "wind_dir": 0,
+        "wind_spd_kt": 0,
+        "headwind_kt": 0.0,
+        "crosswind_kt": 0.0,
+        "crosswind_dir": "HEAD",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -648,29 +675,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTCL 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTCL 200600Z 00000KT 9999 BKN030 31/23 Q1017 NOSIG",
+          "wind_dir": 0,
+          "wind_speed_kt": 0,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "18",
-          "headwind_kt": 2.9,
-          "crosswind_kt": 4.1,
-          "crosswind_dir": "LEFT"
+          "headwind_kt": 0.0,
+          "crosswind_kt": 0.0,
+          "crosswind_dir": "HEAD"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTCL 200500Z 2006/2112 02006KT 9999 SCT030",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 020/6KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTCL 200500Z 2006/2106 15005KT 9999 FEW030 BECMG 2009/2011 36005KT BECMG 2021/2023 00000KT 1000 BR BECMG 2101/2103 16005KT 9999 NSW",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 150/5KT, Vis 9999m"
         }
       ]
     },
@@ -682,10 +709,10 @@
       "lat": 16.7828,
       "lon": 100.2789,
       "latest_metar": {
-        "raw_text": "METAR VTPP 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTPP 200600Z VRB04KT 9999 BKN035 33/21 Q1015 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 0,
+        "wind_speed_kt": 4,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -697,22 +724,23 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTPP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "raw_text": "TAF VTPP 200500Z 2006/2106 16005KT 9999 FEW030 BECMG 2023/2101 27005KT BECMG 2104/2106 21005KT",
         "decoded": {
           "icao": "VTPP",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "120/8KT",
+          "valid_str": "2006/2106",
+          "active_wind": "160/5KT",
           "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "active_summary": "Prevailing 160/5KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 12008KT 9999 FEW025",
-            "TEMPO 2008/2012 4000 SHRA SCT020"
+            "2006/2106 16005KT 9999 FEW030",
+            "BECMG 2023/2101 27005KT",
+            "BECMG 2104/2106 21005KT"
           ]
         }
       },
@@ -725,28 +753,28 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+        "active_summary": "Prevailing 160/5KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "14/32",
         "rwy_dimensions": "3,000m x 45m",
-        "active_rwy": "14",
-        "active_runway_ident": "14",
-        "active_runway_heading": 144,
-        "rwy_label": "RWY 14",
+        "active_rwy": "32",
+        "active_runway_ident": "32",
+        "active_runway_heading": 324,
+        "rwy_label": "RWY 32",
         "full_rwy_config": "RWY 14/32 (3,000m x 45m)",
-        "rwy_heading": 144,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 4.6,
-        "crosswind_kt": 2.0,
-        "crosswind_dir": "LEFT",
+        "rwy_heading": 324,
+        "wind_dir": 0,
+        "wind_spd_kt": 4,
+        "headwind_kt": 3.2,
+        "crosswind_kt": 2.4,
+        "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
         "eta_minutes": null,
         "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 14 approach clear (0 dBZ)",
+        "target_approach": "RWY 32 approach clear (0 dBZ)",
         "cell_pos": {
           "x": 0,
           "y": 0
@@ -758,29 +786,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTPP 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTPP 200600Z VRB04KT 9999 BKN035 33/21 Q1015 NOSIG",
+          "wind_dir": 0,
+          "wind_speed_kt": 4,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
-          "active_runway": "14",
-          "headwind_kt": 4.6,
-          "crosswind_kt": 2.0,
-          "crosswind_dir": "LEFT"
+          "active_runway": "32",
+          "headwind_kt": 3.2,
+          "crosswind_kt": 2.4,
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTPP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 120/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTPP 200500Z 2006/2106 16005KT 9999 FEW030 BECMG 2023/2101 27005KT BECMG 2104/2106 21005KT",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 160/5KT, Vis 9999m"
         }
       ]
     },
@@ -792,9 +820,9 @@
       "lat": 16.4667,
       "lon": 102.7833,
       "latest_metar": {
-        "raw_text": "METAR VTUK 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTUK 200600Z VRB05KT 9999 SCT030 31/20 Q1017 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 0,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -807,21 +835,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUK 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "raw_text": "TAF VTUK 200500Z 2006/2106 08005KT 9000 FEW030",
         "decoded": {
           "icao": "VTUK",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "080/8KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "valid_str": "2006/2106",
+          "active_wind": "080/5KT",
+          "active_vis_m": 9000,
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "active_summary": "Prevailing 080/5KT, Vis 9000m",
           "all_groups": [
-            "2006/2112 08008KT 9999 FEW025 BKN090"
+            "2006/2106 08005KT 9000 FEW030"
           ]
         }
       },
@@ -832,9 +860,9 @@
         "vis_discrepancy": false,
         "taf_has_rain": false,
         "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
+        "taf_min_vis_m": 9000,
         "active_groups": [],
-        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+        "active_summary": "Prevailing 080/5KT, Vis 9000m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "03/21",
@@ -845,11 +873,11 @@
         "rwy_label": "RWY 03",
         "full_rwy_config": "RWY 03/21 (3,050m x 45m)",
         "rwy_heading": 33,
-        "wind_dir": 120,
+        "wind_dir": 0,
         "wind_spd_kt": 5,
-        "headwind_kt": 0.3,
-        "crosswind_kt": 5.0,
-        "crosswind_dir": "RIGHT",
+        "headwind_kt": 4.2,
+        "crosswind_kt": 2.7,
+        "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -867,10 +895,10 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUK 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUK 200600Z VRB05KT 9999 SCT030 31/20 Q1017 NOSIG",
+          "wind_dir": 0,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
@@ -878,18 +906,18 @@
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "03",
-          "headwind_kt": 0.3,
-          "crosswind_kt": 5.0,
-          "crosswind_dir": "RIGHT"
+          "headwind_kt": 4.2,
+          "crosswind_kt": 2.7,
+          "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUK 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 080/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUK 200500Z 2006/2106 08005KT 9000 FEW030",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 080/5KT, Vis 9000m"
         }
       ]
     },
@@ -901,9 +929,9 @@
       "lat": 17.3867,
       "lon": 102.7883,
       "latest_metar": {
-        "raw_text": "METAR VTUD 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTUD 200600Z 07005KT 310V120 9999 SCT040 32/20 Q1017 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 70,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -916,21 +944,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUD 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "raw_text": "TAF VTUD 200500Z 2006/2106 09005KT 9000 FEW030",
         "decoded": {
           "icao": "VTUD",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "080/8KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "valid_str": "2006/2106",
+          "active_wind": "090/5KT",
+          "active_vis_m": 9000,
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "active_summary": "Prevailing 090/5KT, Vis 9000m",
           "all_groups": [
-            "2006/2112 08008KT 9999 FEW025 BKN090"
+            "2006/2106 09005KT 9000 FEW030"
           ]
         }
       },
@@ -941,9 +969,9 @@
         "vis_discrepancy": false,
         "taf_has_rain": false,
         "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
+        "taf_min_vis_m": 9000,
         "active_groups": [],
-        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+        "active_summary": "Prevailing 090/5KT, Vis 9000m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "12/30",
@@ -954,11 +982,11 @@
         "rwy_label": "RWY 12",
         "full_rwy_config": "RWY 12/30 (3,048m x 45m)",
         "rwy_heading": 118,
-        "wind_dir": 120,
+        "wind_dir": 70,
         "wind_spd_kt": 5,
-        "headwind_kt": 5.0,
-        "crosswind_kt": 0.2,
-        "crosswind_dir": "RIGHT",
+        "headwind_kt": 3.3,
+        "crosswind_kt": 3.7,
+        "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -976,10 +1004,10 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUD 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUD 200600Z 07005KT 310V120 9999 SCT040 32/20 Q1017 NOSIG",
+          "wind_dir": 70,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
@@ -987,18 +1015,18 @@
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "12",
-          "headwind_kt": 5.0,
-          "crosswind_kt": 0.2,
-          "crosswind_dir": "RIGHT"
+          "headwind_kt": 3.3,
+          "crosswind_kt": 3.7,
+          "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUD 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 080/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUD 200500Z 2006/2106 09005KT 9000 FEW030",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 090/5KT, Vis 9000m"
         }
       ]
     },
@@ -1010,10 +1038,10 @@
       "lat": 15.2514,
       "lon": 104.8703,
       "latest_metar": {
-        "raw_text": "METAR VTUU 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTUU 200600Z 04015KT 360V070 9999 SCT040 31/22 Q1015 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 40,
+        "wind_speed_kt": 15,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -1025,22 +1053,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUU 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "raw_text": "TAF VTUU 200500Z 2006/2106 04011KT 9999 FEW035",
         "decoded": {
           "icao": "VTUU",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "120/8KT",
+          "valid_str": "2006/2106",
+          "active_wind": "040/11KT",
           "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "active_clouds": "Few (1-2 oktas) 3500ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "active_summary": "Prevailing 040/11KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 12008KT 9999 FEW025",
-            "TEMPO 2008/2012 4000 SHRA SCT020"
+            "2006/2106 04011KT 9999 FEW035"
           ]
         }
       },
@@ -1053,7 +1080,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+        "active_summary": "Prevailing 040/11KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "05/23",
@@ -1064,11 +1091,11 @@
         "rwy_label": "RWY 05",
         "full_rwy_config": "RWY 05/23 (3,000m x 45m)",
         "rwy_heading": 52,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 1.9,
-        "crosswind_kt": 4.6,
-        "crosswind_dir": "RIGHT",
+        "wind_dir": 40,
+        "wind_spd_kt": 15,
+        "headwind_kt": 14.7,
+        "crosswind_kt": 3.1,
+        "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -1086,29 +1113,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUU 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUU 200600Z 04015KT 360V070 9999 SCT040 31/22 Q1015 NOSIG",
+          "wind_dir": 40,
+          "wind_speed_kt": 15,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "05",
-          "headwind_kt": 1.9,
-          "crosswind_kt": 4.6,
-          "crosswind_dir": "RIGHT"
+          "headwind_kt": 14.7,
+          "crosswind_kt": 3.1,
+          "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUU 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 120/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUU 200500Z 2006/2106 04011KT 9999 FEW035",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 040/11KT, Vis 9999m"
         }
       ]
     },
@@ -1120,10 +1147,10 @@
       "lat": 16.1603,
       "lon": 103.7736,
       "latest_metar": {
-        "raw_text": "METAR VTUV 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTUV 200600Z 06011KT 9999 SCT035 31/20 Q1016 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 60,
+        "wind_speed_kt": 11,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -1135,21 +1162,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUV 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "raw_text": "TAF VTUV 200500Z 2006/2106 08012KT 9999 FEW035",
         "decoded": {
           "icao": "VTUV",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "080/8KT",
+          "valid_str": "2006/2106",
+          "active_wind": "080/12KT",
           "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "active_clouds": "Few (1-2 oktas) 3500ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "active_summary": "Prevailing 080/12KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 08008KT 9999 FEW025 BKN090"
+            "2006/2106 08012KT 9999 FEW035"
           ]
         }
       },
@@ -1162,28 +1189,28 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+        "active_summary": "Prevailing 080/12KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "18/36",
         "rwy_dimensions": "2,100m x 45m",
-        "active_rwy": "18",
-        "active_runway_ident": "18",
-        "active_runway_heading": 183,
-        "rwy_label": "RWY 18",
+        "active_rwy": "36",
+        "active_runway_ident": "36",
+        "active_runway_heading": 3,
+        "rwy_label": "RWY 36",
         "full_rwy_config": "RWY 18/36 (2,100m x 45m)",
-        "rwy_heading": 183,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 2.3,
-        "crosswind_kt": 4.5,
-        "crosswind_dir": "LEFT",
+        "rwy_heading": 3,
+        "wind_dir": 60,
+        "wind_spd_kt": 11,
+        "headwind_kt": 6.0,
+        "crosswind_kt": 9.2,
+        "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
         "eta_minutes": null,
         "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 18 approach clear (0 dBZ)",
+        "target_approach": "RWY 36 approach clear (0 dBZ)",
         "cell_pos": {
           "x": 0,
           "y": 0
@@ -1195,29 +1222,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUV 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUV 200600Z 06011KT 9999 SCT035 31/20 Q1016 NOSIG",
+          "wind_dir": 60,
+          "wind_speed_kt": 11,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
-          "active_runway": "18",
-          "headwind_kt": 2.3,
-          "crosswind_kt": 4.5,
-          "crosswind_dir": "LEFT"
+          "active_runway": "36",
+          "headwind_kt": 6.0,
+          "crosswind_kt": 9.2,
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUV 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 080/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUV 200500Z 2006/2106 08012KT 9999 FEW035",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 080/12KT, Vis 9999m"
         }
       ]
     },
@@ -1229,10 +1256,10 @@
       "lat": 15.2289,
       "lon": 103.2536,
       "latest_metar": {
-        "raw_text": "METAR VTUO 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTUO 200600Z 07008KT 9999 FEW030 32/18 Q1016 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 70,
+        "wind_speed_kt": 8,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -1244,21 +1271,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUO 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "raw_text": "TAF VTUO 200500Z 2006/2106 06010KT 9000 FEW035",
         "decoded": {
           "icao": "VTUO",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "080/8KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "valid_str": "2006/2106",
+          "active_wind": "060/10KT",
+          "active_vis_m": 9000,
+          "active_clouds": "Few (1-2 oktas) 3500ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "active_summary": "Prevailing 060/10KT, Vis 9000m",
           "all_groups": [
-            "2006/2112 08008KT 9999 FEW025 BKN090"
+            "2006/2106 06010KT 9000 FEW035"
           ]
         }
       },
@@ -1269,9 +1296,9 @@
         "vis_discrepancy": false,
         "taf_has_rain": false,
         "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
+        "taf_min_vis_m": 9000,
         "active_groups": [],
-        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+        "active_summary": "Prevailing 060/10KT, Vis 9000m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "04/22",
@@ -1282,10 +1309,10 @@
         "rwy_label": "RWY 04",
         "full_rwy_config": "RWY 04/22 (2,100m x 45m)",
         "rwy_heading": 35,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 0.4,
-        "crosswind_kt": 5.0,
+        "wind_dir": 70,
+        "wind_spd_kt": 8,
+        "headwind_kt": 6.6,
+        "crosswind_kt": 4.6,
         "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
@@ -1304,29 +1331,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUO 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUO 200600Z 07008KT 9999 FEW030 32/18 Q1016 NOSIG",
+          "wind_dir": 70,
+          "wind_speed_kt": 8,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "04",
-          "headwind_kt": 0.4,
-          "crosswind_kt": 5.0,
+          "headwind_kt": 6.6,
+          "crosswind_kt": 4.6,
           "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUO 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 080/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUO 200500Z 2006/2106 06010KT 9000 FEW035",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 060/10KT, Vis 9000m"
         }
       ]
     },
@@ -1338,10 +1365,10 @@
       "lat": 17.4392,
       "lon": 101.7222,
       "latest_metar": {
-        "raw_text": "METAR VTUL 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTUL 200600Z VRB03KT 9999 SCT030 31/21 Q1017 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 0,
+        "wind_speed_kt": 3,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -1353,21 +1380,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUL 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "raw_text": "TAF VTUL 200500Z 2006/2106 07005KT 9000 FEW030",
         "decoded": {
           "icao": "VTUL",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "080/8KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "valid_str": "2006/2106",
+          "active_wind": "070/5KT",
+          "active_vis_m": 9000,
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "active_summary": "Prevailing 070/5KT, Vis 9000m",
           "all_groups": [
-            "2006/2112 08008KT 9999 FEW025 BKN090"
+            "2006/2106 07005KT 9000 FEW030"
           ]
         }
       },
@@ -1378,30 +1405,30 @@
         "vis_discrepancy": false,
         "taf_has_rain": false,
         "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
+        "taf_min_vis_m": 9000,
         "active_groups": [],
-        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+        "active_summary": "Prevailing 070/5KT, Vis 9000m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "01/19",
         "rwy_dimensions": "2,100m x 45m",
-        "active_rwy": "19",
-        "active_runway_ident": "19",
-        "active_runway_heading": 196,
-        "rwy_label": "RWY 19",
+        "active_rwy": "01",
+        "active_runway_ident": "01",
+        "active_runway_heading": 16,
+        "rwy_label": "RWY 01",
         "full_rwy_config": "RWY 01/19 (2,100m x 45m)",
-        "rwy_heading": 196,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 1.2,
-        "crosswind_kt": 4.9,
+        "rwy_heading": 16,
+        "wind_dir": 0,
+        "wind_spd_kt": 3,
+        "headwind_kt": 2.9,
+        "crosswind_kt": 0.8,
         "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
         "eta_minutes": null,
         "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 19 approach clear (0 dBZ)",
+        "target_approach": "RWY 01 approach clear (0 dBZ)",
         "cell_pos": {
           "x": 0,
           "y": 0
@@ -1413,29 +1440,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUL 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUL 200600Z VRB03KT 9999 SCT030 31/21 Q1017 NOSIG",
+          "wind_dir": 0,
+          "wind_speed_kt": 3,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
-          "active_runway": "19",
-          "headwind_kt": 1.2,
-          "crosswind_kt": 4.9,
+          "active_runway": "01",
+          "headwind_kt": 2.9,
+          "crosswind_kt": 0.8,
           "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUL 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 080/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUL 200500Z 2006/2106 07005KT 9000 FEW030",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 070/5KT, Vis 9000m"
         }
       ]
     },
@@ -1447,9 +1474,9 @@
       "lat": 17.1953,
       "lon": 104.1189,
       "latest_metar": {
-        "raw_text": "METAR VTUI 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTUI 200600Z 11005KT 080V150 9999 SCT030 32/20 Q1017 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 110,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -1462,22 +1489,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUI 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "raw_text": "TAF VTUI 200500Z 2006/2106 10007KT 9000 FEW030",
         "decoded": {
           "icao": "VTUI",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "120/8KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "valid_str": "2006/2106",
+          "active_wind": "100/7KT",
+          "active_vis_m": 9000,
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "active_summary": "Prevailing 100/7KT, Vis 9000m",
           "all_groups": [
-            "2006/2112 12008KT 9999 FEW025",
-            "TEMPO 2008/2012 4000 SHRA SCT020"
+            "2006/2106 10007KT 9000 FEW030"
           ]
         }
       },
@@ -1488,9 +1514,9 @@
         "vis_discrepancy": false,
         "taf_has_rain": false,
         "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
+        "taf_min_vis_m": 9000,
         "active_groups": [],
-        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+        "active_summary": "Prevailing 100/7KT, Vis 9000m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "05/23",
@@ -1501,10 +1527,10 @@
         "rwy_label": "RWY 05",
         "full_rwy_config": "RWY 05/23 (2,600m x 45m)",
         "rwy_heading": 46,
-        "wind_dir": 120,
+        "wind_dir": 110,
         "wind_spd_kt": 5,
-        "headwind_kt": 1.4,
-        "crosswind_kt": 4.8,
+        "headwind_kt": 2.2,
+        "crosswind_kt": 4.5,
         "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
@@ -1523,10 +1549,10 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUI 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUI 200600Z 11005KT 080V150 9999 SCT030 32/20 Q1017 NOSIG",
+          "wind_dir": 110,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
@@ -1534,18 +1560,18 @@
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "05",
-          "headwind_kt": 1.4,
-          "crosswind_kt": 4.8,
+          "headwind_kt": 2.2,
+          "crosswind_kt": 4.5,
           "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUI 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 120/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUI 200500Z 2006/2106 10007KT 9000 FEW030",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 100/7KT, Vis 9000m"
         }
       ]
     },
@@ -1557,10 +1583,10 @@
       "lat": 17.3839,
       "lon": 104.6419,
       "latest_metar": {
-        "raw_text": "METAR VTUW 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTUW 200600Z 07010KT 020V090 9999 FEW030 31/16 Q1017 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 70,
+        "wind_speed_kt": 10,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -1572,21 +1598,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTUW 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "raw_text": "TAF VTUW 200500Z 2006/2106 09007KT 9000 FEW030",
         "decoded": {
           "icao": "VTUW",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "080/8KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "valid_str": "2006/2106",
+          "active_wind": "090/7KT",
+          "active_vis_m": 9000,
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "active_summary": "Prevailing 090/7KT, Vis 9000m",
           "all_groups": [
-            "2006/2112 08008KT 9999 FEW025 BKN090"
+            "2006/2106 09007KT 9000 FEW030"
           ]
         }
       },
@@ -1597,9 +1623,9 @@
         "vis_discrepancy": false,
         "taf_has_rain": false,
         "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
+        "taf_min_vis_m": 9000,
         "active_groups": [],
-        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+        "active_summary": "Prevailing 090/7KT, Vis 9000m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "15/33",
@@ -1610,10 +1636,10 @@
         "rwy_label": "RWY 15",
         "full_rwy_config": "RWY 15/33 (2,000m x 45m)",
         "rwy_heading": 145,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 4.5,
-        "crosswind_kt": 2.1,
+        "wind_dir": 70,
+        "wind_spd_kt": 10,
+        "headwind_kt": 2.6,
+        "crosswind_kt": 9.7,
         "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
@@ -1632,29 +1658,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTUW 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTUW 200600Z 07010KT 020V090 9999 FEW030 31/16 Q1017 NOSIG",
+          "wind_dir": 70,
+          "wind_speed_kt": 10,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "15",
-          "headwind_kt": 4.5,
-          "crosswind_kt": 2.1,
+          "headwind_kt": 2.6,
+          "crosswind_kt": 9.7,
           "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTUW 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 080/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTUW 200500Z 2006/2106 09007KT 9000 FEW030",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 090/7KT, Vis 9000m"
         }
       ]
     },
@@ -1666,10 +1692,10 @@
       "lat": 12.6361,
       "lon": 99.9517,
       "latest_metar": {
-        "raw_text": "METAR VTPH 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTPH 200600Z 03007KT 350V060 9999 FEW030 32/24 Q1014 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 30,
+        "wind_speed_kt": 7,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -1681,21 +1707,23 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTPH 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTPH 200500Z 2006/2106 04008KT 9999 FEW030 BECMG 2013/2015 33003KT BECMG 2103/2105 03008KT",
         "decoded": {
           "icao": "VTPH",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
+          "valid_str": "2006/2106",
+          "active_wind": "040/8KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "active_clouds": "Few (1-2 oktas) 3000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "active_summary": "Prevailing 040/8KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 04008KT 9999 FEW030",
+            "BECMG 2013/2015 33003KT",
+            "BECMG 2103/2105 03008KT"
           ]
         }
       },
@@ -1708,28 +1736,28 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "active_summary": "Prevailing 040/8KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "16/34",
         "rwy_dimensions": "2,100m x 35m",
-        "active_rwy": "16",
-        "active_runway_ident": "16",
-        "active_runway_heading": 160,
-        "rwy_label": "RWY 16",
+        "active_rwy": "34",
+        "active_runway_ident": "34",
+        "active_runway_heading": 340,
+        "rwy_label": "RWY 34",
         "full_rwy_config": "RWY 16/34 (2,100m x 35m)",
-        "rwy_heading": 160,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 3.8,
-        "crosswind_kt": 3.2,
-        "crosswind_dir": "LEFT",
+        "rwy_heading": 340,
+        "wind_dir": 30,
+        "wind_spd_kt": 7,
+        "headwind_kt": 4.5,
+        "crosswind_kt": 5.4,
+        "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
         "eta_minutes": null,
         "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 16 approach clear (0 dBZ)",
+        "target_approach": "RWY 34 approach clear (0 dBZ)",
         "cell_pos": {
           "x": 0,
           "y": 0
@@ -1741,29 +1769,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTPH 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTPH 200600Z 03007KT 350V060 9999 FEW030 32/24 Q1014 NOSIG",
+          "wind_dir": 30,
+          "wind_speed_kt": 7,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
-          "active_runway": "16",
-          "headwind_kt": 3.8,
-          "crosswind_kt": 3.2,
-          "crosswind_dir": "LEFT"
+          "active_runway": "34",
+          "headwind_kt": 4.5,
+          "crosswind_kt": 5.4,
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTPH 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTPH 200500Z 2006/2106 04008KT 9999 FEW030 BECMG 2013/2015 33003KT BECMG 2103/2105 03008KT",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 040/8KT, Vis 9999m"
         }
       ]
     },
@@ -1775,10 +1803,10 @@
       "lat": 8.1132,
       "lon": 98.3169,
       "latest_metar": {
-        "raw_text": "METAR VTSP 200530Z 26012KT 9999 SCT020 31/25 Q1009 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 260,
-        "wind_speed_kt": 12,
+        "raw_text": "METAR VTSP 200630Z 09011KT 030V120 9999 FEW020 31/26 Q1011 NOSIG",
+        "timestamp_zulu": "200630Z",
+        "wind_dir": 90,
+        "wind_speed_kt": 11,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -1790,22 +1818,22 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTSP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "raw_text": "TAF VTSP 200500Z 2006/2112 09009KT 9999 SCT020 TEMPO 2008/2014 -TSRA FEW018CB SCT020 BKN100",
         "decoded": {
           "icao": "VTSP",
           "issue_zulu": "0500Z",
           "valid_str": "2006/2112",
-          "active_wind": "120/8KT",
+          "active_wind": "090/9KT",
           "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "active_clouds": "Scattered (3-4 oktas) 2000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "active_summary": "Prevailing 090/9KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 12008KT 9999 FEW025",
-            "TEMPO 2008/2012 4000 SHRA SCT020"
+            "2006/2112 09009KT 9999 SCT020",
+            "TEMPO 2008/2014 -TSRA FEW018CB SCT020 BKN100"
           ]
         }
       },
@@ -1818,28 +1846,28 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+        "active_summary": "Prevailing 090/9KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "09/27",
         "rwy_dimensions": "3,000m x 45m",
-        "active_rwy": "27",
-        "active_runway_ident": "27",
-        "active_runway_heading": 265,
-        "rwy_label": "RWY 27",
+        "active_rwy": "09",
+        "active_runway_ident": "09",
+        "active_runway_heading": 85,
+        "rwy_label": "RWY 09",
         "full_rwy_config": "RWY 09/27 (3,000m x 45m)",
-        "rwy_heading": 265,
-        "wind_dir": 260,
-        "wind_spd_kt": 12,
-        "headwind_kt": 12.0,
+        "rwy_heading": 85,
+        "wind_dir": 90,
+        "wind_spd_kt": 11,
+        "headwind_kt": 11.0,
         "crosswind_kt": 1.0,
-        "crosswind_dir": "LEFT",
+        "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
         "eta_minutes": null,
         "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 27 approach clear (0 dBZ)",
+        "target_approach": "RWY 09 approach clear (0 dBZ)",
         "cell_pos": {
           "x": 0,
           "y": 0
@@ -1851,29 +1879,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSP 200530Z 26012KT 9999 SCT020 31/25 Q1009 NOSIG",
-          "wind_dir": 260,
-          "wind_speed_kt": 12,
+          "timestamp_zulu": "200630Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSP 200630Z 09011KT 030V120 9999 FEW020 31/26 Q1011 NOSIG",
+          "wind_dir": 90,
+          "wind_speed_kt": 11,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
-          "active_runway": "27",
-          "headwind_kt": 12.0,
+          "active_runway": "09",
+          "headwind_kt": 11.0,
           "crosswind_kt": 1.0,
-          "crosswind_dir": "LEFT"
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSP 200500Z 2006/2112 09009KT 9999 SCT020 TEMPO 2008/2014 -TSRA FEW018CB SCT020 BKN100",
           "valid_str": "2006/2112",
-          "active_summary": "Prevailing 120/8KT, Vis 9999m"
+          "active_summary": "Prevailing 090/9KT, Vis 9999m"
         }
       ]
     },
@@ -1885,9 +1913,9 @@
       "lat": 8.0994,
       "lon": 98.9858,
       "latest_metar": {
-        "raw_text": "METAR VTSG 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTSG 200600Z 08005KT 020V110 9999 FEW015 BKN070 29/26 Q1013 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 80,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -1900,22 +1928,24 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTSG 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "raw_text": "TAF VTSG 200500Z 2006/2106 06006KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100",
         "decoded": {
           "icao": "VTSG",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "120/8KT",
+          "valid_str": "2006/2106",
+          "active_wind": "060/6KT",
           "active_vis_m": 9999,
-          "active_clouds": "Few (1-2 oktas) 2500ft",
-          "has_rain": false,
-          "rain_phenomena": null,
+          "active_clouds": "Scattered (3-4 oktas) 2000ft",
+          "has_rain": true,
+          "rain_phenomena": "-TSRA",
           "has_reduced_vis": false,
-          "active_groups": [],
-          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "active_groups": [
+            "TEMPO 2006/2012"
+          ],
+          "active_summary": "Prevailing 060/6KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012",
           "all_groups": [
-            "2006/2112 12008KT 9999 FEW025",
-            "TEMPO 2008/2012 4000 SHRA SCT020"
+            "2006/2106 06006KT 9999 SCT020",
+            "TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100"
           ]
         }
       },
@@ -1924,11 +1954,13 @@
         "alert_type": "NORMAL",
         "rain_discrepancy": false,
         "vis_discrepancy": false,
-        "taf_has_rain": false,
+        "taf_has_rain": true,
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
-        "active_groups": [],
-        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+        "active_groups": [
+          "TEMPO 2006/2012"
+        ],
+        "active_summary": "Prevailing 060/6KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
       },
       "tactical_runway_vector": {
         "rwy_ident": "14/32",
@@ -1939,10 +1971,10 @@
         "rwy_label": "RWY 14",
         "full_rwy_config": "RWY 14/32 (3,000m x 45m)",
         "rwy_heading": 141,
-        "wind_dir": 120,
+        "wind_dir": 80,
         "wind_spd_kt": 5,
-        "headwind_kt": 4.7,
-        "crosswind_kt": 1.8,
+        "headwind_kt": 2.4,
+        "crosswind_kt": 4.4,
         "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
@@ -1961,10 +1993,10 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSG 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSG 200600Z 08005KT 020V110 9999 FEW015 BKN070 29/26 Q1013 NOSIG",
+          "wind_dir": 80,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
@@ -1972,18 +2004,18 @@
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "14",
-          "headwind_kt": 4.7,
-          "crosswind_kt": 1.8,
+          "headwind_kt": 2.4,
+          "crosswind_kt": 4.4,
           "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSG 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 120/8KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSG 200500Z 2006/2106 06006KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 060/6KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
         }
       ]
     },
@@ -1995,10 +2027,10 @@
       "lat": 6.9331,
       "lon": 100.3931,
       "latest_metar": {
-        "raw_text": "METAR VTSS 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTSS 200630Z 06013KT 9999 SCT020 BKN100 30/24 Q1012 NOSIG",
+        "timestamp_zulu": "200630Z",
+        "wind_dir": 60,
+        "wind_speed_kt": 13,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -2010,21 +2042,27 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTSS 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTSS 200500Z 2006/2106 07010KT 9999 SCT020 BKN100 TEMPO 2006/2013 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 BECMG 2013/2015 25003KT TEMPO 2020/2103 VRB15G25KT -TSRA FEW016CB SCT018 BKN100 BECMG 2103/2105 07010KT",
         "decoded": {
           "icao": "VTSS",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
-          "has_rain": false,
-          "rain_phenomena": null,
-          "has_reduced_vis": false,
-          "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "valid_str": "2006/2106",
+          "active_wind": "070/10KT",
+          "active_vis_m": 4000,
+          "active_clouds": "Scattered (3-4 oktas) 2000ft, Broken Ceiling (5-7 oktas) 10000ft",
+          "has_rain": true,
+          "rain_phenomena": "TSRA",
+          "has_reduced_vis": true,
+          "active_groups": [
+            "TEMPO 2006/2013"
+          ],
+          "active_summary": "Prevailing 070/10KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2013",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 07010KT 9999 SCT020 BKN100",
+            "TEMPO 2006/2013 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100",
+            "BECMG 2013/2015 25003KT",
+            "TEMPO 2020/2103 VRB15G25KT -TSRA FEW016CB SCT018 BKN100",
+            "BECMG 2103/2105 07010KT"
           ]
         }
       },
@@ -2033,11 +2071,13 @@
         "alert_type": "NORMAL",
         "rain_discrepancy": false,
         "vis_discrepancy": false,
-        "taf_has_rain": false,
-        "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
-        "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "taf_has_rain": true,
+        "taf_has_low_vis": true,
+        "taf_min_vis_m": 4000,
+        "active_groups": [
+          "TEMPO 2006/2013"
+        ],
+        "active_summary": "Prevailing 070/10KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2013"
       },
       "tactical_runway_vector": {
         "rwy_ident": "08/26",
@@ -2048,11 +2088,11 @@
         "rwy_label": "RWY 08",
         "full_rwy_config": "RWY 08/26 (3,050m x 45m)",
         "rwy_heading": 82,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 3.9,
-        "crosswind_kt": 3.1,
-        "crosswind_dir": "RIGHT",
+        "wind_dir": 60,
+        "wind_spd_kt": 13,
+        "headwind_kt": 12.1,
+        "crosswind_kt": 4.9,
+        "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -2070,29 +2110,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSS 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200630Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSS 200630Z 06013KT 9999 SCT020 BKN100 30/24 Q1012 NOSIG",
+          "wind_dir": 60,
+          "wind_speed_kt": 13,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "08",
-          "headwind_kt": 3.9,
-          "crosswind_kt": 3.1,
-          "crosswind_dir": "RIGHT"
+          "headwind_kt": 12.1,
+          "crosswind_kt": 4.9,
+          "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSS 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSS 200500Z 2006/2106 07010KT 9999 SCT020 BKN100 TEMPO 2006/2013 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 BECMG 2013/2015 25003KT TEMPO 2020/2103 VRB15G25KT -TSRA FEW016CB SCT018 BKN100 BECMG 2103/2105 07010KT",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 070/10KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2013"
         }
       ]
     },
@@ -2104,10 +2144,10 @@
       "lat": 9.1328,
       "lon": 99.1356,
       "latest_metar": {
-        "raw_text": "METAR VTSB 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTSB 200600Z 05007KT 9999 VCSH FEW018TCU 31/24 Q1012 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 50,
+        "wind_speed_kt": 7,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -2116,7 +2156,7 @@
         "mist_phenomena": [],
         "has_reduced_vis": false,
         "reduced_vis_cause": null,
-        "has_cb": false
+        "has_cb": true
       },
       "active_taf": {
         "raw_text": "TAF VTSB 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
@@ -2158,48 +2198,48 @@
         "rwy_label": "RWY 04",
         "full_rwy_config": "RWY 04/22 (3,000m x 45m)",
         "rwy_heading": 44,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 1.2,
-        "crosswind_kt": 4.9,
+        "wind_dir": 50,
+        "wind_spd_kt": 7,
+        "headwind_kt": 7.0,
+        "crosswind_kt": 0.7,
         "crosswind_dir": "RIGHT",
-        "pop_percent": 10,
-        "intensity": "NSW Fair",
-        "dbz": 0,
-        "eta_minutes": null,
-        "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 04 approach clear (0 dBZ)",
+        "pop_percent": 45,
+        "intensity": "Convective Clouds (CB/TCU Nearby)",
+        "dbz": 35,
+        "eta_minutes": 20,
+        "vector_status": "APPROACHING_CELL",
+        "target_approach": "Cell tracking toward RWY 04 approach",
         "cell_pos": {
-          "x": 0,
-          "y": 0
+          "x": -18,
+          "y": -12
         },
         "cell_vel": {
-          "dx": 0,
-          "dy": 0
+          "dx": 1.2,
+          "dy": 0.8
         }
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSB 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSB 200600Z 05007KT 9999 VCSH FEW018TCU 31/24 Q1012 NOSIG",
+          "wind_dir": 50,
+          "wind_speed_kt": 7,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "04",
-          "headwind_kt": 1.2,
-          "crosswind_kt": 4.9,
+          "headwind_kt": 7.0,
+          "crosswind_kt": 0.7,
           "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
           "raw_text": "TAF VTSB 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
           "valid_str": "2006/2112",
           "active_summary": "Prevailing 120/8KT, Vis 9999m"
@@ -2214,14 +2254,16 @@
       "lat": 9.5478,
       "lon": 100.0622,
       "latest_metar": {
-        "raw_text": "METAR VTSM 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTSM 200600Z 11008KT 070V140 9999 -RA SCT020 31/26 Q1014 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 110,
+        "wind_speed_kt": 8,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
-        "has_rain": false,
-        "rain_phenomena": [],
+        "has_rain": true,
+        "rain_phenomena": [
+          "-RA"
+        ],
         "has_mist_fog": false,
         "mist_phenomena": [],
         "has_reduced_vis": false,
@@ -2229,21 +2271,25 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTSM 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTSM 200500Z 2006/2106 12013KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 TEMPO 2022/2103 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100",
         "decoded": {
           "icao": "VTSM",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
-          "has_rain": false,
-          "rain_phenomena": null,
-          "has_reduced_vis": false,
-          "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "valid_str": "2006/2106",
+          "active_wind": "120/13KT",
+          "active_vis_m": 4000,
+          "active_clouds": "Scattered (3-4 oktas) 2000ft, Broken Ceiling (5-7 oktas) 10000ft",
+          "has_rain": true,
+          "rain_phenomena": "TSRA",
+          "has_reduced_vis": true,
+          "active_groups": [
+            "TEMPO 2006/2012"
+          ],
+          "active_summary": "Prevailing 120/13KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 12013KT 9999 SCT020 BKN100",
+            "TEMPO 2006/2012 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100",
+            "TEMPO 2022/2103 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100"
           ]
         }
       },
@@ -2252,11 +2298,13 @@
         "alert_type": "NORMAL",
         "rain_discrepancy": false,
         "vis_discrepancy": false,
-        "taf_has_rain": false,
-        "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
-        "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "taf_has_rain": true,
+        "taf_has_low_vis": true,
+        "taf_min_vis_m": 4000,
+        "active_groups": [
+          "TEMPO 2006/2012"
+        ],
+        "active_summary": "Prevailing 120/13KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
       },
       "tactical_runway_vector": {
         "rwy_ident": "17/35",
@@ -2267,51 +2315,53 @@
         "rwy_label": "RWY 17",
         "full_rwy_config": "RWY 17/35 (2,100m x 45m)",
         "rwy_heading": 174,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 2.9,
-        "crosswind_kt": 4.0,
+        "wind_dir": 110,
+        "wind_spd_kt": 8,
+        "headwind_kt": 3.5,
+        "crosswind_kt": 7.2,
         "crosswind_dir": "LEFT",
-        "pop_percent": 10,
-        "intensity": "NSW Fair",
-        "dbz": 0,
-        "eta_minutes": null,
-        "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 17 approach clear (0 dBZ)",
+        "pop_percent": 80,
+        "intensity": "Rain (-RA)",
+        "dbz": 42,
+        "eta_minutes": 0,
+        "vector_status": "ACTIVE_RAIN",
+        "target_approach": "Surface rain on RWY 17 approach",
         "cell_pos": {
           "x": 0,
           "y": 0
         },
         "cell_vel": {
-          "dx": 0,
-          "dy": 0
+          "dx": -3.6,
+          "dy": 1.8
         }
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSM 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSM 200600Z 11008KT 070V140 9999 -RA SCT020 31/26 Q1014 NOSIG",
+          "wind_dir": 110,
+          "wind_speed_kt": 8,
           "visibility_m": 9999,
-          "weather_phenomena": [],
+          "weather_phenomena": [
+            "-RA"
+          ],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "17",
-          "headwind_kt": 2.9,
-          "crosswind_kt": 4.0,
+          "headwind_kt": 3.5,
+          "crosswind_kt": 7.2,
           "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSM 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSM 200500Z 2006/2106 12013KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 TEMPO 2022/2103 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 120/13KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
         }
       ]
     },
@@ -2323,11 +2373,11 @@
       "lat": 7.5089,
       "lon": 99.6161,
       "latest_metar": {
-        "raw_text": "METAR VTST 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
-        "wind_gust_kt": 0,
+        "raw_text": "METAR VTST 200600Z 05009G21KT 020V080 9999 FEW030 31/25 Q1011 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 50,
+        "wind_speed_kt": 9,
+        "wind_gust_kt": 21,
         "visibility_m": 9999,
         "has_rain": false,
         "rain_phenomena": [],
@@ -2338,21 +2388,24 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTST 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTST 200500Z 2006/2106 06008KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100",
         "decoded": {
           "icao": "VTST",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
+          "valid_str": "2006/2106",
+          "active_wind": "060/8KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
-          "has_rain": false,
-          "rain_phenomena": null,
+          "active_clouds": "Scattered (3-4 oktas) 2000ft",
+          "has_rain": true,
+          "rain_phenomena": "-TSRA",
           "has_reduced_vis": false,
-          "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "active_groups": [
+            "TEMPO 2006/2012"
+          ],
+          "active_summary": "Prevailing 060/8KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 06008KT 9999 SCT020",
+            "TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100"
           ]
         }
       },
@@ -2361,11 +2414,13 @@
         "alert_type": "NORMAL",
         "rain_discrepancy": false,
         "vis_discrepancy": false,
-        "taf_has_rain": false,
+        "taf_has_rain": true,
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
-        "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "active_groups": [
+          "TEMPO 2006/2012"
+        ],
+        "active_summary": "Prevailing 060/8KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
       },
       "tactical_runway_vector": {
         "rwy_ident": "08/26",
@@ -2376,11 +2431,11 @@
         "rwy_label": "RWY 08",
         "full_rwy_config": "RWY 08/26 (2,320m x 45m)",
         "rwy_heading": 81,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 3.9,
-        "crosswind_kt": 3.1,
-        "crosswind_dir": "RIGHT",
+        "wind_dir": 50,
+        "wind_spd_kt": 9,
+        "headwind_kt": 7.7,
+        "crosswind_kt": 4.6,
+        "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -2398,29 +2453,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTST 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTST 200600Z 05009G21KT 020V080 9999 FEW030 31/25 Q1011 NOSIG",
+          "wind_dir": 50,
+          "wind_speed_kt": 9,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "08",
-          "headwind_kt": 3.9,
-          "crosswind_kt": 3.1,
-          "crosswind_dir": "RIGHT"
+          "headwind_kt": 7.7,
+          "crosswind_kt": 4.6,
+          "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTST 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTST 200500Z 2006/2106 06008KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 060/8KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
         }
       ]
     },
@@ -2432,36 +2487,42 @@
       "lat": 8.5406,
       "lon": 99.9439,
       "latest_metar": {
-        "raw_text": "METAR VTSF 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTSF 200600Z 27005KT 240V320 9999 -TSRA FEW016CB BKN018 BKN020 27/27 Q1013 RERA NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 270,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
-        "has_rain": false,
-        "rain_phenomena": [],
+        "has_rain": true,
+        "rain_phenomena": [
+          "-TSRA"
+        ],
         "has_mist_fog": false,
         "mist_phenomena": [],
         "has_reduced_vis": false,
         "reduced_vis_cause": null,
-        "has_cb": false
+        "has_cb": true
       },
       "active_taf": {
-        "raw_text": "TAF VTSF 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTSF 200500Z 2006/2106 08006KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100 TEMPO 2020/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100",
         "decoded": {
           "icao": "VTSF",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
-          "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
-          "has_rain": false,
-          "rain_phenomena": null,
-          "has_reduced_vis": false,
-          "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "valid_str": "2006/2106",
+          "active_wind": "080/6KT",
+          "active_vis_m": 3000,
+          "active_clouds": "Scattered (3-4 oktas) 2000ft, Broken Ceiling (5-7 oktas) 10000ft",
+          "has_rain": true,
+          "rain_phenomena": "TSRA",
+          "has_reduced_vis": true,
+          "active_groups": [
+            "TEMPO 2006/2012"
+          ],
+          "active_summary": "Prevailing 080/6KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 08006KT 9999 SCT020 BKN100",
+            "TEMPO 2006/2012 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100",
+            "TEMPO 2020/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100"
           ]
         }
       },
@@ -2470,11 +2531,13 @@
         "alert_type": "NORMAL",
         "rain_discrepancy": false,
         "vis_discrepancy": false,
-        "taf_has_rain": false,
-        "taf_has_low_vis": false,
-        "taf_min_vis_m": 9999,
-        "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "taf_has_rain": true,
+        "taf_has_low_vis": true,
+        "taf_min_vis_m": 3000,
+        "active_groups": [
+          "TEMPO 2006/2012"
+        ],
+        "active_summary": "Prevailing 080/6KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
       },
       "tactical_runway_vector": {
         "rwy_ident": "01/19",
@@ -2485,51 +2548,53 @@
         "rwy_label": "RWY 19",
         "full_rwy_config": "RWY 01/19 (2,100m x 45m)",
         "rwy_heading": 186,
-        "wind_dir": 120,
+        "wind_dir": 270,
         "wind_spd_kt": 5,
-        "headwind_kt": 2.0,
-        "crosswind_kt": 4.6,
-        "crosswind_dir": "LEFT",
-        "pop_percent": 10,
-        "intensity": "NSW Fair",
-        "dbz": 0,
-        "eta_minutes": null,
-        "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 19 approach clear (0 dBZ)",
+        "headwind_kt": 0.5,
+        "crosswind_kt": 5.0,
+        "crosswind_dir": "RIGHT",
+        "pop_percent": 95,
+        "intensity": "Thunderstorm (-TSRA)",
+        "dbz": 52,
+        "eta_minutes": 0,
+        "vector_status": "ACTIVE_STORM_IMPACT",
+        "target_approach": "Active storm core over RWY 19 threshold",
         "cell_pos": {
           "x": 0,
           "y": 0
         },
         "cell_vel": {
-          "dx": 0,
-          "dy": 0
+          "dx": 4.0,
+          "dy": 0.4
         }
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSF 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSF 200600Z 27005KT 240V320 9999 -TSRA FEW016CB BKN018 BKN020 27/27 Q1013 RERA NOSIG",
+          "wind_dir": 270,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
-          "weather_phenomena": [],
+          "weather_phenomena": [
+            "-TSRA"
+          ],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "19",
-          "headwind_kt": 2.0,
-          "crosswind_kt": 4.6,
-          "crosswind_dir": "LEFT"
+          "headwind_kt": 0.5,
+          "crosswind_kt": 5.0,
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSF 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSF 200500Z 2006/2106 08006KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100 TEMPO 2020/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 080/6KT, Vis 9999m. Active Fluctuations: TEMPO 2006/2012"
         }
       ]
     },
@@ -2541,9 +2606,9 @@
       "lat": 9.7778,
       "lon": 98.5856,
       "latest_metar": {
-        "raw_text": "METAR VTSR 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTSR 200600Z 22005KT 160V270 9999 FEW020 30/24 Q1012 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 220,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -2556,21 +2621,23 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTSR 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTSR 200500Z 2006/2106 10007KT 9999 SCT020 TEMPO 2008/2012 -TSRA FEW018CB SCT020 BKN100 TEMPO 2102/2106 -TSRA FEW018CB SCT020 BKN100",
         "decoded": {
           "icao": "VTSR",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
+          "valid_str": "2006/2106",
+          "active_wind": "100/7KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "active_clouds": "Scattered (3-4 oktas) 2000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "active_summary": "Prevailing 100/7KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 10007KT 9999 SCT020",
+            "TEMPO 2008/2012 -TSRA FEW018CB SCT020 BKN100",
+            "TEMPO 2102/2106 -TSRA FEW018CB SCT020 BKN100"
           ]
         }
       },
@@ -2583,7 +2650,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "active_summary": "Prevailing 100/7KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "02/20",
@@ -2594,11 +2661,11 @@
         "rwy_label": "RWY 20",
         "full_rwy_config": "RWY 02/20 (2,000m x 45m)",
         "rwy_heading": 204,
-        "wind_dir": 120,
+        "wind_dir": 220,
         "wind_spd_kt": 5,
-        "headwind_kt": 0.5,
-        "crosswind_kt": 5.0,
-        "crosswind_dir": "LEFT",
+        "headwind_kt": 4.8,
+        "crosswind_kt": 1.4,
+        "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -2616,10 +2683,10 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSR 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSR 200600Z 22005KT 160V270 9999 FEW020 30/24 Q1012 NOSIG",
+          "wind_dir": 220,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
@@ -2627,18 +2694,18 @@
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "20",
-          "headwind_kt": 0.5,
-          "crosswind_kt": 5.0,
-          "crosswind_dir": "LEFT"
+          "headwind_kt": 4.8,
+          "crosswind_kt": 1.4,
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSR 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSR 200500Z 2006/2106 10007KT 9999 SCT020 TEMPO 2008/2012 -TSRA FEW018CB SCT020 BKN100 TEMPO 2102/2106 -TSRA FEW018CB SCT020 BKN100",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 100/7KT, Vis 9999m"
         }
       ]
     },
@@ -2650,10 +2717,10 @@
       "lat": 10.7117,
       "lon": 99.3619,
       "latest_metar": {
-        "raw_text": "METAR VTSE 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
-        "wind_speed_kt": 5,
+        "raw_text": "METAR VTSE 200600Z 04006KT 010V100 9999 SCT020 31/26 Q1012 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 40,
+        "wind_speed_kt": 6,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
         "has_rain": false,
@@ -2665,21 +2732,21 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTSE 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTSE 200500Z 2006/2106 05008KT 9999 SCT020",
         "decoded": {
           "icao": "VTSE",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
+          "valid_str": "2006/2106",
+          "active_wind": "050/8KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "active_clouds": "Scattered (3-4 oktas) 2000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "active_summary": "Prevailing 050/8KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 05008KT 9999 SCT020"
           ]
         }
       },
@@ -2692,7 +2759,7 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "active_summary": "Prevailing 050/8KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "06/24",
@@ -2703,11 +2770,11 @@
         "rwy_label": "RWY 06",
         "full_rwy_config": "RWY 06/24 (2,100m x 45m)",
         "rwy_heading": 60,
-        "wind_dir": 120,
-        "wind_spd_kt": 5,
-        "headwind_kt": 2.5,
-        "crosswind_kt": 4.3,
-        "crosswind_dir": "RIGHT",
+        "wind_dir": 40,
+        "wind_spd_kt": 6,
+        "headwind_kt": 5.6,
+        "crosswind_kt": 2.1,
+        "crosswind_dir": "LEFT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
@@ -2725,29 +2792,29 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSE 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
-          "wind_speed_kt": 5,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSE 200600Z 04006KT 010V100 9999 SCT020 31/26 Q1012 NOSIG",
+          "wind_dir": 40,
+          "wind_speed_kt": 6,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
           "active_runway": "06",
-          "headwind_kt": 2.5,
-          "crosswind_kt": 4.3,
-          "crosswind_dir": "RIGHT"
+          "headwind_kt": 5.6,
+          "crosswind_kt": 2.1,
+          "crosswind_dir": "LEFT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSE 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSE 200500Z 2006/2106 05008KT 9999 SCT020",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 050/8KT, Vis 9999m"
         }
       ]
     },
@@ -2759,9 +2826,9 @@
       "lat": 6.5197,
       "lon": 101.7431,
       "latest_metar": {
-        "raw_text": "METAR VTSC 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-        "timestamp_zulu": "200530Z",
-        "wind_dir": 120,
+        "raw_text": "METAR VTSC 200600Z 11005KT 070V150 9999 FEW010 SCT018 BKN030 27/26 Q1013 NOSIG",
+        "timestamp_zulu": "200600Z",
+        "wind_dir": 110,
         "wind_speed_kt": 5,
         "wind_gust_kt": 0,
         "visibility_m": 9999,
@@ -2774,21 +2841,22 @@
         "has_cb": false
       },
       "active_taf": {
-        "raw_text": "TAF VTSC 200500Z 2006/2112 18010KT 9999 SCT025",
+        "raw_text": "TAF VTSC 200500Z 2006/2106 12008KT 9999 SCT020 BKN100 TEMPO 2018/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100",
         "decoded": {
           "icao": "VTSC",
           "issue_zulu": "0500Z",
-          "valid_str": "2006/2112",
-          "active_wind": "180/10KT",
+          "valid_str": "2006/2106",
+          "active_wind": "120/8KT",
           "active_vis_m": 9999,
-          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "active_clouds": "Scattered (3-4 oktas) 2000ft, Broken Ceiling (5-7 oktas) 10000ft",
           "has_rain": false,
           "rain_phenomena": null,
           "has_reduced_vis": false,
           "active_groups": [],
-          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "active_summary": "Prevailing 120/8KT, Vis 9999m",
           "all_groups": [
-            "2006/2112 18010KT 9999 SCT025"
+            "2006/2106 12008KT 9999 SCT020 BKN100",
+            "TEMPO 2018/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100"
           ]
         }
       },
@@ -2801,28 +2869,28 @@
         "taf_has_low_vis": false,
         "taf_min_vis_m": 9999,
         "active_groups": [],
-        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+        "active_summary": "Prevailing 120/8KT, Vis 9999m"
       },
       "tactical_runway_vector": {
         "rwy_ident": "02/20",
         "rwy_dimensions": "2,500m x 45m",
-        "active_rwy": "20",
-        "active_runway_ident": "20",
-        "active_runway_heading": 202,
-        "rwy_label": "RWY 20",
+        "active_rwy": "02",
+        "active_runway_ident": "02",
+        "active_runway_heading": 22,
+        "rwy_label": "RWY 02",
         "full_rwy_config": "RWY 02/20 (2,500m x 45m)",
-        "rwy_heading": 202,
-        "wind_dir": 120,
+        "rwy_heading": 22,
+        "wind_dir": 110,
         "wind_spd_kt": 5,
-        "headwind_kt": 0.7,
+        "headwind_kt": 0.2,
         "crosswind_kt": 5.0,
-        "crosswind_dir": "LEFT",
+        "crosswind_dir": "RIGHT",
         "pop_percent": 10,
         "intensity": "NSW Fair",
         "dbz": 0,
         "eta_minutes": null,
         "vector_status": "APPROACH_CLEAR",
-        "target_approach": "RWY 20 approach clear (0 dBZ)",
+        "target_approach": "RWY 02 approach clear (0 dBZ)",
         "cell_pos": {
           "x": 0,
           "y": 0
@@ -2834,41 +2902,41 @@
       },
       "metar_history": [
         {
-          "timestamp_zulu": "200530Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "METAR VTSC 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "wind_dir": 120,
+          "timestamp_zulu": "200600Z",
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "METAR VTSC 200600Z 11005KT 070V150 9999 FEW010 SCT018 BKN030 27/26 Q1013 NOSIG",
+          "wind_dir": 110,
           "wind_speed_kt": 5,
           "visibility_m": 9999,
           "weather_phenomena": [],
           "temp_c": 30,
           "dewpoint_c": 25,
           "qnh_hpa": 1010,
-          "active_runway": "20",
-          "headwind_kt": 0.7,
+          "active_runway": "02",
+          "headwind_kt": 0.2,
           "crosswind_kt": 5.0,
-          "crosswind_dir": "LEFT"
+          "crosswind_dir": "RIGHT"
         }
       ],
       "taf_history": [
         {
           "issue_zulu": "0500Z",
-          "fetched_at_utc": "2026-11-20T05:41:43.030864+00:00",
-          "raw_text": "TAF VTSC 200500Z 2006/2112 18010KT 9999 SCT025",
-          "valid_str": "2006/2112",
-          "active_summary": "Prevailing 180/10KT, Vis 9999m"
+          "fetched_at_utc": "2026-11-20T06:40:57.886061+00:00",
+          "raw_text": "TAF VTSC 200500Z 2006/2106 12008KT 9999 SCT020 BKN100 TEMPO 2018/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100",
+          "valid_str": "2006/2106",
+          "active_summary": "Prevailing 120/8KT, Vis 9999m"
         }
       ]
     }
   },
   "current_verification": {
-    "cycle_zulu": "200542Z",
-    "timestamp_utc": "2026-11-20T05:42:00.050631+00:00",
+    "cycle_zulu": "200640Z",
+    "timestamp_utc": "2026-11-20T06:40:57.886061+00:00",
     "sample_size": 26,
-    "hits": 0,
+    "hits": 2,
     "misses": 0,
     "false_alarms": 0,
-    "correct_negatives": 26,
+    "correct_negatives": 24,
     "pod_hit_rate_percent": 100.0,
     "far_false_alarm_percent": 0.0,
     "csi_threat_score_percent": 100.0,
@@ -2877,111 +2945,13 @@
   },
   "verification_history": [
     {
-      "cycle_zulu": "200423Z",
-      "timestamp_utc": "2026-11-20T04:23:43.073643+00:00",
+      "cycle_zulu": "200640Z",
+      "timestamp_utc": "2026-11-20T06:40:57.886061+00:00",
       "sample_size": 26,
-      "hits": 0,
+      "hits": 2,
       "misses": 0,
       "false_alarms": 0,
-      "correct_negatives": 26,
-      "pod_hit_rate_percent": 100.0,
-      "far_false_alarm_percent": 0.0,
-      "csi_threat_score_percent": 100.0,
-      "mean_timing_error_minutes": 0.0,
-      "taf_deficit_rescues": 0
-    },
-    {
-      "cycle_zulu": "200424Z",
-      "timestamp_utc": "2026-11-20T04:24:47.132727+00:00",
-      "sample_size": 26,
-      "hits": 0,
-      "misses": 0,
-      "false_alarms": 0,
-      "correct_negatives": 26,
-      "pod_hit_rate_percent": 100.0,
-      "far_false_alarm_percent": 0.0,
-      "csi_threat_score_percent": 100.0,
-      "mean_timing_error_minutes": 0.0,
-      "taf_deficit_rescues": 0
-    },
-    {
-      "cycle_zulu": "200500Z",
-      "timestamp_utc": "2026-11-20T05:00:58.781299+00:00",
-      "sample_size": 26,
-      "hits": 0,
-      "misses": 0,
-      "false_alarms": 0,
-      "correct_negatives": 26,
-      "pod_hit_rate_percent": 100.0,
-      "far_false_alarm_percent": 0.0,
-      "csi_threat_score_percent": 100.0,
-      "mean_timing_error_minutes": 0.0,
-      "taf_deficit_rescues": 0
-    },
-    {
-      "cycle_zulu": "200524Z",
-      "timestamp_utc": "2026-11-20T05:24:11.178327+00:00",
-      "sample_size": 26,
-      "hits": 0,
-      "misses": 0,
-      "false_alarms": 0,
-      "correct_negatives": 26,
-      "pod_hit_rate_percent": 100.0,
-      "far_false_alarm_percent": 0.0,
-      "csi_threat_score_percent": 100.0,
-      "mean_timing_error_minutes": 0.0,
-      "taf_deficit_rescues": 0
-    },
-    {
-      "cycle_zulu": "200525Z",
-      "timestamp_utc": "2026-11-20T05:25:07.748985+00:00",
-      "sample_size": 26,
-      "hits": 0,
-      "misses": 0,
-      "false_alarms": 0,
-      "correct_negatives": 26,
-      "pod_hit_rate_percent": 100.0,
-      "far_false_alarm_percent": 0.0,
-      "csi_threat_score_percent": 100.0,
-      "mean_timing_error_minutes": 0.0,
-      "taf_deficit_rescues": 0
-    },
-    {
-      "cycle_zulu": "200529Z",
-      "timestamp_utc": "2026-11-20T05:29:55.759374+00:00",
-      "sample_size": 26,
-      "hits": 0,
-      "misses": 0,
-      "false_alarms": 0,
-      "correct_negatives": 26,
-      "pod_hit_rate_percent": 100.0,
-      "far_false_alarm_percent": 0.0,
-      "csi_threat_score_percent": 100.0,
-      "mean_timing_error_minutes": 0.0,
-      "taf_deficit_rescues": 0
-    },
-    {
-      "cycle_zulu": "200541Z",
-      "timestamp_utc": "2026-11-20T05:41:43.030864+00:00",
-      "sample_size": 26,
-      "hits": 0,
-      "misses": 0,
-      "false_alarms": 0,
-      "correct_negatives": 26,
-      "pod_hit_rate_percent": 100.0,
-      "far_false_alarm_percent": 0.0,
-      "csi_threat_score_percent": 100.0,
-      "mean_timing_error_minutes": 0.0,
-      "taf_deficit_rescues": 0
-    },
-    {
-      "cycle_zulu": "200542Z",
-      "timestamp_utc": "2026-11-20T05:42:00.050631+00:00",
-      "sample_size": 26,
-      "hits": 0,
-      "misses": 0,
-      "false_alarms": 0,
-      "correct_negatives": 26,
+      "correct_negatives": 24,
       "pod_hit_rate_percent": 100.0,
       "far_false_alarm_percent": 0.0,
       "csi_threat_score_percent": 100.0,
@@ -2991,19 +2961,19 @@
   ],
   "metar_taf_archive": [
     {
-      "cycle_zulu": "200540Z",
-      "timestamp_utc": "2026-11-20T05:42:00.050631+00:00",
+      "cycle_zulu": "200640Z",
+      "timestamp_utc": "2026-11-20T06:40:57.886061+00:00",
       "total_airports": 26,
       "rain_alerts": 0,
       "vis_alerts": 0,
       "observations": {
         "VTBD": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTBD 200530Z 16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG",
-          "taf_raw": "TAF VTBD 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
-          "active_rwy": "21R",
-          "hw_kt": 3.0,
-          "xw_kt": 4.0,
+          "metar_zulu": "200630Z",
+          "metar_raw": "METAR VTBD 200630Z VRB05KT 9999 FEW040 33/21 Q1013 NOSIG",
+          "taf_raw": "TAF VTBD 200500Z 2006/2112 06008KT 9999 FEW030",
+          "active_rwy": "03L",
+          "hw_kt": 4.2,
+          "xw_kt": 2.7,
           "xw_dir": "LEFT",
           "pop": 10,
           "dbz": 0,
@@ -3011,12 +2981,12 @@
           "rain_alert": false
         },
         "VTBS": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTBS 200530Z 09006KT 9999 FEW020 32/25 Q1008 NOSIG",
-          "taf_raw": "TAF VTBS 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
+          "metar_zulu": "200630Z",
+          "metar_raw": "METAR VTBS 200630Z 08008KT 040V120 9999 FEW020 33/22 Q1013 NOSIG",
+          "taf_raw": "TAF VTBS 200500Z 2006/2112 06010KT 9999 FEW030",
           "active_rwy": "01L",
-          "hw_kt": 1.5,
-          "xw_kt": 5.8,
+          "hw_kt": 3.3,
+          "xw_kt": 7.3,
           "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
@@ -3024,12 +2994,12 @@
           "rain_alert": false
         },
         "VTCC": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTCC 200530Z 14006KT 9999 FEW025 30/20 Q1011 NOSIG",
-          "taf_raw": "TAF VTCC 200500Z 2006/2112 02006KT 9999 SCT030",
+          "metar_zulu": "200630Z",
+          "metar_raw": "METAR VTCC 200630Z 17005KT 120V220 9999 SCT040 31/20 Q1016 NOSIG",
+          "taf_raw": "TAF VTCC 200500Z 2006/2112 19005KT 9999 SCT035 BECMG 2009/2011 27005KT BECMG 2013/2015 34005KT BECMG 2101/2103 18005KT BECMG 2110/2112 25005KT",
           "active_rwy": "18",
-          "hw_kt": 4.6,
-          "xw_kt": 3.9,
+          "hw_kt": 4.9,
+          "xw_kt": 0.9,
           "xw_dir": "LEFT",
           "pop": 10,
           "dbz": 0,
@@ -3037,11 +3007,11 @@
           "rain_alert": false
         },
         "VTCT": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTCT 200530Z 02006KT 9999 SCT030 29/18 Q1012 NOSIG",
-          "taf_raw": "TAF VTCT 200500Z 2006/2112 02006KT 9999 SCT030",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTCT 200600Z VRB02KT 9999 SCT020 BKN049 27/23 Q1018 NOSIG",
+          "taf_raw": "TAF VTCT 200500Z 2006/2112 10005KT 9999 SCT035 BECMG 2009/2011 29005KT TEMPO 2012/2016-TSRA FEW025CB BKN030 BECMG 2017/2019 36005KT BECMG 2021/2023 2000 BR BECMG 2101/2103 15005KT 9999 NSW",
           "active_rwy": "03",
-          "hw_kt": 5.9,
+          "hw_kt": 1.7,
           "xw_kt": 1.0,
           "xw_dir": "LEFT",
           "pop": 10,
@@ -3050,103 +3020,103 @@
           "rain_alert": false
         },
         "VTCN": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTCN 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTCN 200500Z 2006/2112 02006KT 9999 SCT030",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTCN 200600Z 22005KT 140V280 9999 FEW025 31/22 Q1016 NOSIG",
+          "taf_raw": "TAF VTCN 200500Z 2006/2106 19005KT 9999 FEW035 BECMG 2010/2012 36005KT BECMG 2101/2103 20005KT",
           "active_rwy": "20",
-          "hw_kt": 0.9,
-          "xw_kt": 4.9,
-          "xw_dir": "LEFT",
+          "hw_kt": 4.7,
+          "xw_kt": 1.7,
+          "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
         "VTCL": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTCL 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTCL 200500Z 2006/2112 02006KT 9999 SCT030",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTCL 200600Z 00000KT 9999 BKN030 31/23 Q1017 NOSIG",
+          "taf_raw": "TAF VTCL 200500Z 2006/2106 15005KT 9999 FEW030 BECMG 2009/2011 36005KT BECMG 2021/2023 00000KT 1000 BR BECMG 2101/2103 16005KT 9999 NSW",
           "active_rwy": "18",
-          "hw_kt": 2.9,
-          "xw_kt": 4.1,
-          "xw_dir": "LEFT",
+          "hw_kt": 0.0,
+          "xw_kt": 0.0,
+          "xw_dir": "HEAD",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
         "VTPP": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTPP 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTPP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "active_rwy": "14",
-          "hw_kt": 4.6,
-          "xw_kt": 2.0,
-          "xw_dir": "LEFT",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTPP 200600Z VRB04KT 9999 BKN035 33/21 Q1015 NOSIG",
+          "taf_raw": "TAF VTPP 200500Z 2006/2106 16005KT 9999 FEW030 BECMG 2023/2101 27005KT BECMG 2104/2106 21005KT",
+          "active_rwy": "32",
+          "hw_kt": 3.2,
+          "xw_kt": 2.4,
+          "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
         "VTUK": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUK 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUK 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUK 200600Z VRB05KT 9999 SCT030 31/20 Q1017 NOSIG",
+          "taf_raw": "TAF VTUK 200500Z 2006/2106 08005KT 9000 FEW030",
           "active_rwy": "03",
-          "hw_kt": 0.3,
-          "xw_kt": 5.0,
-          "xw_dir": "RIGHT",
-          "pop": 10,
-          "dbz": 0,
-          "vis_m": 9999,
-          "rain_alert": false
-        },
-        "VTUD": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUD 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUD 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "active_rwy": "12",
-          "hw_kt": 5.0,
-          "xw_kt": 0.2,
-          "xw_dir": "RIGHT",
-          "pop": 10,
-          "dbz": 0,
-          "vis_m": 9999,
-          "rain_alert": false
-        },
-        "VTUU": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUU 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUU 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "active_rwy": "05",
-          "hw_kt": 1.9,
-          "xw_kt": 4.6,
-          "xw_dir": "RIGHT",
-          "pop": 10,
-          "dbz": 0,
-          "vis_m": 9999,
-          "rain_alert": false
-        },
-        "VTUV": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUV 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUV 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "active_rwy": "18",
-          "hw_kt": 2.3,
-          "xw_kt": 4.5,
+          "hw_kt": 4.2,
+          "xw_kt": 2.7,
           "xw_dir": "LEFT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
+        "VTUD": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUD 200600Z 07005KT 310V120 9999 SCT040 32/20 Q1017 NOSIG",
+          "taf_raw": "TAF VTUD 200500Z 2006/2106 09005KT 9000 FEW030",
+          "active_rwy": "12",
+          "hw_kt": 3.3,
+          "xw_kt": 3.7,
+          "xw_dir": "LEFT",
+          "pop": 10,
+          "dbz": 0,
+          "vis_m": 9999,
+          "rain_alert": false
+        },
+        "VTUU": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUU 200600Z 04015KT 360V070 9999 SCT040 31/22 Q1015 NOSIG",
+          "taf_raw": "TAF VTUU 200500Z 2006/2106 04011KT 9999 FEW035",
+          "active_rwy": "05",
+          "hw_kt": 14.7,
+          "xw_kt": 3.1,
+          "xw_dir": "LEFT",
+          "pop": 10,
+          "dbz": 0,
+          "vis_m": 9999,
+          "rain_alert": false
+        },
+        "VTUV": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUV 200600Z 06011KT 9999 SCT035 31/20 Q1016 NOSIG",
+          "taf_raw": "TAF VTUV 200500Z 2006/2106 08012KT 9999 FEW035",
+          "active_rwy": "36",
+          "hw_kt": 6.0,
+          "xw_kt": 9.2,
+          "xw_dir": "RIGHT",
+          "pop": 10,
+          "dbz": 0,
+          "vis_m": 9999,
+          "rain_alert": false
+        },
         "VTUO": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUO 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUO 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUO 200600Z 07008KT 9999 FEW030 32/18 Q1016 NOSIG",
+          "taf_raw": "TAF VTUO 200500Z 2006/2106 06010KT 9000 FEW035",
           "active_rwy": "04",
-          "hw_kt": 0.4,
-          "xw_kt": 5.0,
+          "hw_kt": 6.6,
+          "xw_kt": 4.6,
           "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
@@ -3154,12 +3124,12 @@
           "rain_alert": false
         },
         "VTUL": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUL 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUL 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
-          "active_rwy": "19",
-          "hw_kt": 1.2,
-          "xw_kt": 4.9,
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUL 200600Z VRB03KT 9999 SCT030 31/21 Q1017 NOSIG",
+          "taf_raw": "TAF VTUL 200500Z 2006/2106 07005KT 9000 FEW030",
+          "active_rwy": "01",
+          "hw_kt": 2.9,
+          "xw_kt": 0.8,
           "xw_dir": "LEFT",
           "pop": 10,
           "dbz": 0,
@@ -3167,12 +3137,12 @@
           "rain_alert": false
         },
         "VTUI": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUI 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUI 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUI 200600Z 11005KT 080V150 9999 SCT030 32/20 Q1017 NOSIG",
+          "taf_raw": "TAF VTUI 200500Z 2006/2106 10007KT 9000 FEW030",
           "active_rwy": "05",
-          "hw_kt": 1.4,
-          "xw_kt": 4.8,
+          "hw_kt": 2.2,
+          "xw_kt": 4.5,
           "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
@@ -3180,12 +3150,12 @@
           "rain_alert": false
         },
         "VTUW": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTUW 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTUW 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTUW 200600Z 07010KT 020V090 9999 FEW030 31/16 Q1017 NOSIG",
+          "taf_raw": "TAF VTUW 200500Z 2006/2106 09007KT 9000 FEW030",
           "active_rwy": "15",
-          "hw_kt": 4.5,
-          "xw_kt": 2.1,
+          "hw_kt": 2.6,
+          "xw_kt": 9.7,
           "xw_dir": "LEFT",
           "pop": 10,
           "dbz": 0,
@@ -3193,38 +3163,38 @@
           "rain_alert": false
         },
         "VTPH": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTPH 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTPH 200500Z 2006/2112 18010KT 9999 SCT025",
-          "active_rwy": "16",
-          "hw_kt": 3.8,
-          "xw_kt": 3.2,
-          "xw_dir": "LEFT",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTPH 200600Z 03007KT 350V060 9999 FEW030 32/24 Q1014 NOSIG",
+          "taf_raw": "TAF VTPH 200500Z 2006/2106 04008KT 9999 FEW030 BECMG 2013/2015 33003KT BECMG 2103/2105 03008KT",
+          "active_rwy": "34",
+          "hw_kt": 4.5,
+          "xw_kt": 5.4,
+          "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
         "VTSP": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSP 200530Z 26012KT 9999 SCT020 31/25 Q1009 NOSIG",
-          "taf_raw": "TAF VTSP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "active_rwy": "27",
-          "hw_kt": 12.0,
+          "metar_zulu": "200630Z",
+          "metar_raw": "METAR VTSP 200630Z 09011KT 030V120 9999 FEW020 31/26 Q1011 NOSIG",
+          "taf_raw": "TAF VTSP 200500Z 2006/2112 09009KT 9999 SCT020 TEMPO 2008/2014 -TSRA FEW018CB SCT020 BKN100",
+          "active_rwy": "09",
+          "hw_kt": 11.0,
           "xw_kt": 1.0,
-          "xw_dir": "LEFT",
+          "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
         "VTSG": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSG 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSG 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTSG 200600Z 08005KT 020V110 9999 FEW015 BKN070 29/26 Q1013 NOSIG",
+          "taf_raw": "TAF VTSG 200500Z 2006/2106 06006KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100",
           "active_rwy": "14",
-          "hw_kt": 4.7,
-          "xw_kt": 1.8,
+          "hw_kt": 2.4,
+          "xw_kt": 4.4,
           "xw_dir": "LEFT",
           "pop": 10,
           "dbz": 0,
@@ -3232,63 +3202,50 @@
           "rain_alert": false
         },
         "VTSS": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSS 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSS 200500Z 2006/2112 18010KT 9999 SCT025",
+          "metar_zulu": "200630Z",
+          "metar_raw": "METAR VTSS 200630Z 06013KT 9999 SCT020 BKN100 30/24 Q1012 NOSIG",
+          "taf_raw": "TAF VTSS 200500Z 2006/2106 07010KT 9999 SCT020 BKN100 TEMPO 2006/2013 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 BECMG 2013/2015 25003KT TEMPO 2020/2103 VRB15G25KT -TSRA FEW016CB SCT018 BKN100 BECMG 2103/2105 07010KT",
           "active_rwy": "08",
-          "hw_kt": 3.9,
-          "xw_kt": 3.1,
-          "xw_dir": "RIGHT",
-          "pop": 10,
-          "dbz": 0,
-          "vis_m": 9999,
-          "rain_alert": false
-        },
-        "VTSB": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSB 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSB 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
-          "active_rwy": "04",
-          "hw_kt": 1.2,
+          "hw_kt": 12.1,
           "xw_kt": 4.9,
-          "xw_dir": "RIGHT",
-          "pop": 10,
-          "dbz": 0,
-          "vis_m": 9999,
-          "rain_alert": false
-        },
-        "VTSM": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSM 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSM 200500Z 2006/2112 18010KT 9999 SCT025",
-          "active_rwy": "17",
-          "hw_kt": 2.9,
-          "xw_kt": 4.0,
           "xw_dir": "LEFT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
-        "VTST": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTST 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTST 200500Z 2006/2112 18010KT 9999 SCT025",
-          "active_rwy": "08",
-          "hw_kt": 3.9,
-          "xw_kt": 3.1,
+        "VTSB": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTSB 200600Z 05007KT 9999 VCSH FEW018TCU 31/24 Q1012 NOSIG",
+          "taf_raw": "TAF VTSB 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+          "active_rwy": "04",
+          "hw_kt": 7.0,
+          "xw_kt": 0.7,
           "xw_dir": "RIGHT",
-          "pop": 10,
-          "dbz": 0,
+          "pop": 45,
+          "dbz": 35,
           "vis_m": 9999,
           "rain_alert": false
         },
-        "VTSF": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSF 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSF 200500Z 2006/2112 18010KT 9999 SCT025",
-          "active_rwy": "19",
-          "hw_kt": 2.0,
+        "VTSM": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTSM 200600Z 11008KT 070V140 9999 -RA SCT020 31/26 Q1014 NOSIG",
+          "taf_raw": "TAF VTSM 200500Z 2006/2106 12013KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 TEMPO 2022/2103 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100",
+          "active_rwy": "17",
+          "hw_kt": 3.5,
+          "xw_kt": 7.2,
+          "xw_dir": "LEFT",
+          "pop": 80,
+          "dbz": 42,
+          "vis_m": 9999,
+          "rain_alert": false
+        },
+        "VTST": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTST 200600Z 05009G21KT 020V080 9999 FEW030 31/25 Q1011 NOSIG",
+          "taf_raw": "TAF VTST 200500Z 2006/2106 06008KT 9999 SCT020 TEMPO 2006/2012 -TSRA FEW018CB SCT020 BKN100",
+          "active_rwy": "08",
+          "hw_kt": 7.7,
           "xw_kt": 4.6,
           "xw_dir": "LEFT",
           "pop": 10,
@@ -3296,40 +3253,53 @@
           "vis_m": 9999,
           "rain_alert": false
         },
-        "VTSR": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSR 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSR 200500Z 2006/2112 18010KT 9999 SCT025",
-          "active_rwy": "20",
+        "VTSF": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTSF 200600Z 27005KT 240V320 9999 -TSRA FEW016CB BKN018 BKN020 27/27 Q1013 RERA NOSIG",
+          "taf_raw": "TAF VTSF 200500Z 2006/2106 08006KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100 TEMPO 2020/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100",
+          "active_rwy": "19",
           "hw_kt": 0.5,
           "xw_kt": 5.0,
-          "xw_dir": "LEFT",
-          "pop": 10,
-          "dbz": 0,
+          "xw_dir": "RIGHT",
+          "pop": 95,
+          "dbz": 52,
           "vis_m": 9999,
           "rain_alert": false
         },
-        "VTSE": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSE 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSE 200500Z 2006/2112 18010KT 9999 SCT025",
-          "active_rwy": "06",
-          "hw_kt": 2.5,
-          "xw_kt": 4.3,
+        "VTSR": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTSR 200600Z 22005KT 160V270 9999 FEW020 30/24 Q1012 NOSIG",
+          "taf_raw": "TAF VTSR 200500Z 2006/2106 10007KT 9999 SCT020 TEMPO 2008/2012 -TSRA FEW018CB SCT020 BKN100 TEMPO 2102/2106 -TSRA FEW018CB SCT020 BKN100",
+          "active_rwy": "20",
+          "hw_kt": 4.8,
+          "xw_kt": 1.4,
           "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
           "rain_alert": false
         },
-        "VTSC": {
-          "metar_zulu": "200530Z",
-          "metar_raw": "METAR VTSC 200530Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
-          "taf_raw": "TAF VTSC 200500Z 2006/2112 18010KT 9999 SCT025",
-          "active_rwy": "20",
-          "hw_kt": 0.7,
-          "xw_kt": 5.0,
+        "VTSE": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTSE 200600Z 04006KT 010V100 9999 SCT020 31/26 Q1012 NOSIG",
+          "taf_raw": "TAF VTSE 200500Z 2006/2106 05008KT 9999 SCT020",
+          "active_rwy": "06",
+          "hw_kt": 5.6,
+          "xw_kt": 2.1,
           "xw_dir": "LEFT",
+          "pop": 10,
+          "dbz": 0,
+          "vis_m": 9999,
+          "rain_alert": false
+        },
+        "VTSC": {
+          "metar_zulu": "200600Z",
+          "metar_raw": "METAR VTSC 200600Z 11005KT 070V150 9999 FEW010 SCT018 BKN030 27/26 Q1013 NOSIG",
+          "taf_raw": "TAF VTSC 200500Z 2006/2106 12008KT 9999 SCT020 BKN100 TEMPO 2018/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100",
+          "active_rwy": "02",
+          "hw_kt": 0.2,
+          "xw_kt": 5.0,
+          "xw_dir": "RIGHT",
           "pop": 10,
           "dbz": 0,
           "vis_m": 9999,
