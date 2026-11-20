@@ -223,6 +223,10 @@ def fetch_fleet_metars(force_refresh: bool = False) -> dict:
                         if line.startswith(code) or line.startswith("METAR " + code) or line.startswith("SPECI " + code):
                             if code not in metar_map:
                                 metar_map[code] = line
+                    for alias, canon in getattr(database, 'AIRPORTS_ALIASES', {}).items():
+                        if line.startswith(alias) or line.startswith("METAR " + alias) or line.startswith("SPECI " + alias):
+                            if canon not in metar_map:
+                                metar_map[canon] = line.replace(alias, canon, 1)
                 if metar_map:
                     is_live = True
     except Exception:

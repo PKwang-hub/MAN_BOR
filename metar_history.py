@@ -37,9 +37,11 @@ def generate_fallback_history(icao: str, now_utc: datetime = None) -> list:
         "VTSB": "22010KT 9999 FEW025 31/24 Q1008 NOSIG",
         "VTSM": "20012KT 9999 SCT022 31/25 Q1009 NOSIG",
         "VTST": "21008KT 9999 SCT025 31/24 Q1008 NOSIG",
+        "VTSF": "18009KT 9999 FEW025 31/24 Q1008 NOSIG",
         "VTSK": "18009KT 9999 FEW025 31/24 Q1008 NOSIG",
         "VTSR": "24012KT 9999 SCT020 31/25 Q1009 NOSIG",
         "VTSE": "17010KT 9999 SCT025 31/24 Q1008 NOSIG",
+        "VTSC": "12008KT 9999 FEW025 31/24 Q1008 NOSIG",
         "VTSN": "12008KT 9999 FEW025 31/24 Q1008 NOSIG"
     }
     payload = station_payloads.get(icao, "12005KT 9999 FEW025 31/25 Q1012 NOSIG")
@@ -67,8 +69,8 @@ class handler(BaseHTTPRequestHandler):
             thai_icaos = [
                 "VTBD", "VTBS", "VTCC", "VTCT", "VTCN", "VTCL", "VTPP", "VTUK",
                 "VTUD", "VTUU", "VTUV", "VTUO", "VTUL", "VTUI", "VTUW", "VTPH",
-                "VTSP", "VTSG", "VTSS", "VTSB", "VTSM", "VTST", "VTSK", "VTSR",
-                "VTSE", "VTSN"
+                "VTSP", "VTSG", "VTSS", "VTSB", "VTSM", "VTST", "VTSF", "VTSK", "VTSR",
+                "VTSE", "VTSC", "VTSN"
             ]
             ids_str = ",".join(thai_icaos)
             url = f"https://aviationweather.gov/api/data/metar?ids={ids_str}&format=raw"

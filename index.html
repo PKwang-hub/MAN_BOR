@@ -737,10 +737,10 @@
           <option value="VTSB">VTSB | Surat Thani (URT)</option>
           <option value="VTSM">VTSM | Koh Samui (USM)</option>
           <option value="VTST">VTST | Trang (TST)</option>
-          <option value="VTSK">VTSK | Nakhon Si Thammarat (NST)</option>
+          <option value="VTSF">VTSF | Nakhon Si Thammarat (NST)</option>
           <option value="VTSR">VTSR | Ranong (UNN)</option>
           <option value="VTSE">VTSE | Chumphon (CJM)</option>
-          <option value="VTSN">VTSN | Narathiwat (NAW)</option>
+          <option value="VTSC">VTSC | Narathiwat (NAW)</option>
         </optgroup>
       </select>
     </div>
@@ -1319,6 +1319,9 @@
         name: 'Don Mueang (DMK)',
         lat: 13.9126, lon: 100.6067,
         rwy: 213,
+        rwy_ident: '03L/21R',
+        rwy_dimensions: '3,700m x 60m',
+        rwy_ends: [{ ident: '21R', heading: 213 }, { ident: '03L', heading: 33 }],
         radarName: 'Nearest: Suvarnabhumi Airport Radar (28 km SE)',
         radarUrl: 'https://weather.tmd.go.th/svp240loop.php',
         isNeighborRadar: true,
@@ -1334,6 +1337,9 @@
         name: 'Suvarnabhumi (BKK)',
         lat: 13.6900, lon: 100.7501,
         rwy: 194,
+        rwy_ident: '01R/19L',
+        rwy_dimensions: '4,000m x 60m',
+        rwy_ends: [{ ident: '19R', heading: 194 }, { ident: '01L', heading: 14 }],
         radarName: 'On-field (Suvarnabhumi Airport Radar)',
         radarUrl: 'https://weather.tmd.go.th/svp240loop.php',
         isNeighborRadar: false,
@@ -1349,6 +1355,9 @@
         name: 'Chiang Mai (CNX)',
         lat: 18.7668, lon: 98.9626,
         rwy: 180,
+        rwy_ident: '18/36',
+        rwy_dimensions: '3,400m x 45m',
+        rwy_ends: [{ ident: '18', heading: 180 }, { ident: '36', heading: 360 }],
         radarName: 'On-field (Chiang Mai Omkoi 240km Radar)',
         radarUrl: 'https://weather.tmd.go.th/omkLoop.php',
         isNeighborRadar: false,
@@ -1364,6 +1373,9 @@
         name: 'Chiang Rai (CEI)',
         lat: 19.9522, lon: 99.8828,
         rwy: 210,
+        rwy_ident: '03/21',
+        rwy_dimensions: '3,000m x 45m',
+        rwy_ends: [{ ident: '21', heading: 210 }, { ident: '03', heading: 30 }],
         radarName: 'On-field (Chiang Rai Radar)',
         radarUrl: 'https://weather.tmd.go.th/criloop.php',
         isNeighborRadar: false,
@@ -1378,7 +1390,10 @@
       'VTCN': {
         name: 'Nan Nakhon (NNT)',
         lat: 18.8080, lon: 100.7833,
-        rwy: 190,
+        rwy: 200,
+        rwy_ident: '02/20',
+        rwy_dimensions: '2,075m x 45m',
+        rwy_ends: [{ ident: '20', heading: 200 }, { ident: '02', heading: 20 }],
         radarName: 'On-field (Nan Nakhon TMD Radar 120km)',
         radarUrl: 'https://weather.tmd.go.th/nan120Loop.php',
         isNeighborRadar: false,
@@ -1393,7 +1408,10 @@
       'VTCL': {
         name: 'Lampang (LPT)',
         lat: 18.2612, lon: 99.5050,
-        rwy: 180,
+        rwy: 175,
+        rwy_ident: '18/36',
+        rwy_dimensions: '1,975m x 30m',
+        rwy_ends: [{ ident: '18', heading: 175 }, { ident: '36', heading: 355 }],
         radarName: 'On-field (Lampang TMD Radar)',
         radarUrl: 'https://weather.tmd.go.th/lmploop.php',
         isNeighborRadar: false,
@@ -1408,7 +1426,10 @@
       'VTPP': {
         name: 'Phitsanulok (PHS)',
         lat: 16.7825, lon: 100.2783,
-        rwy: 140,
+        rwy: 144,
+        rwy_ident: '14/32',
+        rwy_dimensions: '3,000m x 45m',
+        rwy_ends: [{ ident: '14', heading: 144 }, { ident: '32', heading: 324 }],
         radarName: 'On-field (Phitsanulok Radar)',
         radarUrl: 'https://weather.tmd.go.th/phsloop.php',
         isNeighborRadar: false,
@@ -1424,6 +1445,9 @@
         name: 'Hua Hin (HHQ)',
         lat: 12.6360, lon: 99.9519,
         rwy: 160,
+        rwy_ident: '16/34',
+        rwy_dimensions: '2,100m x 35m',
+        rwy_ends: [{ ident: '16', heading: 160 }, { ident: '34', heading: 340 }],
         radarName: 'On-field (Hua Hin TMD Radar 240km)',
         radarUrl: 'https://weather.tmd.go.th/hhnLoop.php',
         isNeighborRadar: false,
@@ -1438,7 +1462,10 @@
       'VTUK': {
         name: 'Khon Kaen (KKC)',
         lat: 16.4660, lon: 102.7836,
-        rwy: 210,
+        rwy: 213,
+        rwy_ident: '03/21',
+        rwy_dimensions: '3,050m x 45m',
+        rwy_ends: [{ ident: '21', heading: 213 }, { ident: '03', heading: 33 }],
         radarName: 'On-field (Khon Kaen Doppler Radar)',
         radarUrl: 'https://weather.tmd.go.th/kkn240loop.php',
         isNeighborRadar: false,
@@ -1453,7 +1480,10 @@
       'VTUD': {
         name: 'Udon Thani (UTH)',
         lat: 17.3865, lon: 102.7885,
-        rwy: 300,
+        rwy: 118,
+        rwy_ident: '12/30',
+        rwy_dimensions: '3,048m x 45m',
+        rwy_ends: [{ ident: '12', heading: 118 }, { ident: '30', heading: 298 }],
         radarName: 'Nearest: Sakon Nakhon Doppler (85 km E)',
         radarUrl: 'https://weather.tmd.go.th/sknloop.php',
         isNeighborRadar: true,
@@ -1468,7 +1498,10 @@
       'VTUU': {
         name: 'Ubon Ratchathani (UBP)',
         lat: 15.2514, lon: 104.8703,
-        rwy: 230,
+        rwy: 52,
+        rwy_ident: '05/23',
+        rwy_dimensions: '3,000m x 45m',
+        rwy_ends: [{ ident: '05', heading: 52 }, { ident: '23', heading: 232 }],
         radarName: 'On-field (Ubon Ratchathani Radar)',
         radarUrl: 'https://weather.tmd.go.th/ubn240loop.php',
         isNeighborRadar: false,
@@ -1483,7 +1516,10 @@
       'VTUV': {
         name: 'Roi Et (ROI)',
         lat: 16.1168, lon: 103.7744,
-        rwy: 180,
+        rwy: 183,
+        rwy_ident: '18/36',
+        rwy_dimensions: '2,100m x 45m',
+        rwy_ends: [{ ident: '18', heading: 183 }, { ident: '36', heading: 3 }],
         radarName: 'Nearest: Khon Kaen Radar (80 km NW)',
         radarUrl: 'https://weather.tmd.go.th/kkn240loop.php',
         isNeighborRadar: true,
@@ -1498,7 +1534,10 @@
       'VTUO': {
         name: 'Buriram (BFV)',
         lat: 15.2289, lon: 103.2533,
-        rwy: 220,
+        rwy: 35,
+        rwy_ident: '04/22',
+        rwy_dimensions: '2,100m x 45m',
+        rwy_ends: [{ ident: '04', heading: 35 }, { ident: '22', heading: 215 }],
         radarName: 'Nearest: Khon Kaen Doppler Radar (100 km N)',
         radarUrl: 'https://weather.tmd.go.th/kkn240loop.php',
         isNeighborRadar: true,
@@ -1513,7 +1552,10 @@
       'VTUL': {
         name: 'Loei (LOE)',
         lat: 17.4397, lon: 101.7222,
-        rwy: 190,
+        rwy: 16,
+        rwy_ident: '01/19',
+        rwy_dimensions: '2,100m x 45m',
+        rwy_ends: [{ ident: '01', heading: 16 }, { ident: '19', heading: 196 }],
         radarName: 'Nearest: Phitsanulok Doppler (120 km W)',
         radarUrl: 'https://weather.tmd.go.th/phsloop.php',
         isNeighborRadar: true,
@@ -1528,7 +1570,10 @@
       'VTUI': {
         name: 'Sakon Nakhon (SNO)',
         lat: 17.1950, lon: 104.1194,
-        rwy: 170,
+        rwy: 46,
+        rwy_ident: '05/23',
+        rwy_dimensions: '2,600m x 45m',
+        rwy_ends: [{ ident: '05', heading: 46 }, { ident: '23', heading: 226 }],
         radarName: 'On-field (Sakon Nakhon Radar)',
         radarUrl: 'https://weather.tmd.go.th/sknloop.php',
         isNeighborRadar: false,
@@ -1543,7 +1588,10 @@
       'VTUW': {
         name: 'Nakhon Phanom (KOP)',
         lat: 17.3839, lon: 104.6433,
-        rwy: 150,
+        rwy: 145,
+        rwy_ident: '15/33',
+        rwy_dimensions: '2,000m x 45m',
+        rwy_ends: [{ ident: '15', heading: 145 }, { ident: '33', heading: 325 }],
         radarName: 'Nearest: Sakon Nakhon Doppler (75 km W)',
         radarUrl: 'https://weather.tmd.go.th/sknloop.php',
         isNeighborRadar: true,
@@ -1555,12 +1603,13 @@
         cape: 1050, cin: 60, pwat: 40,
         actualTaf: 'TAF VTUW 162300Z 1700/1724 07008KT 9999 SCT025'
       },
-
-      // Southern Stations (Including Stale Radar Stations)
       'VTSP': {
         name: 'Phuket (HKT)',
         lat: 8.1132, lon: 98.3169,
-        rwy: 270,
+        rwy: 265,
+        rwy_ident: '09/27',
+        rwy_dimensions: '3,000m x 45m',
+        rwy_ends: [{ ident: '27', heading: 265 }, { ident: '09', heading: 85 }],
         radarName: 'On-field (Phuket Airport Radar)',
         radarUrl: 'https://weather.tmd.go.th/pktloop.php',
         isNeighborRadar: false,
@@ -1575,7 +1624,10 @@
       'VTSG': {
         name: 'Krabi (KBV)',
         lat: 8.0991, lon: 98.9862,
-        rwy: 320,
+        rwy: 321,
+        rwy_ident: '14/32',
+        rwy_dimensions: '3,000m x 45m',
+        rwy_ends: [{ ident: '32', heading: 321 }, { ident: '14', heading: 141 }],
         radarName: 'Krabi / Phuket Radar (Active)',
         radarUrl: 'https://weather.tmd.go.th/krbLoop.php',
         isNeighborRadar: true,
@@ -1590,7 +1642,10 @@
       'VTSS': {
         name: 'Hat Yai (HDY)',
         lat: 6.9333, lon: 100.3931,
-        rwy: 260,
+        rwy: 262,
+        rwy_ident: '08/26',
+        rwy_dimensions: '3,050m x 45m',
+        rwy_ends: [{ ident: '26', heading: 262 }, { ident: '08', heading: 82 }],
         radarName: 'On-field (Hat Yai TMD Radar)',
         radarUrl: 'https://weather.tmd.go.th/hyiloop.php',
         isNeighborRadar: false,
@@ -1605,7 +1660,10 @@
       'VTSB': {
         name: 'Surat Thani (URT)',
         lat: 9.1326, lon: 99.1356,
-        rwy: 220,
+        rwy: 224,
+        rwy_ident: '04/22',
+        rwy_dimensions: '3,000m x 45m',
+        rwy_ends: [{ ident: '22', heading: 224 }, { ident: '04', heading: 44 }],
         radarName: 'On-field (Surat Thani TMD Radar)',
         radarUrl: 'https://weather.tmd.go.th/srtloop.php',
         isNeighborRadar: false,
@@ -1620,7 +1678,10 @@
       'VTSM': {
         name: 'Koh Samui (USM)',
         lat: 9.5478, lon: 100.0628,
-        rwy: 170,
+        rwy: 174,
+        rwy_ident: '17/35',
+        rwy_dimensions: '2,100m x 45m',
+        rwy_ends: [{ ident: '17', heading: 174 }, { ident: '35', heading: 354 }],
         radarName: 'Nearest: Surat Thani TMD Radar (110 km SW)',
         radarUrl: 'https://weather.tmd.go.th/srtloop.php',
         isNeighborRadar: true,
@@ -1635,7 +1696,10 @@
       'VTST': {
         name: 'Trang (TST)',
         lat: 7.5098, lon: 99.6158,
-        rwy: 260,
+        rwy: 261,
+        rwy_ident: '08/26',
+        rwy_dimensions: '2,320m x 45m',
+        rwy_ends: [{ ident: '26', heading: 261 }, { ident: '08', heading: 81 }],
         radarName: 'On-field (Trang TMD Radar)',
         radarUrl: 'https://weather.tmd.go.th/trgloop.php',
         isNeighborRadar: false,
@@ -1647,10 +1711,13 @@
         cape: 1150, cin: 60, pwat: 43,
         actualTaf: 'TAF VTST 162300Z 1700/1724 21008KT 9999 SCT025'
       },
-      'VTSK': {
+      'VTSF': {
         name: 'Nakhon Si Thammarat (NST)',
         lat: 8.5404, lon: 99.9447,
-        rwy: 190,
+        rwy: 6,
+        rwy_ident: '01/19',
+        rwy_dimensions: '2,100m x 45m',
+        rwy_ends: [{ ident: '01', heading: 6 }, { ident: '19', heading: 186 }],
         radarName: 'Nearest: Songkhla Satingpra Radar (75 km S)',
         radarUrl: 'https://weather.tmd.go.th/stploop.php',
         isNeighborRadar: true,
@@ -1660,12 +1727,15 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1250, cin: 55, pwat: 44,
-        actualTaf: 'TAF VTSK 162300Z 1700/1724 18009KT 9999 FEW025'
+        actualTaf: 'TAF VTSF 162300Z 1700/1724 18009KT 9999 FEW025'
       },
       'VTSR': {
         name: 'Ranong (UNN)',
         lat: 9.7777, lon: 98.5855,
-        rwy: 200,
+        rwy: 204,
+        rwy_ident: '02/20',
+        rwy_dimensions: '2,000m x 45m',
+        rwy_ends: [{ ident: '20', heading: 204 }, { ident: '02', heading: 24 }],
         radarName: 'On-field (Ranong TMD Radar)',
         radarUrl: 'https://weather.tmd.go.th/rng240Loop.php',
         isNeighborRadar: false,
@@ -1680,7 +1750,10 @@
       'VTSE': {
         name: 'Chumphon (CJM)',
         lat: 10.7121, lon: 99.3615,
-        rwy: 180,
+        rwy: 240,
+        rwy_ident: '06/24',
+        rwy_dimensions: '2,100m x 45m',
+        rwy_ends: [{ ident: '24', heading: 240 }, { ident: '06', heading: 60 }],
         radarName: 'On-field (Chumphon Radar)',
         radarUrl: 'https://weather.tmd.go.th/cmploop.php',
         isNeighborRadar: false,
@@ -1692,10 +1765,13 @@
         cape: 1350, cin: 40, pwat: 46,
         actualTaf: 'TAF VTSE 162300Z 1700/1724 17010KT 9999 SCT025'
       },
-      'VTSN': {
+      'VTSC': {
         name: 'Narathiwat (NAW)',
         lat: 6.5199, lon: 101.7431,
-        rwy: 200,
+        rwy: 202,
+        rwy_ident: '02/20',
+        rwy_dimensions: '2,500m x 45m',
+        rwy_ends: [{ ident: '20', heading: 202 }, { ident: '02', heading: 22 }],
         radarName: 'On-field (Narathiwat Radar)',
         radarUrl: 'https://weather.tmd.go.th/nrtloop.php',
         isNeighborRadar: false,
@@ -1705,9 +1781,11 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1100, cin: 60, pwat: 42,
-        actualTaf: 'TAF VTSN 162300Z 1700/1724 12008KT 9999 FEW025'
+        actualTaf: 'TAF VTSC 162300Z 1700/1724 12008KT 9999 FEW025'
       }
     };
+    airports['VTSK'] = airports['VTSF'];
+    airports['VTSN'] = airports['VTSC'];
 
 // State variables declared at script top
 
@@ -2236,13 +2314,17 @@
       const alertBanner = document.getElementById('alertBanner');
       const alertTag = document.getElementById('alertTag');
 
+      const activeIdent = vec.active_runway_ident || vec.active_rwy || (data.rwy_ends && data.rwy_ends[0] && data.rwy_ends[0].ident) || String(Math.round(data.rwy/10));
+      const rwyLabel = `RWY ${activeIdent}`;
+      const rwyHdg = vec.active_runway_heading || vec.rwy_heading || data.rwy;
+
       if (evalResult.isDiscrepancy) {
         alertBanner.className = 'alert-banner';
         alertTag.className = 'alert-tag';
         alertTag.innerText = evalResult.tag;
         document.getElementById('alertEta').innerText = `IMPACT ACTIVE NOW (${times.ltStr.split(' ')[0]} LT)`;
         document.getElementById('alertMsg').innerHTML = `
-          <strong>${data.intensity}</strong> tracking toward RWY ${Math.round(data.rwy/10)} approach.<br>
+          <strong>${data.intensity}</strong> tracking toward ${rwyLabel} (${rwyHdg}°) approach.<br>
           ${evalResult.msg}
         `;
         document.getElementById('discrepancyBadge').style.display = 'inline';
@@ -2268,8 +2350,7 @@
       document.getElementById('dbzVal').innerText = (vec.dbz !== undefined ? vec.dbz : data.dbz) + ' dBZ';
       document.getElementById('echoTopVal').innerText = data.top ? `Top ${data.top}` : '--';
       
-      const rwyLabel = `RWY ${Math.round(data.rwy/10)}`;
-      const hwText = vec.headwind_kt !== undefined ? `HW ${vec.headwind_kt}KT | XW ${vec.crosswind_kt}KT (${vec.crosswind_dir})` : `${rwyLabel} Approach`;
+      const hwText = vec.headwind_kt !== undefined ? `${rwyLabel} | HW ${vec.headwind_kt}KT | XW ${vec.crosswind_kt}KT (${vec.crosswind_dir})` : `${rwyLabel} (${rwyHdg}°) Approach`;
       document.getElementById('rwyTarget').innerText = hwText;
 
       // Extract Visibility from METAR
@@ -2297,7 +2378,7 @@
         {
           item: 'Surface Wind / Runway Vector',
           taf: dec && dec.prevailing ? `${dec.prevailing.windStr}` : 'VRB 05KT',
-          now: `${data.rwy}° / ${vec.wind_spd_kt || 5} KT (${hwText})`,
+          now: `${rwyLabel} (${rwyHdg}°) | ${vec.wind_dir !== undefined ? (vec.wind_dir === 'VRB' ? 'VRB' : String(vec.wind_dir).padStart(3, '0') + '°') : '--'} / ${vec.wind_spd_kt !== undefined ? vec.wind_spd_kt : 5} KT (${vec.headwind_kt !== undefined ? 'HW ' + vec.headwind_kt + 'KT, XW ' + vec.crosswind_kt + 'KT ' + vec.crosswind_dir : ''})`,
           bad: false
         },
         {
@@ -2408,25 +2489,34 @@
       ctx.moveTo(10, cy); ctx.lineTo(w - 10, cy);
       ctx.stroke();
 
-      const apt = airports[currentAirport];
-      const rwyRad = (apt.rwy - 90) * (Math.PI / 180);
-      const rwyLen = 22;
-      const rx1 = cx - Math.cos(rwyRad) * rwyLen;
-      const ry1 = cy - Math.sin(rwyRad) * rwyLen;
-      const rx2 = cx + Math.cos(rwyRad) * rwyLen;
-      const ry2 = cy + Math.sin(rwyRad) * rwyLen;
+      const apt = airports[currentAirport] || {};
+      const vec = apt.tactical_runway_vector || {};
+      const activeIdent = vec.active_runway_ident || vec.active_rwy || (apt.rwy_ends && apt.rwy_ends[0] && apt.rwy_ends[0].ident) || String(Math.round((apt.rwy || 210) / 10));
+      const heading = (vec.active_runway_heading || vec.rwy_heading || apt.rwy || 210);
 
+      // In aviation radar screen: 0 deg = North (up, -y), 90 deg = East (right, +x), 180 deg = South (down, +y), 270 deg = West (left, -x)
+      const hdgRad = heading * (Math.PI / 180);
+      const rwyLen = 22;
+      // rx1, ry1 is the landing threshold (approach end)
+      const rx1 = cx - Math.sin(hdgRad) * rwyLen;
+      const ry1 = cy + Math.cos(hdgRad) * rwyLen;
+      // rx2, ry2 is the departure rollout end
+      const rx2 = cx + Math.sin(hdgRad) * rwyLen;
+      const ry2 = cy - Math.cos(hdgRad) * rwyLen;
+
+      // Draw solid runway strip
       ctx.strokeStyle = '#00e5ff';
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 3.5;
       ctx.beginPath();
       ctx.moveTo(rx1, ry1);
       ctx.lineTo(rx2, ry2);
       ctx.stroke();
 
-      const approachLen = 12 * scale;
-      const appX = cx - Math.cos(rwyRad) * approachLen;
-      const appY = cy - Math.sin(rwyRad) * approachLen;
-      ctx.strokeStyle = 'rgba(0, 229, 255, 0.35)';
+      // Extended Final Approach Corridor (dashed line extending from landing threshold rx1, ry1 back out along approach path)
+      const approachLen = 14 * scale;
+      const appX = rx1 - Math.sin(hdgRad) * approachLen;
+      const appY = ry1 + Math.cos(hdgRad) * approachLen;
+      ctx.strokeStyle = 'rgba(0, 229, 255, 0.45)';
       ctx.setLineDash([4, 4]);
       ctx.lineWidth = 1.5;
       ctx.beginPath();
@@ -2434,6 +2524,11 @@
       ctx.lineTo(appX, appY);
       ctx.stroke();
       ctx.setLineDash([]);
+
+      // Draw active runway designator near the landing threshold
+      ctx.fillStyle = '#00e5ff';
+      ctx.font = 'bold 9px monospace';
+      ctx.fillText(`RWY ${activeIdent}`, rx1 + 6, ry1 + 4);
 
       // Quality Gate: If TMD radar is stale, do not draw fake storm cells!
       if (apt.tmdFreshness && !apt.tmdFreshness.isFresh) {

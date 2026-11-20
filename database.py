@@ -27,38 +27,151 @@ DB_FILE = os.path.join(DIRECTORY, "aerocast_db.json")
 
 AIRPORTS_CONFIG = [
     # Bangkok Metropolitan
-    {"icao": "VTBD", "name": "Don Mueang (DMK)", "rwy": 213, "radar": "Suvarnabhumi / BMA C-Band", "lat": 13.9126, "lon": 100.6067},
-    {"icao": "VTBS", "name": "Suvarnabhumi (BKK)", "rwy": 194, "radar": "Suvarnabhumi Airport", "lat": 13.6811, "lon": 100.7473},
+    {
+        "icao": "VTBD", "name": "Don Mueang (DMK)", "rwy": 213, "rwy_ident": "03L/21R", "rwy_dimensions": "3,700m x 60m",
+        "rwy_ends": [{"ident": "21R", "heading": 213}, {"ident": "03L", "heading": 33}],
+        "radar": "Suvarnabhumi / BMA C-Band", "lat": 13.9126, "lon": 100.6067
+    },
+    {
+        "icao": "VTBS", "name": "Suvarnabhumi (BKK)", "rwy": 194, "rwy_ident": "01R/19L", "rwy_dimensions": "4,000m x 60m",
+        "rwy_ends": [{"ident": "19R", "heading": 194}, {"ident": "01L", "heading": 14}],
+        "radar": "Suvarnabhumi Airport", "lat": 13.6811, "lon": 100.7473
+    },
     # Northern Region
-    {"icao": "VTCC", "name": "Chiang Mai (CNX)", "rwy": 180, "radar": "Chiang Mai Omkoi", "lat": 18.7668, "lon": 98.9626},
-    {"icao": "VTCT", "name": "Chiang Rai (CEI)", "rwy": 210, "radar": "Chiang Rai", "lat": 19.9522, "lon": 99.8828},
-    {"icao": "VTCN", "name": "Nan Nakhon (NNT)", "rwy": 190, "radar": "Phitsanulok", "lat": 18.8080, "lon": 100.7833},
-    {"icao": "VTCL", "name": "Lampang (LPT)", "rwy": 180, "radar": "Chiang Mai Omkoi", "lat": 18.2619, "lon": 99.5053},
-    {"icao": "VTPP", "name": "Phitsanulok (PHS)", "rwy": 140, "radar": "Phitsanulok", "lat": 16.7828, "lon": 100.2789},
+    {
+        "icao": "VTCC", "name": "Chiang Mai (CNX)", "rwy": 180, "rwy_ident": "18/36", "rwy_dimensions": "3,400m x 45m",
+        "rwy_ends": [{"ident": "18", "heading": 180}, {"ident": "36", "heading": 360}],
+        "radar": "Chiang Mai Omkoi", "lat": 18.7668, "lon": 98.9626
+    },
+    {
+        "icao": "VTCT", "name": "Chiang Rai (CEI)", "rwy": 210, "rwy_ident": "03/21", "rwy_dimensions": "3,000m x 45m",
+        "rwy_ends": [{"ident": "21", "heading": 210}, {"ident": "03", "heading": 30}],
+        "radar": "Chiang Rai", "lat": 19.9522, "lon": 99.8828
+    },
+    {
+        "icao": "VTCN", "name": "Nan Nakhon (NNT)", "rwy": 200, "rwy_ident": "02/20", "rwy_dimensions": "2,075m x 45m",
+        "rwy_ends": [{"ident": "20", "heading": 200}, {"ident": "02", "heading": 20}],
+        "radar": "Phitsanulok", "lat": 18.8080, "lon": 100.7833
+    },
+    {
+        "icao": "VTCL", "name": "Lampang (LPT)", "rwy": 175, "rwy_ident": "18/36", "rwy_dimensions": "1,975m x 30m",
+        "rwy_ends": [{"ident": "18", "heading": 175}, {"ident": "36", "heading": 355}],
+        "radar": "Chiang Mai Omkoi", "lat": 18.2619, "lon": 99.5053
+    },
+    {
+        "icao": "VTPP", "name": "Phitsanulok (PHS)", "rwy": 144, "rwy_ident": "14/32", "rwy_dimensions": "3,000m x 45m",
+        "rwy_ends": [{"ident": "14", "heading": 144}, {"ident": "32", "heading": 324}],
+        "radar": "Phitsanulok", "lat": 16.7828, "lon": 100.2789
+    },
     # Northeastern Region
-    {"icao": "VTUK", "name": "Khon Kaen (KKC)", "rwy": 160, "radar": "Khon Kaen", "lat": 16.4667, "lon": 102.7833},
-    {"icao": "VTUD", "name": "Udon Thani (UTH)", "rwy": 210, "radar": "Sakon Nakhon", "lat": 17.3867, "lon": 102.7883},
-    {"icao": "VTUU", "name": "Ubon Ratchathani (UBP)", "rwy": 300, "radar": "Ubon Ratchathani", "lat": 15.2514, "lon": 104.8703},
-    {"icao": "VTUV", "name": "Roi Et (ROI)", "rwy": 230, "radar": "Khon Kaen / Ubon", "lat": 16.1603, "lon": 103.7736},
-    {"icao": "VTUO", "name": "Buriram (BFV)", "rwy": 180, "radar": "Khon Kaen / Phimai", "lat": 15.2289, "lon": 103.2536},
-    {"icao": "VTUL", "name": "Loei (LOE)", "rwy": 220, "radar": "Phitsanulok", "lat": 17.4392, "lon": 101.7222},
-    {"icao": "VTUI", "name": "Sakon Nakhon (SNO)", "rwy": 190, "radar": "Sakon Nakhon", "lat": 17.1953, "lon": 104.1189},
-    {"icao": "VTUW", "name": "Nakhon Phanom (KOP)", "rwy": 170, "radar": "Sakon Nakhon", "lat": 17.3839, "lon": 104.6419},
+    {
+        "icao": "VTUK", "name": "Khon Kaen (KKC)", "rwy": 213, "rwy_ident": "03/21", "rwy_dimensions": "3,050m x 45m",
+        "rwy_ends": [{"ident": "21", "heading": 213}, {"ident": "03", "heading": 33}],
+        "radar": "Khon Kaen", "lat": 16.4667, "lon": 102.7833
+    },
+    {
+        "icao": "VTUD", "name": "Udon Thani (UTH)", "rwy": 118, "rwy_ident": "12/30", "rwy_dimensions": "3,048m x 45m",
+        "rwy_ends": [{"ident": "12", "heading": 118}, {"ident": "30", "heading": 298}],
+        "radar": "Sakon Nakhon", "lat": 17.3867, "lon": 102.7883
+    },
+    {
+        "icao": "VTUU", "name": "Ubon Ratchathani (UBP)", "rwy": 52, "rwy_ident": "05/23", "rwy_dimensions": "3,000m x 45m",
+        "rwy_ends": [{"ident": "05", "heading": 52}, {"ident": "23", "heading": 232}],
+        "radar": "Ubon Ratchathani", "lat": 15.2514, "lon": 104.8703
+    },
+    {
+        "icao": "VTUV", "name": "Roi Et (ROI)", "rwy": 183, "rwy_ident": "18/36", "rwy_dimensions": "2,100m x 45m",
+        "rwy_ends": [{"ident": "18", "heading": 183}, {"ident": "36", "heading": 3}],
+        "radar": "Khon Kaen / Ubon", "lat": 16.1603, "lon": 103.7736
+    },
+    {
+        "icao": "VTUO", "name": "Buriram (BFV)", "rwy": 35, "rwy_ident": "04/22", "rwy_dimensions": "2,100m x 45m",
+        "rwy_ends": [{"ident": "04", "heading": 35}, {"ident": "22", "heading": 215}],
+        "radar": "Khon Kaen / Phimai", "lat": 15.2289, "lon": 103.2536
+    },
+    {
+        "icao": "VTUL", "name": "Loei (LOE)", "rwy": 16, "rwy_ident": "01/19", "rwy_dimensions": "2,100m x 45m",
+        "rwy_ends": [{"ident": "01", "heading": 16}, {"ident": "19", "heading": 196}],
+        "radar": "Phitsanulok", "lat": 17.4392, "lon": 101.7222
+    },
+    {
+        "icao": "VTUI", "name": "Sakon Nakhon (SNO)", "rwy": 46, "rwy_ident": "05/23", "rwy_dimensions": "2,600m x 45m",
+        "rwy_ends": [{"ident": "05", "heading": 46}, {"ident": "23", "heading": 226}],
+        "radar": "Sakon Nakhon", "lat": 17.1953, "lon": 104.1189
+    },
+    {
+        "icao": "VTUW", "name": "Nakhon Phanom (KOP)", "rwy": 145, "rwy_ident": "15/33", "rwy_dimensions": "2,000m x 45m",
+        "rwy_ends": [{"ident": "15", "heading": 145}, {"ident": "33", "heading": 325}],
+        "radar": "Sakon Nakhon", "lat": 17.3839, "lon": 104.6419
+    },
     # Southern Region
-    {"icao": "VTPH", "name": "Hua Hin (HHQ)", "rwy": 150, "radar": "Samut Songkhram / BMA", "lat": 12.6361, "lon": 99.9517},
-    {"icao": "VTSP", "name": "Phuket (HKT)", "rwy": 270, "radar": "Phuket Airport", "lat": 8.1132, "lon": 98.3169},
-    {"icao": "VTSG", "name": "Krabi (KBV)", "rwy": 320, "radar": "Phuket Radar", "lat": 8.0994, "lon": 98.9858},
-    {"icao": "VTSS", "name": "Hat Yai (HDY)", "rwy": 260, "radar": "Songkhla Satingpra", "lat": 6.9331, "lon": 100.3931},
-    {"icao": "VTSB", "name": "Surat Thani (URT)", "rwy": 220, "radar": "Surat Thani Phunphin", "lat": 9.1328, "lon": 99.1356},
-    {"icao": "VTSM", "name": "Koh Samui (USM)", "rwy": 170, "radar": "Surat Thani Samui", "lat": 9.5478, "lon": 100.0622},
-    {"icao": "VTST", "name": "Trang (TST)", "rwy": 260, "radar": "Songkhla Radar", "lat": 7.5089, "lon": 99.6161},
-    {"icao": "VTSK", "name": "Nakhon Si Thammarat (NST)", "rwy": 190, "radar": "Surat Thani", "lat": 8.5406, "lon": 99.9439},
-    {"icao": "VTSR", "name": "Ranong (UNN)", "rwy": 200, "radar": "Chumphon / Surat", "lat": 9.7778, "lon": 98.5856},
-    {"icao": "VTSE", "name": "Chumphon (CJM)", "rwy": 180, "radar": "Chumphon", "lat": 10.7117, "lon": 99.3619},
-    {"icao": "VTSN", "name": "Narathiwat (NAW)", "rwy": 210, "radar": "Narathiwat", "lat": 6.5197, "lon": 101.7431}
+    {
+        "icao": "VTPH", "name": "Hua Hin (HHQ)", "rwy": 160, "rwy_ident": "16/34", "rwy_dimensions": "2,100m x 35m",
+        "rwy_ends": [{"ident": "16", "heading": 160}, {"ident": "34", "heading": 340}],
+        "radar": "Samut Songkhram / BMA", "lat": 12.6361, "lon": 99.9517
+    },
+    {
+        "icao": "VTSP", "name": "Phuket (HKT)", "rwy": 265, "rwy_ident": "09/27", "rwy_dimensions": "3,000m x 45m",
+        "rwy_ends": [{"ident": "27", "heading": 265}, {"ident": "09", "heading": 85}],
+        "radar": "Phuket Airport", "lat": 8.1132, "lon": 98.3169
+    },
+    {
+        "icao": "VTSG", "name": "Krabi (KBV)", "rwy": 321, "rwy_ident": "14/32", "rwy_dimensions": "3,000m x 45m",
+        "rwy_ends": [{"ident": "32", "heading": 321}, {"ident": "14", "heading": 141}],
+        "radar": "Phuket Radar", "lat": 8.0994, "lon": 98.9858
+    },
+    {
+        "icao": "VTSS", "name": "Hat Yai (HDY)", "rwy": 262, "rwy_ident": "08/26", "rwy_dimensions": "3,050m x 45m",
+        "rwy_ends": [{"ident": "26", "heading": 262}, {"ident": "08", "heading": 82}],
+        "radar": "Songkhla Satingpra", "lat": 6.9331, "lon": 100.3931
+    },
+    {
+        "icao": "VTSB", "name": "Surat Thani (URT)", "rwy": 224, "rwy_ident": "04/22", "rwy_dimensions": "3,000m x 45m",
+        "rwy_ends": [{"ident": "22", "heading": 224}, {"ident": "04", "heading": 44}],
+        "radar": "Surat Thani Phunphin", "lat": 9.1328, "lon": 99.1356
+    },
+    {
+        "icao": "VTSM", "name": "Koh Samui (USM)", "rwy": 174, "rwy_ident": "17/35", "rwy_dimensions": "2,100m x 45m",
+        "rwy_ends": [{"ident": "17", "heading": 174}, {"ident": "35", "heading": 354}],
+        "radar": "Surat Thani Samui", "lat": 9.5478, "lon": 100.0622
+    },
+    {
+        "icao": "VTST", "name": "Trang (TST)", "rwy": 261, "rwy_ident": "08/26", "rwy_dimensions": "2,320m x 45m",
+        "rwy_ends": [{"ident": "26", "heading": 261}, {"ident": "08", "heading": 81}],
+        "radar": "Songkhla Radar", "lat": 7.5089, "lon": 99.6161
+    },
+    {
+        "icao": "VTSF", "name": "Nakhon Si Thammarat (NST)", "rwy": 6, "rwy_ident": "01/19", "rwy_dimensions": "2,100m x 45m",
+        "rwy_ends": [{"ident": "01", "heading": 6}, {"ident": "19", "heading": 186}],
+        "radar": "Surat Thani", "lat": 8.5406, "lon": 99.9439
+    },
+    {
+        "icao": "VTSR", "name": "Ranong (UNN)", "rwy": 204, "rwy_ident": "02/20", "rwy_dimensions": "2,000m x 45m",
+        "rwy_ends": [{"ident": "20", "heading": 204}, {"ident": "02", "heading": 24}],
+        "radar": "Chumphon / Surat", "lat": 9.7778, "lon": 98.5856
+    },
+    {
+        "icao": "VTSE", "name": "Chumphon (CJM)", "rwy": 240, "rwy_ident": "06/24", "rwy_dimensions": "2,100m x 45m",
+        "rwy_ends": [{"ident": "24", "heading": 240}, {"ident": "06", "heading": 60}],
+        "radar": "Chumphon", "lat": 10.7117, "lon": 99.3619
+    },
+    {
+        "icao": "VTSC", "name": "Narathiwat (NAW)", "rwy": 202, "rwy_ident": "02/20", "rwy_dimensions": "2,500m x 45m",
+        "rwy_ends": [{"ident": "20", "heading": 202}, {"ident": "02", "heading": 22}],
+        "radar": "Narathiwat", "lat": 6.5197, "lon": 101.7431
+    }
 ]
 
+AIRPORTS_ALIASES = {
+    "VTSK": "VTSF",
+    "VTSN": "VTSC"
+}
+
 AIRPORTS_BY_ICAO = {a["icao"]: a for a in AIRPORTS_CONFIG}
+# Also support aliases in lookup
+for alias, target in AIRPORTS_ALIASES.items():
+    if target in AIRPORTS_BY_ICAO:
+        AIRPORTS_BY_ICAO[alias] = AIRPORTS_BY_ICAO[target]
 
 RAIN_REGEX = re.compile(r'\b(-|\+|VC)?(TS|SH|FZ|BL)?(RA|DZ|GR|GS)\b|\bTS\b|\bVCTS\b|\bSQ\b', re.IGNORECASE)
 MIST_REGEX = re.compile(r'\b(BR|FG|HZ|FU|DU|SA)\b', re.IGNORECASE)
@@ -203,19 +316,45 @@ def parse_metar(raw_text: str) -> Dict[str, Any]:
 
 def compute_tactical_vector(icao: str, metar_data: Dict[str, Any]) -> Dict[str, Any]:
     """Generates tactical runway vector for the given aerodrome and parsed METAR."""
-    apt_conf = AIRPORTS_BY_ICAO.get(icao, {"rwy": 210, "name": icao})
-    rwy = apt_conf["rwy"]
+    canonical_icao = AIRPORTS_ALIASES.get(icao, icao)
+    apt_conf = AIRPORTS_BY_ICAO.get(canonical_icao, {"rwy": 210, "name": icao, "rwy_ident": "21/03", "rwy_ends": [{"ident": "21", "heading": 210}]})
+    
     w_dir = metar_data["wind_dir"]
     w_spd = metar_data["wind_speed_kt"]
 
-    angle_diff = (w_dir - rwy) % 360
-    rad = math.radians(angle_diff)
-    headwind = round(w_spd * math.cos(rad), 1)
-    crosswind = round(w_spd * math.sin(rad), 1)
-    crosswind_mag = abs(crosswind)
-    crosswind_dir = "RIGHT" if crosswind > 0 else ("LEFT" if crosswind < 0 else "HEAD")
+    rwy_ends = apt_conf.get("rwy_ends", [{"ident": str(round(apt_conf["rwy"]/10)), "heading": apt_conf["rwy"]}])
 
-    rwy_label = f"RWY {round(rwy/10):02d}"
+    # Dynamic active runway end selection: choose the runway end that maximizes headwind
+    best_end = rwy_ends[0]
+    best_headwind = -999.0
+    best_crosswind = 0.0
+
+    if w_spd == 0 or metar_data.get("wind_dir_str") == "VRB":
+        best_end = rwy_ends[0]
+        best_headwind = 0.0
+        best_crosswind = 0.0
+    else:
+        for r_end in rwy_ends:
+            hdg = r_end["heading"]
+            diff = (w_dir - hdg) % 360
+            rad = math.radians(diff)
+            hw = round(w_spd * math.cos(rad), 1)
+            xw = round(w_spd * math.sin(rad), 1)
+            if hw > best_headwind:
+                best_headwind = hw
+                best_crosswind = xw
+                best_end = r_end
+
+    active_rwy_ident = best_end["ident"]
+    active_rwy_heading = best_end["heading"]
+    crosswind_mag = abs(best_crosswind)
+    crosswind_dir = "RIGHT" if best_crosswind > 0 else ("LEFT" if best_crosswind < 0 else "HEAD")
+
+    rwy_label = f"RWY {active_rwy_ident}"
+    full_rwy_config = f"RWY {apt_conf.get('rwy_ident', active_rwy_ident)} ({apt_conf.get('rwy_dimensions', '')})".strip()
+
+    angle_diff = (w_dir - active_rwy_heading) % 360
+    rad = math.radians(angle_diff)
 
     if metar_data["has_rain"]:
         if any("TS" in p for p in metar_data["rain_phenomena"]):
@@ -271,10 +410,17 @@ def compute_tactical_vector(icao: str, metar_data: Dict[str, Any]) -> Dict[str, 
         vel_dy = 0
 
     return {
-        "rwy_heading": rwy,
+        "rwy_ident": apt_conf.get("rwy_ident", active_rwy_ident),
+        "rwy_dimensions": apt_conf.get("rwy_dimensions", ""),
+        "active_rwy": active_rwy_ident,
+        "active_runway_ident": active_rwy_ident,
+        "active_runway_heading": active_rwy_heading,
+        "rwy_label": rwy_label,
+        "full_rwy_config": full_rwy_config,
+        "rwy_heading": active_rwy_heading,
         "wind_dir": w_dir,
         "wind_spd_kt": w_spd,
-        "headwind_kt": headwind,
+        "headwind_kt": best_headwind,
         "crosswind_kt": crosswind_mag,
         "crosswind_dir": crosswind_dir,
         "pop_percent": pop,
