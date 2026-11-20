@@ -505,7 +505,10 @@
     <div class="section-card">
       <div class="section-title">
         <span>0. Database Ground-Truth Verification History</span>
-        <span style="color:var(--accent-green); font-size:0.7rem;" id="dbStatusBadge">&#9679; DATABASE PERSISTED</span>
+        <div>
+          <a href="/api/archive_csv" target="_blank" style="background:#1e293b; border:1px solid #06b6d4; color:#06b6d4; font-size:0.68rem; font-family:var(--font-mono); font-weight:700; padding:3px 8px; border-radius:4px; text-decoration:none; margin-right:6px;" title="Export Full Database Archive to CSV (Google Sheets / Excel)">&#128190; Export METAR/TAF History (CSV)</a>
+          <span style="color:var(--accent-green); font-size:0.7rem;" id="dbStatusBadge">&#9679; DATABASE PERSISTED</span>
+        </div>
       </div>
       <div class="table-responsive">
         <table class="log-table">
@@ -521,6 +524,30 @@
           </thead>
           <tbody id="dbHistoryTableBody">
             <tr><td colspan="6" style="text-align:center; padding:15px; color:var(--text-dim);">Loading verification cycles from database...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 0.5: Stored METAR & TAF Database Archive (Post-Analysis Log) -->
+    <div class="section-card">
+      <div class="section-title">
+        <span>0.5 Stored METAR & TAF Database Archive</span>
+        <span style="color:var(--accent-cyan); font-size:0.7rem;" id="archiveStatusBadge">&#9679; LOGGED CYCLES</span>
+      </div>
+      <div class="table-responsive">
+        <table class="log-table">
+          <thead>
+            <tr>
+              <th style="width:12%;">Station</th>
+              <th style="width:12%;">Observation Zulu</th>
+              <th style="width:15%;">Active RWY & Wind</th>
+              <th style="width:13%;">Weather / Vis</th>
+              <th style="width:48%;">Raw Web Observation (METAR / TAF)</th>
+            </tr>
+          </thead>
+          <tbody id="metarTafArchiveTableBody">
+            <tr><td colspan="5" style="text-align:center; padding:15px; color:var(--text-dim);">Loading stored web METAR/TAF logs from database...</td></tr>
           </tbody>
         </table>
       </div>
@@ -1464,6 +1491,53 @@
       document.getElementById('mistObsVal').innerText = mistCount;
       document.getElementById('vmcObsVal').innerText = vmcCount;
       document.getElementById('consistencyVal').innerText = records.length > 0 ? Math.round((matchedCount / records.length) * 100) + '%' : '--';
+
+      // 4. Load persisted METAR & TAF Database Archive for this station
+      loadMetarTafArchive(icao);
+    }
+
+    async function loadMetarTafArchive(icao) {
+      try {
+        const resp = await fetch(`/api/archive?icao=${icao}&t=${Date.now()}`);
+        if (resp.ok) {
+          const json = await resp.json();
+          const tbody = document.getElementById('metarTafArchiveTableBody');
+          tbody.innerHTML = '';
+          const mHist = json.metar_history || [];
+          const tHist = json.taf_history || [];
+          const badge = document.getElementById('archiveStatusBadge');
+          if (badge) {
+            badge.innerText = `● ${mHist.length} METARs / ${tHist.length} TAFs PERSISTED`;
+          }
+
+          if (mHist.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:15px; color:var(--text-dim);">No stored observations in database for this station yet. Automatic ingestion runs on :10Z and :40Z.</td></tr>';
+            return;
+          }
+
+          mHist.slice().reverse().forEach((obs) => {
+            const tr = document.createElement('tr');
+            const hw = obs.headwind_kt !== undefined ? `HW ${obs.headwind_kt}KT` : '';
+            const xw = obs.crosswind_kt !== undefined ? `XW ${obs.crosswind_kt}KT (${obs.crosswind_dir || ''})` : '';
+            const wx = (obs.weather_phenomena && obs.weather_phenomena.length > 0) ? obs.weather_phenomena.join(', ') : 'NSW';
+            const matchedTaf = tHist.length > 0 ? tHist[tHist.length - 1].raw_text : '--';
+
+            tr.innerHTML = `
+              <td><strong style="color:var(--accent-cyan);">${json.icao}</strong><br><span style="font-size:0.7rem; color:var(--text-dim);">${json.name || ''}</span></td>
+              <td><strong style="color:#ffffff;">${obs.timestamp_zulu || '--'}</strong><br><span style="font-size:0.65rem; color:var(--text-dim);">${(obs.fetched_at_utc || '').split('T')[0]}</span></td>
+              <td><span style="color:var(--accent-green); font-weight:700;">RWY ${obs.active_runway || '--'}</span><br><span style="font-size:0.7rem;">${obs.wind_dir || 0}°/${obs.wind_speed_kt || 0}KT (${hw} ${xw})</span></td>
+              <td><span style="color:${obs.visibility_m < 5000 ? 'var(--accent-red)' : 'var(--text-main)'}; font-weight:700;">${obs.visibility_m || 9999} m</span><br><span style="font-size:0.7rem; color:var(--accent-amber);">${wx}</span></td>
+              <td style="font-family:var(--font-mono); font-size:0.72rem; word-break:break-all;">
+                <div style="color:#38bdf8; margin-bottom:3px;"><strong>METAR:</strong> ${obs.raw_text || '--'}</div>
+                <div style="color:#94a3b8; font-size:0.68rem;"><strong>TAF:</strong> ${matchedTaf}</div>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.warn('Could not load METAR/TAF archive:', e);
+      }
     }
 
     // Initialize with Don Mueang (VTBD)

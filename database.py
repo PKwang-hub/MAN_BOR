@@ -24,6 +24,7 @@ except ImportError:
 
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DB_FILE = os.path.join(DIRECTORY, "aerocast_db.json")
+ARCHIVE_CSV_FILE = os.path.join(DIRECTORY, "observations_archive.csv")
 
 AIRPORTS_CONFIG = [
     # Bangkok Metropolitan
@@ -480,7 +481,7 @@ def evaluate_taf_discrepancy(taf_text: str, metar_data: Dict[str, Any], now_utc:
         }
 
 def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, str], now_utc: Optional[datetime] = None) -> Dict[str, Any]:
-    """Generates the full database JSON object containing all 26 airports, nowcasts, and alerts."""
+    """Generates the full database JSON object containing all 26 airports, nowcasts, alerts, and persistent history."""
     if now_utc is None:
         now_utc = datetime.now(timezone.utc)
 
@@ -488,6 +489,8 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
     airports_data = {}
     rain_alert_airports = []
     vis_alert_airports = []
+
+    existing_db = load_database()
 
     for apt in AIRPORTS_CONFIG:
         icao = apt["icao"]
@@ -535,6 +538,44 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
                 "rwy": apt["rwy"]
             })
 
+        # Historical METAR & TAF persistence per airport for post-analysis
+        existing_airport = existing_db.get("airports", {}).get(icao, {}) if existing_db else {}
+        existing_m_hist = list(existing_airport.get("metar_history", []))
+        existing_t_hist = list(existing_airport.get("taf_history", []))
+
+        m_zulu = parsed_m.get("timestamp_zulu", "")
+        if not any(x.get("timestamp_zulu") == m_zulu and x.get("raw_text") == raw_m for x in existing_m_hist[-10:]):
+            existing_m_hist.append({
+                "timestamp_zulu": m_zulu,
+                "fetched_at_utc": now_utc.isoformat(),
+                "raw_text": raw_m,
+                "wind_dir": parsed_m.get("wind_dir", 0),
+                "wind_speed_kt": parsed_m.get("wind_speed_kt", 0),
+                "visibility_m": parsed_m.get("visibility_m", 9999),
+                "weather_phenomena": parsed_m.get("rain_phenomena", []) + parsed_m.get("mist_phenomena", []),
+                "temp_c": parsed_m.get("temp_c", 30),
+                "dewpoint_c": parsed_m.get("dewpoint_c", 25),
+                "qnh_hpa": parsed_m.get("qnh_hpa", 1010),
+                "active_runway": vector_data.get("active_runway_ident", vector_data.get("active_rwy", "")),
+                "headwind_kt": vector_data.get("headwind_kt", 0.0),
+                "crosswind_kt": vector_data.get("crosswind_kt", 0.0),
+                "crosswind_dir": vector_data.get("crosswind_dir", "HEAD")
+            })
+            if len(existing_m_hist) > 100:
+                existing_m_hist = existing_m_hist[-100:]
+
+        t_issue = decoded_t_info.get("issue_zulu", "") if decoded_t_info else ""
+        if not any(x.get("raw_text") == raw_t for x in existing_t_hist[-5:]):
+            existing_t_hist.append({
+                "issue_zulu": t_issue,
+                "fetched_at_utc": now_utc.isoformat(),
+                "raw_text": raw_t,
+                "valid_str": decoded_t_info.get("valid_str", "") if decoded_t_info else "",
+                "active_summary": decoded_t_info.get("active_summary", "") if decoded_t_info else ""
+            })
+            if len(existing_t_hist) > 50:
+                existing_t_hist = existing_t_hist[-50:]
+
         airports_data[icao] = {
             "icao": icao,
             "name": apt["name"],
@@ -548,7 +589,9 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
                 "decoded": decoded_t_info
             },
             "discrepancy": discrepancy,
-            "tactical_runway_vector": vector_data
+            "tactical_runway_vector": vector_data,
+            "metar_history": existing_m_hist,
+            "taf_history": existing_t_hist
         }
 
     total_alerts = len(rain_alert_airports) + len(vis_alert_airports)
@@ -579,7 +622,6 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
     }
 
     # Load existing verification history to preserve it across cycles
-    existing_db = load_database()
     verification_history = []
     if existing_db and "verification_history" in existing_db:
         verification_history = existing_db["verification_history"]
@@ -589,6 +631,40 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
         verification_history.append(current_verification_cycle)
         if len(verification_history) > 100:
             verification_history = verification_history[-100:]
+
+    # Global time-series archive across cycles
+    cycle_slot = f"{now_utc.day:02d}{now_utc.hour:02d}{'40' if now_utc.minute >= 40 else ('10' if now_utc.minute >= 10 else '00')}Z"
+    existing_archive = existing_db.get("metar_taf_archive", []) if existing_db else []
+    cycle_record = {
+        "cycle_zulu": cycle_slot,
+        "timestamp_utc": now_utc.isoformat(),
+        "total_airports": len(airports_data),
+        "rain_alerts": len(rain_alert_airports),
+        "vis_alerts": len(vis_alert_airports),
+        "observations": {
+            icao: {
+                "metar_zulu": a["latest_metar"]["timestamp_zulu"],
+                "metar_raw": a["latest_metar"]["raw_text"],
+                "taf_raw": a["active_taf"]["raw_text"],
+                "active_rwy": a["tactical_runway_vector"].get("active_runway_ident", a["tactical_runway_vector"].get("active_rwy")),
+                "hw_kt": a["tactical_runway_vector"]["headwind_kt"],
+                "xw_kt": a["tactical_runway_vector"]["crosswind_kt"],
+                "xw_dir": a["tactical_runway_vector"]["crosswind_dir"],
+                "pop": a["tactical_runway_vector"]["pop_percent"],
+                "dbz": a["tactical_runway_vector"]["dbz"],
+                "vis_m": a["latest_metar"]["visibility_m"],
+                "rain_alert": a["discrepancy"]["rain_discrepancy"]
+            }
+            for icao, a in airports_data.items()
+        }
+    }
+    if not existing_archive or existing_archive[-1].get("cycle_zulu") != cycle_slot:
+        existing_archive.append(cycle_record)
+    else:
+        existing_archive[-1] = cycle_record
+
+    if len(existing_archive) > 100:
+        existing_archive = existing_archive[-100:]
 
     return {
         "version": "2.0-unified",
@@ -601,15 +677,102 @@ def build_database_snapshot(fleet_metars: Dict[str, str], fleet_tafs: Dict[str, 
         },
         "airports": airports_data,
         "current_verification": current_verification_cycle,
-        "verification_history": verification_history
+        "verification_history": verification_history,
+        "metar_taf_archive": existing_archive
     }
 
+def append_to_csv_archive(airports_data: Dict[str, Any], now_utc: datetime) -> int:
+    """
+    Appends new METAR and TAF observations to observations_archive.csv idempotently.
+    Returns the number of new rows added.
+    """
+    headers = [
+        "fetch_timestamp_utc", "cycle_zulu", "icao", "airport_name",
+        "metar_time_zulu", "metar_raw", "taf_raw",
+        "wind_dir", "wind_spd_kt", "vis_m", "weather_phenomena",
+        "active_runway", "headwind_kt", "crosswind_kt", "crosswind_dir",
+        "discrepancy_alert"
+    ]
+
+    file_exists = os.path.isfile(ARCHIVE_CSV_FILE)
+    existing_keys = set()
+
+    if file_exists:
+        try:
+            with open(ARCHIVE_CSV_FILE, "r", encoding="utf-8", errors="replace") as f:
+                reader = csv.reader(f)
+                header_row = next(reader, None)
+                for row in reader:
+                    if len(row) >= 5:
+                        existing_keys.add((row[2], row[4]))
+        except Exception:
+            pass
+
+    cycle_zulu = f"{now_utc.day:02d}{now_utc.hour:02d}{'40' if now_utc.minute >= 40 else ('10' if now_utc.minute >= 10 else '00')}Z"
+    new_rows = []
+
+    for icao, data in airports_data.items():
+        m = data.get("latest_metar", {})
+        v = data.get("tactical_runway_vector", {})
+        d = data.get("discrepancy", {})
+        t = data.get("active_taf", {})
+
+        m_time = m.get("timestamp_zulu", "")
+        if (icao, m_time) in existing_keys:
+            continue
+
+        wx_str = ", ".join(m.get("rain_phenomena", []) + m.get("mist_phenomena", [])) or "NSW"
+        alert_str = "UNFORECAST_RAIN" if d.get("rain_discrepancy") else ("LOW_VIS_ALERT" if m.get("has_reduced_vis") else "NORMAL")
+        active_rwy = v.get("active_runway_ident", v.get("active_rwy", ""))
+
+        new_rows.append([
+            now_utc.isoformat(),
+            cycle_zulu,
+            icao,
+            data.get("name", ""),
+            m_time,
+            m.get("raw_text", ""),
+            t.get("raw_text", ""),
+            m.get("wind_dir", ""),
+            m.get("wind_speed_kt", ""),
+            m.get("visibility_m", ""),
+            wx_str,
+            active_rwy,
+            v.get("headwind_kt", ""),
+            v.get("crosswind_kt", ""),
+            v.get("crosswind_dir", ""),
+            alert_str
+        ])
+        existing_keys.add((icao, m_time))
+
+    if new_rows:
+        with open(ARCHIVE_CSV_FILE, "a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                writer.writerow(headers)
+            writer.writerows(new_rows)
+
+    return len(new_rows)
+
+def export_archive_csv() -> str:
+    """Returns the full contents of observations_archive.csv."""
+    if os.path.isfile(ARCHIVE_CSV_FILE):
+        with open(ARCHIVE_CSV_FILE, "r", encoding="utf-8", errors="replace") as f:
+            return f.read()
+    return "fetch_timestamp_utc,cycle_zulu,icao,airport_name,metar_time_zulu,metar_raw,taf_raw,wind_dir,wind_spd_kt,vis_m,weather_phenomena,active_runway,headwind_kt,crosswind_kt,crosswind_dir,discrepancy_alert\n"
+
 def save_database(data: Dict[str, Any]) -> None:
-    """Atomically writes snapshot to aerocast_db.json."""
+    """Atomically writes snapshot to aerocast_db.json and appends to CSV archive."""
     temp_file = DB_FILE + ".tmp"
     with open(temp_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     os.replace(temp_file, DB_FILE)
+
+    try:
+        now_utc = datetime.now(timezone.utc)
+        append_to_csv_archive(data.get("airports", {}), now_utc)
+    except Exception as e:
+        print(f"Warning: Failed to append to CSV archive: {e}")
 
 def load_database() -> Optional[Dict[str, Any]]:
     """Reads snapshot directly from aerocast_db.json in < 2ms."""

@@ -351,6 +351,46 @@ class AeroCastHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(csv_data.encode("utf-8"))
 
+        elif clean_path in ["/api/archive_csv", "/api/archive.csv", "/archive.csv", "/api/export_archive_csv"]:
+            csv_data = database.export_archive_csv()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/csv; charset=utf-8")
+            self.send_header("Content-Disposition", 'attachment; filename="aerocast_observations_archive.csv"')
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(csv_data.encode("utf-8"))
+
+        elif clean_path in ["/api/archive", "/api/history", "/api/metar_taf_archive"]:
+            qs = urllib.parse.parse_qs(parsed.query)
+            target_icao = qs.get("icao", [None])[0]
+            snap = database.load_database()
+            if not snap:
+                snap = perform_ingest_cycle(force=False)
+            
+            if target_icao:
+                target_icao = target_icao.upper()
+                canonical = getattr(database, 'AIRPORTS_ALIASES', {}).get(target_icao, target_icao)
+                apt_data = snap.get("airports", {}).get(canonical, {})
+                payload = {
+                    "icao": canonical,
+                    "name": apt_data.get("name", ""),
+                    "metar_history_count": len(apt_data.get("metar_history", [])),
+                    "taf_history_count": len(apt_data.get("taf_history", [])),
+                    "metar_history": apt_data.get("metar_history", []),
+                    "taf_history": apt_data.get("taf_history", [])
+                }
+            else:
+                archive = snap.get("metar_taf_archive", [])
+                payload = {
+                    "count": len(archive),
+                    "cycles": archive
+                }
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(json.dumps(payload, indent=2).encode("utf-8"))
+
         elif clean_path in ["/api/verification_history", "/api/verification"]:
             snap = database.load_database()
             if not snap:
@@ -462,6 +502,49 @@ def wsgi_app(environ, start_response):
         start_response("200 OK", [
             ("Content-Type", "text/csv; charset=utf-8"),
             ("Content-Disposition", 'attachment; filename="aerocast_fleet_status.csv"'),
+            ("Access-Control-Allow-Origin", "*"),
+            ("Content-Length", str(len(data)))
+        ])
+        return [data]
+
+    if clean_path in ["/api/archive_csv", "/api/archive.csv", "/archive.csv", "/api/export_archive_csv"]:
+        data = database.export_archive_csv().encode("utf-8")
+        start_response("200 OK", [
+            ("Content-Type", "text/csv; charset=utf-8"),
+            ("Content-Disposition", 'attachment; filename="aerocast_observations_archive.csv"'),
+            ("Access-Control-Allow-Origin", "*"),
+            ("Content-Length", str(len(data)))
+        ])
+        return [data]
+
+    if clean_path in ["/api/archive", "/api/history", "/api/metar_taf_archive"]:
+        qs = urllib.parse.parse_qs(query)
+        target_icao = qs.get("icao", [None])[0]
+        snap = database.load_database()
+        if not snap:
+            snap = perform_ingest_cycle(force=False)
+        
+        if target_icao:
+            target_icao = target_icao.upper()
+            canonical = getattr(database, 'AIRPORTS_ALIASES', {}).get(target_icao, target_icao)
+            apt_data = snap.get("airports", {}).get(canonical, {})
+            payload = {
+                "icao": canonical,
+                "name": apt_data.get("name", ""),
+                "metar_history_count": len(apt_data.get("metar_history", [])),
+                "taf_history_count": len(apt_data.get("taf_history", [])),
+                "metar_history": apt_data.get("metar_history", []),
+                "taf_history": apt_data.get("taf_history", [])
+            }
+        else:
+            archive = snap.get("metar_taf_archive", [])
+            payload = {
+                "count": len(archive),
+                "cycles": archive
+            }
+        data = json.dumps(payload, indent=2).encode("utf-8")
+        start_response("200 OK", [
+            ("Content-Type", "application/json"),
             ("Access-Control-Allow-Origin", "*"),
             ("Content-Length", str(len(data)))
         ])
