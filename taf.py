@@ -6,6 +6,11 @@ import ssl
 import re
 from datetime import datetime, timezone, timedelta
 
+try:
+    import taf_decoder
+except ImportError:
+    import aerocast_web.taf_decoder as taf_decoder
+
 def generate_cycle_taf(icao: str, now_utc: datetime = None) -> str:
     """Generates an accurate, realistically structured TAF aligned with current UTC cycle."""
     if now_utc is None:
@@ -186,6 +191,26 @@ class handler(BaseHTTPRequestHandler):
         if not raw_taf:
             raw_taf = generate_cycle_taf(icao, now)
 
+        decoded_payload = None
+        try:
+            d_taf = taf_decoder.decode_taf(raw_taf)
+            r_fc = taf_decoder.get_forecast_for_time(d_taf, now)
+            decoded_payload = {
+                "issue_zulu": d_taf.issue_zulu,
+                "valid_str": d_taf.valid_str,
+                "active_wind": r_fc.forecast_wind_str,
+                "active_vis_m": r_fc.forecast_min_vis_m,
+                "active_clouds": r_fc.forecast_clouds_str,
+                "has_rain": r_fc.has_forecast_rain,
+                "rain_phenomena": r_fc.forecast_rain_intensity,
+                "has_reduced_vis": r_fc.has_forecast_reduced_vis,
+                "active_groups": r_fc.active_tempo_groups,
+                "active_summary": r_fc.human_summary,
+                "all_groups": [{"type": g.group_type, "header": g.raw_header, "text": g.raw_text} for g in d_taf.groups]
+            }
+        except Exception:
+            decoded_payload = None
+
         meta = compute_cycle_metadata(raw_taf, is_live=is_live, now_utc=now)
         payload = {
             "icao": icao,
@@ -193,6 +218,7 @@ class handler(BaseHTTPRequestHandler):
             "is_live": is_live,
             "source": "ICAO GTS Network (NOAA AWC / TMD Aeromet)" if is_live else "Local Station Bulletin Cache",
             "timestamp_utc": now.isoformat(),
+            "decoded": decoded_payload,
             **meta
         }
 

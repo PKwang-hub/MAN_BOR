@@ -1,0 +1,2038 @@
+{
+  "version": "2.0-unified",
+  "last_updated_utc": "2026-11-20T05:00:58.781299+00:00",
+  "cadence": {
+    "is_active_window": true,
+    "window_name": "DAYLIGHT OPS (2210Z - 1210Z)",
+    "slots_minute": [
+      10,
+      40
+    ],
+    "next_slot_zulu": "0510Z",
+    "seconds_remaining": 541,
+    "countdown_text": "9m 01s"
+  },
+  "global_alerts": {
+    "rain_alerts": [],
+    "vis_alerts": [],
+    "total_alerts": 0
+  },
+  "airports": {
+    "VTBD": {
+      "icao": "VTBD",
+      "name": "Don Mueang (DMK)",
+      "rwy": 213,
+      "radar": "Suvarnabhumi / BMA C-Band",
+      "lat": 13.9126,
+      "lon": 100.6067,
+      "latest_metar": {
+        "raw_text": "METAR VTBD 200500Z 16005KT 130V210 9999 FEW020 32/26 Q1014 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 160,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTBD 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
+        "decoded": {
+          "icao": "VTBD",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "190/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 8000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 190/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 19008KT 9999 FEW025 BKN080",
+            "TEMPO 2008/2012 4000 TSRA FEW018CB SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 190/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 213,
+        "wind_dir": 160,
+        "wind_spd_kt": 5,
+        "headwind_kt": 3.0,
+        "crosswind_kt": 4.0,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 21 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTBS": {
+      "icao": "VTBS",
+      "name": "Suvarnabhumi (BKK)",
+      "rwy": 194,
+      "radar": "Suvarnabhumi Airport",
+      "lat": 13.6811,
+      "lon": 100.7473,
+      "latest_metar": {
+        "raw_text": "METAR VTBS 200500Z 09006KT 9999 FEW020 32/25 Q1008 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 90,
+        "wind_speed_kt": 6,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTBS 200500Z 2006/2112 19008KT 9999 FEW025 BKN080 TEMPO 2008/2012 4000 TSRA FEW018CB SCT020",
+        "decoded": {
+          "icao": "VTBS",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "190/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 8000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 190/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 19008KT 9999 FEW025 BKN080",
+            "TEMPO 2008/2012 4000 TSRA FEW018CB SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 190/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 194,
+        "wind_dir": 90,
+        "wind_spd_kt": 6,
+        "headwind_kt": -1.5,
+        "crosswind_kt": 5.8,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 19 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTCC": {
+      "icao": "VTCC",
+      "name": "Chiang Mai (CNX)",
+      "rwy": 180,
+      "radar": "Chiang Mai Omkoi",
+      "lat": 18.7668,
+      "lon": 98.9626,
+      "latest_metar": {
+        "raw_text": "METAR VTCC 200500Z 14006KT 9999 FEW025 30/20 Q1011 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 140,
+        "wind_speed_kt": 6,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTCC 200500Z 2006/2112 02006KT 9999 SCT030",
+        "decoded": {
+          "icao": "VTCC",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "020/6KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 02006KT 9999 SCT030"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 180,
+        "wind_dir": 140,
+        "wind_spd_kt": 6,
+        "headwind_kt": 4.6,
+        "crosswind_kt": 3.9,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 18 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTCT": {
+      "icao": "VTCT",
+      "name": "Chiang Rai (CEI)",
+      "rwy": 210,
+      "radar": "Chiang Rai",
+      "lat": 19.9522,
+      "lon": 99.8828,
+      "latest_metar": {
+        "raw_text": "METAR VTCT 200500Z 02006KT 9999 SCT030 29/18 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 20,
+        "wind_speed_kt": 6,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTCT 200500Z 2006/2112 02006KT 9999 SCT030",
+        "decoded": {
+          "icao": "VTCT",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "020/6KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 02006KT 9999 SCT030"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 210,
+        "wind_dir": 20,
+        "wind_spd_kt": 6,
+        "headwind_kt": -5.9,
+        "crosswind_kt": 1.0,
+        "crosswind_dir": "RIGHT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 21 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTCN": {
+      "icao": "VTCN",
+      "name": "Nan Nakhon (NNT)",
+      "rwy": 190,
+      "radar": "Phitsanulok",
+      "lat": 18.808,
+      "lon": 100.7833,
+      "latest_metar": {
+        "raw_text": "METAR VTCN 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTCN 200500Z 2006/2112 02006KT 9999 SCT030",
+        "decoded": {
+          "icao": "VTCN",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "020/6KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 02006KT 9999 SCT030"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 190,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 1.7,
+        "crosswind_kt": 4.7,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 19 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTCL": {
+      "icao": "VTCL",
+      "name": "Lampang (LPT)",
+      "rwy": 180,
+      "radar": "Chiang Mai Omkoi",
+      "lat": 18.2619,
+      "lon": 99.5053,
+      "latest_metar": {
+        "raw_text": "METAR VTCL 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTCL 200500Z 2006/2112 02006KT 9999 SCT030",
+        "decoded": {
+          "icao": "VTCL",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "020/6KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 3000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 020/6KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 02006KT 9999 SCT030"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 020/6KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 180,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 2.5,
+        "crosswind_kt": 4.3,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 18 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTPP": {
+      "icao": "VTPP",
+      "name": "Phitsanulok (PHS)",
+      "rwy": 140,
+      "radar": "Phitsanulok",
+      "lat": 16.7828,
+      "lon": 100.2789,
+      "latest_metar": {
+        "raw_text": "METAR VTPP 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTPP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "decoded": {
+          "icao": "VTPP",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "120/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 12008KT 9999 FEW025",
+            "TEMPO 2008/2012 4000 SHRA SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 140,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 4.7,
+        "crosswind_kt": 1.7,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 14 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUK": {
+      "icao": "VTUK",
+      "name": "Khon Kaen (KKC)",
+      "rwy": 160,
+      "radar": "Khon Kaen",
+      "lat": 16.4667,
+      "lon": 102.7833,
+      "latest_metar": {
+        "raw_text": "METAR VTUK 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUK 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "decoded": {
+          "icao": "VTUK",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "080/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 08008KT 9999 FEW025 BKN090"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 160,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 3.8,
+        "crosswind_kt": 3.2,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 16 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUD": {
+      "icao": "VTUD",
+      "name": "Udon Thani (UTH)",
+      "rwy": 210,
+      "radar": "Sakon Nakhon",
+      "lat": 17.3867,
+      "lon": 102.7883,
+      "latest_metar": {
+        "raw_text": "METAR VTUD 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUD 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "decoded": {
+          "icao": "VTUD",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "080/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 08008KT 9999 FEW025 BKN090"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 210,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -0.0,
+        "crosswind_kt": 5.0,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 21 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUU": {
+      "icao": "VTUU",
+      "name": "Ubon Ratchathani (UBP)",
+      "rwy": 300,
+      "radar": "Ubon Ratchathani",
+      "lat": 15.2514,
+      "lon": 104.8703,
+      "latest_metar": {
+        "raw_text": "METAR VTUU 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUU 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "decoded": {
+          "icao": "VTUU",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "120/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 12008KT 9999 FEW025",
+            "TEMPO 2008/2012 4000 SHRA SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 300,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -5.0,
+        "crosswind_kt": 0.0,
+        "crosswind_dir": "HEAD",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 30 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUV": {
+      "icao": "VTUV",
+      "name": "Roi Et (ROI)",
+      "rwy": 230,
+      "radar": "Khon Kaen / Ubon",
+      "lat": 16.1603,
+      "lon": 103.7736,
+      "latest_metar": {
+        "raw_text": "METAR VTUV 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUV 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "decoded": {
+          "icao": "VTUV",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "080/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 08008KT 9999 FEW025 BKN090"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 230,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -1.7,
+        "crosswind_kt": 4.7,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 23 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUO": {
+      "icao": "VTUO",
+      "name": "Buriram (BFV)",
+      "rwy": 180,
+      "radar": "Khon Kaen / Phimai",
+      "lat": 15.2289,
+      "lon": 103.2536,
+      "latest_metar": {
+        "raw_text": "METAR VTUO 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUO 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "decoded": {
+          "icao": "VTUO",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "080/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 08008KT 9999 FEW025 BKN090"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 180,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 2.5,
+        "crosswind_kt": 4.3,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 18 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUL": {
+      "icao": "VTUL",
+      "name": "Loei (LOE)",
+      "rwy": 220,
+      "radar": "Phitsanulok",
+      "lat": 17.4392,
+      "lon": 101.7222,
+      "latest_metar": {
+        "raw_text": "METAR VTUL 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUL 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "decoded": {
+          "icao": "VTUL",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "080/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 08008KT 9999 FEW025 BKN090"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 220,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -0.9,
+        "crosswind_kt": 4.9,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 22 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUI": {
+      "icao": "VTUI",
+      "name": "Sakon Nakhon (SNO)",
+      "rwy": 190,
+      "radar": "Sakon Nakhon",
+      "lat": 17.1953,
+      "lon": 104.1189,
+      "latest_metar": {
+        "raw_text": "METAR VTUI 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUI 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "decoded": {
+          "icao": "VTUI",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "120/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 12008KT 9999 FEW025",
+            "TEMPO 2008/2012 4000 SHRA SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 190,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 1.7,
+        "crosswind_kt": 4.7,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 19 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTUW": {
+      "icao": "VTUW",
+      "name": "Nakhon Phanom (KOP)",
+      "rwy": 170,
+      "radar": "Sakon Nakhon",
+      "lat": 17.3839,
+      "lon": 104.6419,
+      "latest_metar": {
+        "raw_text": "METAR VTUW 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTUW 200500Z 2006/2112 08008KT 9999 FEW025 BKN090",
+        "decoded": {
+          "icao": "VTUW",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "080/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft, Broken Ceiling (5-7 oktas) 9000ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 080/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 08008KT 9999 FEW025 BKN090"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 080/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 170,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 3.2,
+        "crosswind_kt": 3.8,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 17 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTPH": {
+      "icao": "VTPH",
+      "name": "Hua Hin (HHQ)",
+      "rwy": 150,
+      "radar": "Samut Songkhram / BMA",
+      "lat": 12.6361,
+      "lon": 99.9517,
+      "latest_metar": {
+        "raw_text": "METAR VTPH 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTPH 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTPH",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 150,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 4.3,
+        "crosswind_kt": 2.5,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 15 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSP": {
+      "icao": "VTSP",
+      "name": "Phuket (HKT)",
+      "rwy": 270,
+      "radar": "Phuket Airport",
+      "lat": 8.1132,
+      "lon": 98.3169,
+      "latest_metar": {
+        "raw_text": "METAR VTSP 200500Z 26012KT 9999 SCT020 31/25 Q1009 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 260,
+        "wind_speed_kt": 12,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSP 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "decoded": {
+          "icao": "VTSP",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "120/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 12008KT 9999 FEW025",
+            "TEMPO 2008/2012 4000 SHRA SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 270,
+        "wind_dir": 260,
+        "wind_spd_kt": 12,
+        "headwind_kt": 11.8,
+        "crosswind_kt": 2.1,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 27 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSG": {
+      "icao": "VTSG",
+      "name": "Krabi (KBV)",
+      "rwy": 320,
+      "radar": "Phuket Radar",
+      "lat": 8.0994,
+      "lon": 98.9858,
+      "latest_metar": {
+        "raw_text": "METAR VTSG 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSG 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "decoded": {
+          "icao": "VTSG",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "120/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 12008KT 9999 FEW025",
+            "TEMPO 2008/2012 4000 SHRA SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 320,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -4.7,
+        "crosswind_kt": 1.7,
+        "crosswind_dir": "RIGHT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 32 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSS": {
+      "icao": "VTSS",
+      "name": "Hat Yai (HDY)",
+      "rwy": 260,
+      "radar": "Songkhla Satingpra",
+      "lat": 6.9331,
+      "lon": 100.3931,
+      "latest_metar": {
+        "raw_text": "METAR VTSS 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSS 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTSS",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 260,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -3.8,
+        "crosswind_kt": 3.2,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 26 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSB": {
+      "icao": "VTSB",
+      "name": "Surat Thani (URT)",
+      "rwy": 220,
+      "radar": "Surat Thani Phunphin",
+      "lat": 9.1328,
+      "lon": 99.1356,
+      "latest_metar": {
+        "raw_text": "METAR VTSB 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSB 200500Z 2006/2112 12008KT 9999 FEW025 TEMPO 2008/2012 4000 SHRA SCT020",
+        "decoded": {
+          "icao": "VTSB",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "120/8KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Few (1-2 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 120/8KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 12008KT 9999 FEW025",
+            "TEMPO 2008/2012 4000 SHRA SCT020"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 120/8KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 220,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -0.9,
+        "crosswind_kt": 4.9,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 22 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSM": {
+      "icao": "VTSM",
+      "name": "Koh Samui (USM)",
+      "rwy": 170,
+      "radar": "Surat Thani Samui",
+      "lat": 9.5478,
+      "lon": 100.0622,
+      "latest_metar": {
+        "raw_text": "METAR VTSM 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSM 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTSM",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 170,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 3.2,
+        "crosswind_kt": 3.8,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 17 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTST": {
+      "icao": "VTST",
+      "name": "Trang (TST)",
+      "rwy": 260,
+      "radar": "Songkhla Radar",
+      "lat": 7.5089,
+      "lon": 99.6161,
+      "latest_metar": {
+        "raw_text": "METAR VTST 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTST 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTST",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 260,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -3.8,
+        "crosswind_kt": 3.2,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 26 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSK": {
+      "icao": "VTSK",
+      "name": "Nakhon Si Thammarat (NST)",
+      "rwy": 190,
+      "radar": "Surat Thani",
+      "lat": 8.5406,
+      "lon": 99.9439,
+      "latest_metar": {
+        "raw_text": "METAR VTSK 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSK 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTSK",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 190,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 1.7,
+        "crosswind_kt": 4.7,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 19 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSR": {
+      "icao": "VTSR",
+      "name": "Ranong (UNN)",
+      "rwy": 200,
+      "radar": "Chumphon / Surat",
+      "lat": 9.7778,
+      "lon": 98.5856,
+      "latest_metar": {
+        "raw_text": "METAR VTSR 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSR 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTSR",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 200,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 0.9,
+        "crosswind_kt": 4.9,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 20 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSE": {
+      "icao": "VTSE",
+      "name": "Chumphon (CJM)",
+      "rwy": 180,
+      "radar": "Chumphon",
+      "lat": 10.7117,
+      "lon": 99.3619,
+      "latest_metar": {
+        "raw_text": "METAR VTSE 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSE 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTSE",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 180,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": 2.5,
+        "crosswind_kt": 4.3,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 18 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    "VTSN": {
+      "icao": "VTSN",
+      "name": "Narathiwat (NAW)",
+      "rwy": 210,
+      "radar": "Narathiwat",
+      "lat": 6.5197,
+      "lon": 101.7431,
+      "latest_metar": {
+        "raw_text": "METAR VTSN 200500Z 12005KT 9999 FEW025 31/25 Q1012 NOSIG",
+        "timestamp_zulu": "200500Z",
+        "wind_dir": 120,
+        "wind_speed_kt": 5,
+        "wind_gust_kt": 0,
+        "visibility_m": 9999,
+        "has_rain": false,
+        "rain_phenomena": [],
+        "has_mist_fog": false,
+        "mist_phenomena": [],
+        "has_reduced_vis": false,
+        "reduced_vis_cause": null,
+        "has_cb": false
+      },
+      "active_taf": {
+        "raw_text": "TAF VTSN 200500Z 2006/2112 18010KT 9999 SCT025",
+        "decoded": {
+          "icao": "VTSN",
+          "issue_zulu": "0500Z",
+          "valid_str": "2006/2112",
+          "active_wind": "180/10KT",
+          "active_vis_m": 9999,
+          "active_clouds": "Scattered (3-4 oktas) 2500ft",
+          "has_rain": false,
+          "rain_phenomena": null,
+          "has_reduced_vis": false,
+          "active_groups": [],
+          "active_summary": "Prevailing 180/10KT, Vis 9999m",
+          "all_groups": [
+            "2006/2112 18010KT 9999 SCT025"
+          ]
+        }
+      },
+      "discrepancy": {
+        "is_alert": false,
+        "alert_type": "NORMAL",
+        "rain_discrepancy": false,
+        "vis_discrepancy": false,
+        "taf_has_rain": false,
+        "taf_has_low_vis": false,
+        "taf_min_vis_m": 9999,
+        "active_groups": [],
+        "active_summary": "Prevailing 180/10KT, Vis 9999m"
+      },
+      "tactical_runway_vector": {
+        "rwy_heading": 210,
+        "wind_dir": 120,
+        "wind_spd_kt": 5,
+        "headwind_kt": -0.0,
+        "crosswind_kt": 5.0,
+        "crosswind_dir": "LEFT",
+        "pop_percent": 10,
+        "intensity": "NSW Fair",
+        "dbz": 0,
+        "eta_minutes": null,
+        "vector_status": "APPROACH_CLEAR",
+        "target_approach": "RWY 21 approach clear (0 dBZ)",
+        "cell_pos": {
+          "x": 0,
+          "y": 0
+        },
+        "cell_vel": {
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    }
+  },
+  "current_verification": {
+    "cycle_zulu": "200500Z",
+    "timestamp_utc": "2026-11-20T05:00:58.781299+00:00",
+    "sample_size": 26,
+    "hits": 0,
+    "misses": 0,
+    "false_alarms": 0,
+    "correct_negatives": 26,
+    "pod_hit_rate_percent": 100.0,
+    "far_false_alarm_percent": 0.0,
+    "csi_threat_score_percent": 100.0,
+    "mean_timing_error_minutes": 0.0,
+    "taf_deficit_rescues": 0
+  },
+  "verification_history": [
+    {
+      "cycle_zulu": "200423Z",
+      "timestamp_utc": "2026-11-20T04:23:43.073643+00:00",
+      "sample_size": 26,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 26,
+      "pod_hit_rate_percent": 100.0,
+      "far_false_alarm_percent": 0.0,
+      "csi_threat_score_percent": 100.0,
+      "mean_timing_error_minutes": 0.0,
+      "taf_deficit_rescues": 0
+    },
+    {
+      "cycle_zulu": "200424Z",
+      "timestamp_utc": "2026-11-20T04:24:47.132727+00:00",
+      "sample_size": 26,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 26,
+      "pod_hit_rate_percent": 100.0,
+      "far_false_alarm_percent": 0.0,
+      "csi_threat_score_percent": 100.0,
+      "mean_timing_error_minutes": 0.0,
+      "taf_deficit_rescues": 0
+    },
+    {
+      "cycle_zulu": "200500Z",
+      "timestamp_utc": "2026-11-20T05:00:58.781299+00:00",
+      "sample_size": 26,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 26,
+      "pod_hit_rate_percent": 100.0,
+      "far_false_alarm_percent": 0.0,
+      "csi_threat_score_percent": 100.0,
+      "mean_timing_error_minutes": 0.0,
+      "taf_deficit_rescues": 0
+    }
+  ]
+}

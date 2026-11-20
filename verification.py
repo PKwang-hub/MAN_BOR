@@ -13,6 +13,11 @@ import json
 import re
 from typing import List, Optional, Dict
 
+try:
+    import taf_decoder
+except ImportError:
+    import aerocast_web.taf_decoder as taf_decoder
+
 class Verdict(Enum):
     HIT = "HIT"                       # Predicted rain, rain observed in METAR
     MISS = "MISS"                     # Predicted no rain, but rain observed in METAR
@@ -68,6 +73,15 @@ def parse_metar_rain(raw_metar: str) -> tuple[bool, List[str]]:
             rain_phenomena.append(token)
 
     return has_rain, rain_phenomena
+
+def check_taf_rain_forecast(raw_taf: str, target_utc: datetime) -> bool:
+    """Checks whether official TAF forecast rain at target_utc per NOAA TAF Card standards."""
+    try:
+        decoded = taf_decoder.decode_taf(raw_taf)
+        resolved = taf_decoder.get_forecast_for_time(decoded, target_utc)
+        return resolved.has_forecast_rain
+    except Exception:
+        return False
 
 def verify_forecast_event(forecast: ForecastRecord, metars: List[MetarRecord]) -> VerificationResult:
     """Verifies a single nowcast prediction against aerodrome METARs in the target window."""
