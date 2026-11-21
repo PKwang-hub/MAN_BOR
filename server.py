@@ -20,6 +20,7 @@ import urllib.request
 import urllib.parse
 import ssl
 from datetime import datetime, timezone, timedelta
+from typing import Optional, Dict, Any, List
 
 # Import database module from flat directory
 import database
@@ -268,7 +269,7 @@ def perform_ingest_cycle(force: bool = False) -> dict:
     slot_key = f"{now_utc.day:02d}_{now_utc.hour:02d}_{'40' if now_utc.minute >= 40 else ('10' if now_utc.minute >= 10 else 'prev')}"
     if not force and slot_key == last_ingested_slot:
         existing = database.load_database()
-        if existing:
+        if existing and not is_snapshot_stale(existing, max_age_seconds=1500):
             return existing
 
     fleet_metar_resp = fetch_fleet_metars(force_refresh=force)
@@ -285,21 +286,37 @@ def perform_ingest_cycle(force: bool = False) -> dict:
     last_ingested_slot = slot_key
     return snapshot
 
+def is_snapshot_stale(snap: Optional[dict], max_age_seconds: int = 1500) -> bool:
+    """Checks if a snapshot is missing, corrupt, or older than max_age_seconds (default 25 mins)."""
+    if not snap or not isinstance(snap, dict):
+        return True
+    last_up = snap.get("last_updated_utc")
+    if not last_up:
+        return True
+    try:
+        up_time = datetime.fromisoformat(last_up.replace("Z", "+00:00"))
+        now_utc = datetime.now(timezone.utc)
+        age = (now_utc - up_time).total_seconds()
+        return age > max_age_seconds
+    except Exception:
+        return True
+
 def background_cadence_worker():
-    """Background daemon to perform ingestion on :10Z and :40Z schedule within 2210Z - 1210Z."""
+    """Background daemon to perform ingestion on :10Z and :40Z schedule and keep database permanently fresh."""
     while True:
         try:
             now_utc = datetime.now(timezone.utc)
-            if database.is_operational_window(now_utc):
-                # Trigger on :10 and :40 minutes
-                if now_utc.minute in [10, 11, 40, 41]:
-                    perform_ingest_cycle(force=False)
+            snap = database.load_database()
+            # If snapshot is stale (> 25 mins), or if at cadence slot minutes [10, 11, 40, 41] and older than 10 mins
+            if is_snapshot_stale(snap, max_age_seconds=1500) or (now_utc.minute in [10, 11, 40, 41] and is_snapshot_stale(snap, max_age_seconds=600)):
+                perform_ingest_cycle(force=True)
             time.sleep(25)
         except Exception:
             time.sleep(30)
 
-# Initialize database snapshot on startup if missing
-if not database.load_database():
+# Initialize database snapshot on startup if missing or stale
+snap_on_boot = database.load_database()
+if not snap_on_boot or is_snapshot_stale(snap_on_boot, max_age_seconds=1500):
     try:
         perform_ingest_cycle(force=True)
     except Exception as e:
@@ -320,8 +337,8 @@ class AeroCastHandler(http.server.SimpleHTTPRequestHandler):
         if clean_path in ["/api/snapshot", "/snapshot", "/api/data"]:
             force = "force=1" in self.path or "force=true" in self.path
             snap = database.load_database()
-            if not snap or force:
-                snap = perform_ingest_cycle(force=force)
+            if not snap or force or is_snapshot_stale(snap, max_age_seconds=1500):
+                snap = perform_ingest_cycle(force=True)
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
@@ -471,8 +488,8 @@ def wsgi_app(environ, start_response):
     if clean_path in ["/api/snapshot", "/snapshot", "/api/data"]:
         force = "force=1" in query or "force=true" in query
         snap = database.load_database()
-        if not snap or force:
-            snap = perform_ingest_cycle(force=force)
+        if not snap or force or is_snapshot_stale(snap, max_age_seconds=1500):
+            snap = perform_ingest_cycle(force=True)
         data = json.dumps(snap, indent=2).encode("utf-8")
         start_response("200 OK", [
             ("Content-Type", "application/json"),

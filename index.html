@@ -1149,11 +1149,14 @@
         cadenceStatusEl.style.color = 'var(--accent-green)';
       }
 
-      // Trigger automatic ingestion fetch at slot minutes 10 and 40
-      const currentSlotKey = `${formatTimePad(h)}:${m >= 40 ? '40' : (m >= 10 ? '10' : 'prev')}`;
-      if ((m === 10 || m === 40) && lastSyncedSlotKey !== currentSlotKey) {
+      // Trigger automatic ingestion fetch at slot minutes 10 and 40 (or if data is stale)
+      const slotMin = m >= 40 ? '40' : (m >= 10 ? '10' : '00');
+      const currentSlotKey = `${formatTimePad(now.getUTCDate())}_${formatTimePad(h)}:${slotMin}`;
+      const snapAgeSec = (databaseSnapshot && databaseSnapshot.last_updated_utc) ? (now.getTime() - new Date(databaseSnapshot.last_updated_utc).getTime()) / 1000 : 999999;
+      
+      if ((lastSyncedSlotKey !== currentSlotKey && (m === 10 || m === 40 || snapAgeSec > 1500)) || snapAgeSec > 2400) {
         lastSyncedSlotKey = currentSlotKey;
-        triggerCadenceSync(`:${formatTimePad(m)}Z Scheduled Ingest`);
+        triggerCadenceSync(`:${formatTimePad(m)}Z Live Ingest`);
       }
     }
 
@@ -1245,8 +1248,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 2450, cin: 8, pwat: 58,
-        actualTaf: 'TAF VTBD 200500Z 2006/2112 06008KT 9999 FEW030',
-        latestMetar: 'METAR VTBD 200600Z 08006KT 030V130 9999 FEW040 33/22 Q1014 NOSIG',
+        actualTaf: 'TAF VTBD 202300Z 2100/2206 06008KT 9999 FEW030',
+        latestMetar: 'METAR VTBD 210200Z 08009KT 060V120 9999 FEW030 28/20 Q1018 NOSIG',
       },
       'VTBS': {
         name: 'Suvarnabhumi (BKK)',
@@ -1264,8 +1267,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 2100, cin: 12, pwat: 54,
-        actualTaf: 'TAF VTBS 200500Z 2006/2112 06010KT 9999 FEW030',
-        latestMetar: 'METAR VTBS 200600Z 09009KT 050V130 9999 FEW020 33/22 Q1014 NOSIG',
+        actualTaf: 'TAF VTBS 202300Z 2100/2206 06010KT 9999 FEW030',
+        latestMetar: 'METAR VTBS 210200Z 06012KT 030V090 CAVOK 28/20 Q1018 NOSIG',
       },
       'VTCC': {
         name: 'Chiang Mai (CNX)',
@@ -1625,8 +1628,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1200, cin: 50, pwat: 45,
-        actualTaf: 'TAF VTSM 200500Z 2006/2106 12013KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100 TEMPO 2022/2103 VRB15G25KT 4000 TSRA FEW016CB SCT018 BKN100',
-        latestMetar: 'METAR VTSM 200600Z 11008KT 070V140 9999 -RA SCT020 31/26 Q1014 NOSIG',
+        actualTaf: 'TAF VTSM 2100/2124 11008KT 9999 FEW020',
+        latestMetar: 'METAR VTSM 210200Z 12005KT 050V200 9999 FEW020 32/26 Q1016 NOSIG',
       },
       'VTST': {
         name: 'Trang (TST)',
@@ -1663,8 +1666,8 @@
         dbz: 0, top: 'None', eta: null, pop: 10,
         intensity: 'NSW Fair',
         cape: 1250, cin: 55, pwat: 44,
-        actualTaf: 'TAF VTSF 200500Z 2006/2106 08006KT 9999 SCT020 BKN100 TEMPO 2006/2012 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100 TEMPO 2020/2106 VRB15G25KT 3000 TSRA FEW016CB SCT018 BKN100',
-        latestMetar: 'METAR VTSF 200600Z 27005KT 240V320 9999 -TSRA FEW016CB BKN018 BKN020 27/27 Q1013 RERA NOSIG',
+        actualTaf: 'TAF VTSF 2100/2124 10006KT 9999 SCT020 BKN100',
+        latestMetar: 'METAR VTSF 210200Z VRB02KT 9999 FEW018 27/26 Q1015 NOSIG',
       },
       'VTSR': {
         name: 'Ranong (UNN)',
@@ -2237,8 +2240,8 @@
         }
       }
       if (!tafText) tafText = `TAF ${icao} NIL (AWAITING PUBLISHED TAF)`;
-      let cycleTagText = `Cycle: ${dynamicCycle.issue_cycle_zulu}`;
-      let countdownTagText = ` | Next: ${dynamicCycle.next_cycle_zulu} (in ${dynamicCycle.countdown})`;
+      let cycleTagText = `Cycle: ${dynamicCycle.issueCycleZulu || dynamicCycle.issue_cycle_zulu}`;
+      let countdownTagText = ` | Next: ${dynamicCycle.nextCycleZulu || dynamicCycle.next_cycle_zulu} (in ${dynamicCycle.countdown})`;
       let isLiveSource = true;
 
       // Update TAF tags
@@ -2631,12 +2634,14 @@
       ctx.fillText(currentAirport, cx + 8, cy + 4);
     }
 
-    // Restore previous database snapshot from localStorage if available (instant 0ms hydration)
+    // Restore previous database snapshot from localStorage if fresh (<25 mins)
     try {
       const cached = localStorage.getItem('aerocast_last_snap');
       if (cached) {
         const snap = JSON.parse(cached);
-        if (snap && snap.airports) {
+        const snapTime = snap && snap.last_updated_utc ? new Date(snap.last_updated_utc).getTime() : 0;
+        const isFresh = (Date.now() - snapTime) < (25 * 60 * 1000);
+        if (snap && snap.airports && isFresh) {
           databaseSnapshot = snap;
           Object.keys(snap.airports).forEach(k => {
             if (airports[k]) {
@@ -2660,6 +2665,8 @@
               }
             }
           });
+        } else {
+          localStorage.removeItem('aerocast_last_snap');
         }
       }
     } catch(e) {}
@@ -2671,9 +2678,19 @@
     setInterval(updateClocks, 1000);
 
     // Fast Database Cache Ingestion Load (<15ms)
-    loadDatabaseSnapshot().then(() => {
+    loadDatabaseSnapshot(true).then(() => {
       onAirportChange(currentAirport);
       renderGlobalAlertBar();
+    });
+
+    // Auto-sync when pilot returns to the tab
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        const snapAge = (databaseSnapshot && databaseSnapshot.last_updated_utc) ? (Date.now() - new Date(databaseSnapshot.last_updated_utc).getTime()) : 9999999;
+        if (snapAge > 15 * 60 * 1000) {
+          triggerCadenceSync('Tab Focus Sync');
+        }
+      }
     });
   </script>
 </body>

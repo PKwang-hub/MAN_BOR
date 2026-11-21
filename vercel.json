@@ -2,7 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/verification", "destination": "/verification.html" },
-    { "source": "/api/taf/(.*)", "destination": "/app.py" },
-    { "source": "/api/metar_history", "destination": "/app.py" }
+    { "source": "/api/(.*)", "destination": "/app.py" }
   ]
 }
